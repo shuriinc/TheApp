@@ -1,0 +1,215 @@
+/*
+To customize the look and feel of Ionic, you can override the variables
+in ionic's _variables.scss file.
+
+*/
+
+// The path for our ionicons font files, relative to the built CSS in www/css
+$ionicons-font-path: "../lib/ionic/fonts" !default;
+
+$dark: #333333 !default;
+$item-dark-bg: $dark !default;
+$item-dark-active-bg:       lighten(#333333, 5%) !default;
+/*$dark: #22222A !default;
+$item-dark-bg: $dark !default;
+$item-dark-active-bg: lighten(#22222A, 5%) !default;*/
+
+
+// Home button and item-divider bars
+$positive:                        darken(#008BBA, 10%) !default;
+$positiveBright:                  lighten(#008BBA, 10%) !default;
+$bgPositive:                      #9FCBDA !default;
+$bgPositiveLight:                 #E6F2F6 !default;
+
+$button-positive-bg:              $positive !default;
+$button-positive-text:            #fff !default;
+$button-positive-border:          darken($positive, 10%) !default;
+$button-positive-active-bg:       lighten($positive, 10%) !default;
+$button-positive-active-border:   lighten($positive, 10%) !default;
+
+$bar-positive-bg:                 $positive !default;
+$bar-positive-text:               $button-positive-text !default;
+$bar-positive-border:             darken($positive, 10%) !default;
+$bar-positive-active-bg:          $bar-positive-border !default;
+$bar-positive-active-border:      $bar-positive-border !default;
+
+$item-positive-bg:                $bar-positive-bg !default;
+$item-positive-border:            $bar-positive-border !default;
+$item-positive-text:              $bar-positive-text !default;
+$item-positive-active-bg:         $bar-positive-active-bg !default;
+$item-positive-active-border:     $bar-positive-active-border !default;
+
+
+// People
+$energized:                        #CA8000 !default;
+$energizedBright:                  #FFA200 !default;
+$bgEnergized:                      #F1C983  !default;
+$bgEnergizedLight:                 lighten($bgEnergized,15%) !default; 
+
+$item-energized-bg:                $energized !default;
+$item-energized-border:            $energized !default;
+$item-energized-text:              #fff !default;
+$item-energized-active-bg:         lighten($energized,5%) !default;
+$item-energized-active-border:     lighten($energized,5%) !default;
+
+$bar-energized-bg:                 $energized !default;
+$bar-energized-text:               #FFF !default;
+$bar-energized-border:             $bar-energized-bg !default;
+$bar-energized-active-bg:          lighten($bar-energized-border,5%) !default;
+$bar-energized-active-border:      lighten($bar-energized-border,5%) !default;
+
+$button-energized-bg:              $energizedBright !default;
+$button-energized-text:            #fff !default;
+$button-energized-border:          darken($energizedBright, 10%) !default;
+$button-energized-active-bg:       darken($energizedBright, 10%) !default;
+$button-energized-active-border:   darken($energizedBright, 10%) !default;
+/*$tabs-energized-bg:                $energizedBright !default;
+$tabs-energized-border:            $button-energized-border !default;*/
+$tabs-energized-text:              #FFA200 !default;
+
+
+
+
+
+// Orgs
+$calm:                            #B2A377 !default;
+$calmDark:                        darken($calm,20%) !default;
+$bgCalm:                          lighten($calm,18%) !default; 
+$bgCalmLight:                     lighten($calm,27%) !default; 
+
+// Touches
+$balanced:                        #2F5A31 !default;
+$balancedBright:                  #22AE29 !default;
+$bgBalanced:                      #9BC2AD  !default;
+$bgBalancedLight:                 lighten($bgBalanced,20%) !default; 
+$bgBalancedLight2:                lighten($bgBalanced,24%) !default; 
+
+$item-balanced-bg:                $balanced !default;
+$item-balanced-border:            $balanced !default;
+$item-balanced-text:              #fff !default;
+$item-balanced-active-bg:         lighten($balanced,5%) !default;
+$item-balanced-active-border:     lighten($balanced,5%) !default;
+
+$bar-balanced-bg:                 $balanced !default;
+$bar-balanced-text:               #FFF !default;
+$bar-balanced-border:             $bar-balanced-bg !default;
+$bar-balanced-active-bg:          lighten($bar-balanced-border,5%) !default;
+$bar-balanced-active-border:      lighten($bar-balanced-border,5%) !default;
+
+$button-balanced-bg:              $balancedBright !default;
+$button-balanced-text:            #fff !default;
+$button-balanced-border:          darken($balancedBright, 10%) !default;
+$button-balanced-active-bg:       darken($balancedBright, 10%) !default;
+$button-balanced-active-border:   darken($balancedBright, 10%) !default;
+/*$tabs-balanced-bg:                $balancedBright !default;
+$tabs-balanced-border:            $button-balanced-border !default;*/
+$tabs-balanced-text:              #FFA200 !default;
+
+
+// Tags
+$royal:                           #5A3764 !default;
+$royalBright:                     #B741D8 !default;
+$royalButton:                     $royalBright !default;
+$bgRoyal:                         #E3CDEA !default;
+$bgRoyalLight:                    lighten($bgRoyal,8%) !default;
+/*$bgRoyal:                         #DAC4DA !default;
+$bgRoyalLight:                    #f9f1f9 !default;*/
+
+$item-royal-bg:                $royal !default;
+$item-royal-border:            $royal !default;
+$item-royal-text:              #fff !default;
+$item-royal-active-bg:         lighten($royal,5%) !default;
+$item-royal-active-border:     lighten($royal,5%) !default;
+
+$bar-royal-bg:                 $royal !default;
+$bar-royal-text:               #FFF !default;
+$bar-royal-border:             $bar-royal-bg !default;
+$bar-royal-active-bg:          lighten($bar-royal-border,5%) !default;
+$bar-royal-active-border:      lighten($bar-royal-border,5%) !default;
+
+$button-royal-bg:              $royalButton !default;
+$button-royal-text:            #fff !default;
+$button-royal-border:          darken($royalButton, 10%) !default;
+$button-royal-active-bg:       darken($royalButton, 10%) !default;
+$button-royal-active-border:   darken($royalButton, 10%) !default;
+/*$tabs-royal-bg:                $royalBright !default;
+$tabs-royal-border:            $button-royal-border !default;*/
+$tabs-royal-text:              #FFA200 !default;
+
+
+
+
+
+// Teams
+$teamColor:                       #599B8B !default;
+$teamColorDark:                 #3E665C !default;
+$bgTeam:                          lighten($teamColor,28%) !default; 
+$bgTeamLight:                     lighten($teamColor,40%) !default; 
+
+$button-team-bg:             $teamColor !default;
+$button-team-text:           #fff !default;
+$button-team-border:         darken($teamColor, 5%) !default;
+$button-team-active-bg:      darken($teamColor, 5%) !default;
+$button-team-active-border:  darken($teamColor, 5%) !default;
+
+
+// Groups
+$groupColor:                       #675682 !default;
+$groupColorBright:                 #C3AFE3 !default;
+$bgGroups:                         lighten($groupColor,25%); 
+$bgGroupsLight:                     lighten($groupColor,45%) !default;
+
+$item-groupColor-bg:                $groupColor !default;
+$item-groupColor-border:            $groupColor !default;
+$item-groupColor-text:              #fff !default;
+$item-groupColor-active-bg:         lighten($groupColor,5%) !default;
+$item-groupColor-active-border:     lighten($groupColor,5%) !default;
+
+$bar-groupColor-bg:                 $groupColor !default;
+$bar-groupColor-text:               #FFF !default;
+$bar-groupColor-border:             $bar-groupColor-bg !default;
+$bar-groupColor-active-bg:          lighten($bar-groupColor-border,5%) !default;
+$bar-groupColor-active-border:      lighten($bar-groupColor-border,5%) !default;
+
+$button-groupColor-bg:              $groupColorBright !default;
+$button-groupColor-text:            #fff !default;
+$button-groupColor-border:          darken($groupColorBright, 10%) !default;
+$button-groupColor-active-bg:       darken($groupColorBright, 10%) !default;
+$button-groupColor-active-border:   darken($groupColorBright, 10%) !default;
+
+
+
+
+// White Bars
+$stable:                          #EFEFEF !default;
+$bgStable:                        #DADADE !default;
+$bgStableLight:                   #EDEEF4 !default;
+
+// OK/Save/Done buttons aka .button.ok-confirm
+$greenConfirm:                    #33cd5f !default;
+
+// Warning/Delete
+$assertive:                       #DB3340 !default;
+$bgAssertive:                     #FAD9D9 !default;
+$bgAssertiveLight:                #fce8e8 !default;
+
+$bgNew:                           #ADEAEA !default;
+
+
+/*Hack to fix squashed title on mobile*/
+.platform-ios {
+  .title.title-center.header-item {
+    left: 49px!important;
+    right: 49px!important;
+  }
+}
+
+.platform-android {
+  .title.title-left.header-item {
+    right: 68px!important;
+  }
+}
+
+
+// Include all of Ionic
+@import "www/lib/ionic/scss/ionic";

@@ -1,0 +1,61 @@
+<ion-modal-view>
+    <ion-header-bar class="bar-positive">
+        <div class="title"><i class="icon ion-help-circled"></i> Touches</div>
+    </ion-header-bar>
+    <ion-content class="has-header">
+
+        <ion-list>
+            <div class="item itemDivider">
+                Track Interactions with Touches
+            </div>
+
+            <div class="item medText item-text-wrap help-content">
+              <span>
+                Touches can be created for future or past events.
+              </span>
+
+              <h3>Here’s how it works:</h3>
+              <span>
+                <ul class="orderedList">
+                  <li>
+                    Add the People and Organizations that you’ve had an interaction with to the Touch.
+                    Next time you navigate to those contacts’ profile pages, the Touch will appear in their Touches tab.
+                  </li>
+                  <li>
+                    Attach any files to the Touch that you want to store in conjunction with the interaction.
+                  </li>
+                  <li>
+                    Share your Touches with teammates or the public by placing them in a shared or published Database.
+                  </li>
+                  <li>
+                    Easily search for relevant Touches after labeling them with tags. (see <em class="link-to-section energized" ng-click="vmMaster.deepModal('query');">TAGS & QUERYING</em>).
+                  </li>
+                  <li>
+                    Report on your Touches in Excel with Shuri’s reporting feature (see REPORTING WITH SHURI)
+                  </li>
+                </ul>
+                Touches are customizable and you can track and record any kind of interaction that you’ve had with your contacts (see <em class="link-to-section energized" ng-click="vmMaster.deepModal('touchTypes');">TOUCH TYPES</em>).
+              </span>
+
+              <!-- Media Capture Touch -->
+              <h3>Media Capture Touch</h3>
+              <span>
+                The Media Capture Touch is a simple way to record and save quotes from the Twitter or AR Research feeds on Shuri’s homepage. Once you find a post that you’d like to capture as a Touch, find the Touch icon in the same box as the post and select. This will attach the post to a Touch create page, where you can enter in more information, if desired, before clicking <em>Save</em>.
+              </div>
+
+        </ion-list>
+    </ion-content>
+    <ion-footer-bar class="bar-dark no-padding footerButton">
+      <div class="button-bar ">
+          <button class="button" ng-if="!vmMaster.showOk" ng-click="vmMaster.closeAllHelp()">
+            Close
+          </button>
+          <button class="button ok-confirm" ng-if="!vmMaster.showOk" ng-click="vmMaster.closeHelp()">
+              Back
+          </button>
+          <button class="button ok-confirm" ng-if="vmMaster.showOk" ng-click="vmMaster.closeHelp()">
+              {{vmMaster.wordFor("OK")}}
+          </button>
+      </div>
+
+    </ion-footer-bar>

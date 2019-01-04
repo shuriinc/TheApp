@@ -1,0 +1,137 @@
+﻿<ion-view ng-controller="PermissionsCtrl as vm">
+    <ion-nav-title>
+        Sharing &amp; Permissions
+    </ion-nav-title>
+    <div class="bar bar-subheader link {{vm.subheaderClass}}" ng-click="vm.cancel()" title="Click to close">
+        <div class="button button-clear iconButton"> <span class="itemLabel">Cancel</span></div>
+        <div class="title ">
+            <span ng-if="vm.objEntity.name">{{vm.objEntity.name}}</span>
+            <span ng-if="!vm.objEntity.name">Item</span>
+        </div>
+
+    </div>
+    <ion-content class="has-header has-subheader">
+        <ion-list>
+            <ion-item class="item item-dark item-icon-left" ng-click="vm.hideOwner = !vm.hideOwner">
+                <div class="">
+                    <i class="{{(!vm.hideOwner) ? 'icon ion-arrow-down-b' : 'icon ion-arrow-right-b'}} " style="font-size:1.25em; ">
+                    </i>
+                    <div>Owner</div>
+                </div>
+            </ion-item>
+            <div class="item item-avatar-left  item-stable " ng-if="vm.objEntity.owner && !vm.hideOwner && !vm.useNameOverride">
+                <img ng-if="vm.objEntity.owner.imageUrl" ng-src="{{vm.objEntity.owner.imageUrl}}" />
+                <div>{{vm.objEntity.owner.name}}</div>
+            </div>
+            <div class="item item-avatar-left  item-stable " ng-if="vm.objEntity.owner && !vm.hideOwner && vm.useNameOverride">
+                <div>{{vm.workername}}</div>
+            </div>
+            <ion-item class="item item-dark  item-icon-left  item-icon-right" ng-click="vm.hideTeam = !vm.hideTeam">
+                <div class="">
+                    <i class="{{(!vm.hideTeam) ? 'icon ion-arrow-down-b' : 'icon ion-arrow-right-b'}} " style="font-size:1.25em; ">
+                    </i>
+                    <div>
+
+                        Editing Team
+                        <span ng-if="vm.hideTeam && vm.objEntity.editors.length" class="itemLabel"> ({{vm.objEntity.editors.length}})</span>
+                    </div>
+                    <div class="icon text-right" style="font-size:1em;" ng-if="vm.objEntity.ownedByGroupName != '(none)' && !vm.useNameOverride">
+                        {{vm.objEntity.ownedByGroupName}}
+                    </div>
+                </div>
+            </ion-item>
+            <div ng-repeat="editor in vm.objEntity.editors | orderBy: 'sortname'" ng-show="!vm.hideTeam">
+                <div class="item item-avatar-left   item-stable">
+                    <img ng-if="editor.imageUrl" ng-src="{{editor.imageUrl}}" />
+                    <div>{{editor.name}}</div>
+                </div>
+            </div>
+            <div ng-if="vm.objEntity.editors.length == 0 && !vm.hideTeam" class="item item-avatar-left  item-stable">
+                <div class="itemLabel">None</div>
+            </div>
+            <!-- Viewers     ----------------->
+            <div>
+                <ion-item class="item item-dark item-icon-left" ng-click="vm.hideView = !vm.hideView">
+                    <div class="">
+                        <i class="{{(!vm.hideView) ? 'icon ion-arrow-down-b' : 'icon ion-arrow-right-b'}} " style="font-size:1.25em; ">
+                        </i>
+                        <div>View only</div>
+                    </div>
+                </ion-item>
+                <div ng-if="!vm.hideView">
+                    <div ng-repeat="viewer in vm.objEntity.viewers | orderBy: 'sortname'">
+                        <div class="item item-avatar-left item-stable">
+                            <img ng-if="viewer.imageUrl" ng-src="{{viewer.imageUrl}}" />
+                            <div>{{viewer.name}}</div>
+                        </div>
+                    </div>
+                    <div ng-if="vm.objEntity.viewers.length == 0" class="item text-center item-stable itemLabel">
+                            <span ng-if="vm.entityType < 11">No one has view-only permissions</span>
+                            <span ng-if="vm.entityType == 11">Groups have no view-only permissions</span>
+                            <span ng-if="vm.entityType == 12">None.  This database is private</span>
+                    </div>
+                </div>
+            </div>
+
+            <!--  Misc -->
+
+            <div ng-if="vm.objEntity.id != guidEmpty">
+                <!--<ion-item class="item item-dark item-icon-left" ng-click="vm.hideDetails = !vm.hideDetails">
+                    <i class="{{(vm.hideDetails) ? 'icon ion-arrow-down-b' : 'icon ion-arrow-right-b'}} " style="font-size:1.25em; ">
+                    </i>
+                  Details
+                </ion-item>-->
+                <div  class="row dark-bg "><div class="col"></div></div>
+
+                <div ng-if="true || !vm.hideDetails">
+                    <div class="item item-stable">
+                        <div class="row row-no-padding">
+                            <div class="col col-34">
+                                <div class="rowLabel">
+                                    {{vm.wordFor("Last Modified")}}
+                                </div>
+                            </div>
+                            <div class="col col-66 text-right medText">
+                                <span ng-if="!vm.useNameOverride">{{vm.objEntity.modifiedByName}}</span>
+                                <span ng-if="vm.useNameOverride">{{vm.workername}}</span>
+                                {{vm.objEntity.modifiedDtJS | date:'short'}}
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="item item-stable">
+                        <div class="row row-no-padding">
+                            <div class="col col-34">
+                                <div class="rowLabel">
+                                    {{vm.wordFor("Created")}}
+                                </div>
+                            </div>
+                            <div class="col col-66 text-right medText">
+                                <span ng-if="!vm.useNameOverride">{{vm.objEntity.createdByName}}</span>
+                                <span ng-if="vm.useNameOverride">{{vm.workername}}</span>
+                                {{vm.objEntity.createdDtJS | date:'short'}}
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="item item-input  item-stable" ng-if="!vm.hideId">
+                        <div class="row row-no-padding">
+                            <div class="col col-25">
+                               <div class="rowLabel">
+                                   Shuri Identifier
+                                </div>
+                                
+                            </div>
+                            <div class="col col-75">
+                                <input id="txtId" type="text" class="medText" value="{{vm.objEntity.id}}" ng-click="vm.idClicked()" style="text-align:right;" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <list-footer></list-footer>
+        </ion-list>
+    </ion-content>
+</ion-view>

@@ -1,0 +1,20 @@
+﻿<ion-footer-bar class="no-padding">
+    <!--
+<ion-tabs class="tabs-dark tabs-icon-top">
+   <ion-tab icon-on="homeColor ion-home" icon-off="homeColor ion-home" ui-sref="home.main" title="Home"></ion-tab>
+    <ion-tab icon-on="energized ion-person " icon-off="energized ion-person" ui-sref="home.queryPeople" title="People"></ion-tab>
+    <ion-tab icon-on="calm ion-person-stalker" icon-off="calm ion-person-stalker" ui-sref="home.queryOrgs" title="Orgs"></ion-tab>
+    <ion-tab icon-on="balanced shuri-touch" icon-off="balanced shuri-touch" ui-sref="home.queryTouches" title="Touches"></ion-tab>
+    <ion-tab icon-on="royal ion-pound " icon-off="royal ion-pound" ui-sref="home.queryTags" title="Tags"></ion-tab>
+    <ion-tab icon-on="ion-navicon" icon-off="ion-navicon" ng-click="vmMaster.showActionMenu()" title="More..."></ion-tab>
+</ion-tabs>-->
+    <div class="bar  bar-dark">
+        <div class="button-bar">
+            <i ui-sref="home.queryPeople" class="button button-clear button-energized button-icon ion-person" title="Find and report on People"></i>
+            <i ui-sref="home.queryOrgs" class="button button-clear button-calm button-icon ion-person-stalker" title="Find and report on Organizations"></i>
+            <i ui-sref="home.queryTouches" class="button button-clear button-balanced icon shuri-touch" title="Find and report on Touches" ></i>
+            <i ui-sref="home.queryTags" class="button button-clear button-royal button-icon ion-pound " title="Find and manage Tags"></i>
+            <i ng-click="vmMaster.showActionMenu()" class="button button-clear button-stable button-icon ion-more" title="Account, settings, more..." style="color:#4B8FFF !important;"></i>
+        </div>
+    </div>
+</ion-footer-bar>

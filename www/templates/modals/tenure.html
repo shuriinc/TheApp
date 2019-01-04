@@ -1,0 +1,54 @@
+﻿<ion-modal-view>
+    <div class="bar bar-dark">
+        <div class="title">Tenure</div>
+    </div>
+    <div class="bar bar-subheader bar-dark">
+        <div class="button-bar">
+            <div type="button" class="button button-clear ok-confirm icon ion-checkmark-round" ng-click="closeTenureModal()">
+                OK
+            </div>
+        </div>
+    </div>
+    <ion-content class="has-header has-subheader">
+        <div class="item h5 text-center item-{{entity.color}}"><span >{{tenureTitle}}</span></div>
+            <div class="card" style="padding:12px;">
+                 <div ng-if="!isTenureUpdatable">
+                     <div class="item item-input item-stacked-label">
+                         <span class="input-label itemLabel">{{wordFor("Title")}}</span>
+                         <div>{{entity.title}}</div>
+                     </div>
+                     <div class="item item-input item-stacked-label">
+                         <span class="input-label itemLabel">{{wordFor("Start")}} {{wordFor("Date")}}</span>
+                         <div>{{entity.startDt | date: 'shortDate'}}</div>
+                     </div>
+                     <div class="item item-input item-stacked-label">
+                         <span class="input-label itemLabel">{{wordFor("End")}} {{wordFor("Date")}}</span>
+                         <div>{{entity.endDt | date: 'shortDate'}}&nbsp;</div>
+                     </div>
+                </div>
+                <div ng-if="isTenureUpdatable">
+                    <div class="item item-input item-stacked-label">
+                        <span class="input-label itemLabel">{{wordFor("Title")}}</span>
+                        <input type="text" ng-model="entity.title" ng-change="tenureChanged()" />
+                    </div>
+                    <div class="item item-input item-stacked-label item-icon-right">
+                        <span class="input-label" ng-click="pickDate(item)">{{wordFor("Start")}} {{wordFor("Date")}}</span>
+                        <input type="{{(onDesktop) ? 'text' : 'date'}}" ng-model="entity.inputDateStart" ng-change="tenureChanged('start')" />
+                        <div class="icon iconLarge" style="padding-top:18px;">
+                            <i class="ion-android-calendar iconButton" ng-if="onDesktop" ng-click="pickDate('start')"></i>
+                            <i class="ion-alert itemIconAlert" ng-if="entity.isInErrorStart"></i>
+                        </div>
+                    </div>
+                    <div class="item item-input item-stacked-label item-icon-right">
+                        <span class="input-label" ng-click="pickDate(item)">{{wordFor("End")}} {{wordFor("Date")}}</span>
+                        <input type="{{(onDesktop) ? 'text' : 'date'}}" ng-model="entity.inputDateEnd" ng-change="tenureChanged('end')"  />
+                        <div class="icon iconLarge" style="padding-top:18px;">
+                            <i class="ion-android-calendar iconButton" ng-if="onDesktop" ng-click="pickDate('end')"></i>
+                            <i class="ion-alert itemIconAlert" ng-if="entity.isInErrorEnd"></i>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+    </ion-content>
+</ion-modal-view>

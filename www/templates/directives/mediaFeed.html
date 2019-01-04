@@ -1,0 +1,297 @@
+
+<div class="item item-icon-left  {{(isOpen) ? 'item-dark active item-icon-right' : (isEntity) ? 'item-stable' : 'item-dark'}}" ng-click="toggleOpen()">
+  <i class="icon ion-ios-bolt {{(isOpen) ? '' : ((isEntity) ? 'positive' : 'iconInactive')}}"></i>
+  Media
+  <i ng-if="isOpen" class="icon ion-arrow-expand iconButton" ng-click="fullscreen($event)"></i>
+</div>
+<div ng-if="isOpen">
+
+  <div class="item {{(isTwitter ? 'bgPositive' : 'bgCalm')}}" style="padding:4px !important;">
+    <div class="button-bar">
+      <div class="button icon ion-social-twitter {{(isTwitter ? 'button-positive' : '')}}" ng-click="switchView('twitter')">
+        Twitter
+      </div>
+      <div class="button icon ion-social-rss {{(!isTwitter ? 'button-calm' : '')}}" ng-click="switchView('research')">
+        Research
+      </div>
+    </div>
+  </div>
+
+  <!-- Filter -->
+  <div ng-if="isTwitter && !isEntity" class="item item-icon-left  {{(isTwitter ? 'bgPositive' : 'bgCalm')}} light" ng-click="toggleFilter()">
+    <i class="icon {{(showFilter? 'ion-arrow-down-b' : 'ion-arrow-right-b ')}}" style="font-size:1.25em;"></i>
+    <div class="title" ng-if="!showFilter">Filters: {{filterSummary}}</div>
+    <div class="title" ng-if="showFilter">Set Filters</div>
+  </div>
+  <div ng-if="showFilter && !isEntity">
+    <div class="item  no-padding {{(isTwitter ? 'item-positive' : 'item-calm')}}">
+      <div class="button-bar">
+        <div class="button button-clear icon ion-close-round button-assertive" ng-click="clearFilter()" ng-if="filterSummary != 'None'"> Clear</div>
+        <div class="button button-clear icon ion-checkmark-round button-balanced " ng-click="saveFilter()" ng-if="showSaveFilterButton"> Save  </div>
+      </div>
+    </div>
+    <div ng-if="isTwitter">
+      <ion-item class="item item-input item-select">
+        <span class="input-label itemLabel">Choose Group</span>
+        <select ng-options="group.id as group.name for group in privateGroups | orderBy: 'name'" ng-model="preferences.filterObjTw.groupId" ng-change="filterChanged()"></select>
+      </ion-item>
+      <ion-item class="item item-input item-stacked-label">
+        <span class="input-label itemLabel">Keyword(s)</span>
+        <input type="text" ng-model="preferences.filterObjTw.filterText" ng-change="filterChanged()">
+      </ion-item>
+    </div>
+    <div ng-if="!isTwitter">
+      <ion-item class="item item-input item-select">
+        <span class="input-label itemLabel">Choose Group</span>
+        <select ng-options="group.id as group.name for group in privateGroups | orderBy: 'name'" ng-model="preferences.filterObjRs.groupId" ng-change="filterChanged()"></select>
+      </ion-item>
+      <ion-item class="item item-input item-stacked-label">
+        <span class="input-label itemLabel">Keyword(s)</span>
+        <input type="text" ng-model="preferences.filterObjRs.filterText" ng-change="filterChanged()">
+      </ion-item>
+    </div>
+    <div class="item {{(isTwitter ? 'bgPositive' : 'bgCalm')}} item-divider ">
+      &nbsp;
+    </div>
+  </div>
+  <ion-list>
+    <ion-scroll style="max-height: {{displayHeight}};overflow:hidden;" ng-class="(isTwitter ? 'bgPositiveLight' : 'bgCalmLight')" delegate-handle="scrollMediaFeed">
+      <div ng-if="isTwitter">
+        <div class="card" ng-repeat="tweet in tweets | orderBy: '-createdDt' ">
+          <div class="item item-avatar">
+            <img ng-src="{{tweet.valueObj.userPic}}">
+            <div class="row" style="padding: 0;">
+              <div class="col" style="padding: 0;">
+                <h2 style="margin-bottom: 0; line-height: 2.0;">{{tweet.valueObj.userName}}</h2>
+                <a href="https://www.twitter.com/{{tweet.valueObj.userSn}}" target="_blank" style="text-decoration: none;"><p style="color: grey;">@{{tweet.valueObj.userSn}}</p></a>
+              </div>
+              <div class="col" style="padding: 0;">
+                <a href="https://www.twitter.com" target="_blank" class="medText" style="float: right; margin-right: 20px;"><i class="icon ion-social-twitter" style="font-size: 1.5em; color: #1DA1F2; line-height: 1.5em;"></i></a>
+              </div>
+            </div>
+          </div>
+          <div class="item item-body">
+            <div style="width: 100%; text-align: center;">
+              <img ng-if="tweet.valueObj.mediaUrl" ng-src="{{tweet.valueObj.mediaUrl}}" style="width: 75%;" ng-click="enlargePhoto(tweet.valueObj.mediaUrl);">
+            </div>
+            <p style="padding: 0; margin: 0; color: black;" ng-bind-html="tweet.valueObj.text.linkify_tweet()">
+            </p>
+            <div class="row" style="padding-left: 0; padding-right: 0;">
+              <div class="col" style="padding-left: 0; padding-right: 0;" ng-if="false">
+                <span style="padding-right: 5px;">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 65 72" height="28" width="28" style="fill: #AAB8C2;" ng-click="replyTweet(tweet)">
+                    <path d="M41 31h-9V19c0-1.14-.647-2.183-1.668-2.688-1.022-.507-2.243-.39-3.15.302l-21 16C5.438 33.18 5 34.064 5 35s.437 1.82 1.182 2.387l21 16c.533.405 1.174.613 1.82.613.453 0 .908-.103 1.33-.312C31.354 53.183 32 52.14 32 51V39h9c5.514 0 10 4.486 10 10 0 2.21 1.79 4 4 4s4-1.79 4-4c0-9.925-8.075-18-18-18z" />
+                  </svg>
+                </span>
+                <span style="padding-right: 5px;">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 75 72" height="28" width="28" style="{{tweet.currentEntity.retweet ? 'fill: #19CF86;' : 'fill: #AAB8C2;'}}" ng-click="retweet(tweet)">
+                    <path d="M70.676 36.644C70.166 35.636 69.13 35 68 35h-7V19c0-2.21-1.79-4-4-4H34c-2.21 0-4 1.79-4 4s1.79 4 4 4h18c.552 0 .998.446 1 .998V35h-7c-1.13 0-2.165.636-2.676 1.644-.51 1.01-.412 2.22.257 3.13l11 15C55.148 55.545 56.046 56 57 56s1.855-.455 2.42-1.226l11-15c.668-.912.767-2.122.256-3.13zM40 48H22c-.54 0-.97-.427-.992-.96L21 36h7c1.13 0 2.166-.636 2.677-1.644.51-1.01.412-2.22-.257-3.13l-11-15C18.854 15.455 17.956 15 17 15s-1.854.455-2.42 1.226l-11 15c-.667.912-.767 2.122-.255 3.13C3.835 35.365 4.87 36 6 36h7l.012 16.003c.002 2.208 1.792 3.997 4 3.997h22.99c2.208 0 4-1.79 4-4s-1.792-4-4-4z" />
+                  </svg>
+                </span>
+                <span style="padding-right: 5px;">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 54 72" height="28" width="28" style="{{tweet.currentEntity.liked ? 'fill: #E81C4F;' : 'fill: #AAB8C2;'}}" ng-click="likeTweet(tweet)">
+                    <path d="M38.723,12c-7.187,0-11.16,7.306-11.723,8.131C26.437,19.306,22.504,12,15.277,12C8.791,12,3.533,18.163,3.533,24.647 C3.533,39.964,21.891,55.907,27,56c5.109-0.093,23.467-16.036,23.467-31.353C50.467,18.163,45.209,12,38.723,12z" />
+                  </svg>
+                </span>
+              </div>
+              <div class="col text-right smallText" style="padding-left: 0; padding-right: 20px;">
+                {{tweet.createdDtLoc | date:'short'}}
+              </div>
+            </div>
+          </div>
+          <div class="item item-button-right" ng-if="!isEntity">
+            <span class="{{tweet.entityType == 4 ? 'energized' : 'calm'}}" ng-click="goToUrl(tweet)" style="cursor: pointer;">
+              {{tweet.entityName}}
+            </span>
+            <p ng-if="tweet.organizationName && !isEntity" ng-click="goToOrg(tweet.organization_Id)">
+              {{tweet.organizationName}}
+            </p>
+            <!--<div ng-if="!tweet.currentEntity.touchCreated" class="button button-clear" ng-click="addTouch(tweet)">
+                <i class="shuri-touch-add balanced" style="font-size: 1.5em; cursor: pointer;"></i>
+            </div>
+            <div ng-if="tweet.currentEntity.touchCreated" class="button button-clear">
+                <i style="font-size: .8em;" class="icon ion-checkmark-circled balanced"> Touch Created</i>
+            </div>-->
+          </div>
+        </div>
+        <div ng-if="!tweets || tweets.length == 0" class="item itemLabel bgPositiveLight text-center">
+          No tweets
+        </div>
+      </div>
+      <div ng-if="!isTwitter">
+        <div ng-if="smallScale" ng-repeat="post in rssPosts | orderBy: '-valueObj.date' track by $index ">
+          <div class="list card tweetCard" ng-if="post.valueObj.description">
+            <div class="item item-text-wrap" style="padding-bottom: 0;">
+              <div class="row" ng-if="!isEntity">
+                <div class="col text-center">
+                  <img class="link-to-section" ng-src="{{post.imageUrl}}" ng-click="goToOrg(post.entity_Id)" style="max-width: 100px; border-radius: 0;">
+                </div>
+              </div>
+              <div class="row" style="padding: 0;">
+                <div class="col" style="padding: 0;">
+                  <h2 class="link" style="margin-bottom: 0; line-height: 2.0; text-decoration: underline;" ng-click="goToRss(post.name)">{{post.valueObj.title}}</h2>
+                </div>
+              </div>
+            </div>
+            <div class="item item-body">
+              <p style="padding: 0; margin: 0; color: black;">
+                {{post.valueObj.description}}
+              </p>
+              <div class="row" style="padding-left: 0; padding-right: 0;">
+                <div class="row" style="padding-left: 0; padding-right: 0;">
+                  <div class="col medText" style="padding-left: 0; padding-right: 20px;">
+                    {{post.valueObj.fmtDate}}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="item item-button-right">
+              <span class="{{post.entityType == 4 ? 'energized' : 'calm'}}" ng-click="goToUrl(post)" style="cursor: pointer;">
+                {{post.entityName}}
+              </span>
+              <p ng-if="tweet.organizationName" ng-click="goToEmployer(post.organization_Id)">
+                {{post.organizationName}}
+              </p>
+              <!--<div ng-if="!post.currentEntity.touchCreated" class="button button-clear" ng-click="addTouch(post)">
+                  <i class="shuri-touch-add balanced" style="font-size: 1.5em; cursor: pointer;"></i>
+              </div>
+              <div ng-if="post.currentEntity.touchCreated" class="button button-clear">
+                  <i style="font-size: .8em;" class="icon ion-checkmark-circled balanced"> Touch Created</i>
+              </div>-->
+            </div>
+          </div>
+        </div>
+        <div ng-if="!smallScale" ng-repeat="post in rssPosts | orderBy: '-valueObj.date' track by $index ">
+          <div class="list card tweetCard" ng-if="post.valueObj.description">
+            <div class="item item-text-wrap" style="padding-bottom: 0;">
+              <div class="row" style="padding: 0;">
+                <div class="col col-80" style="padding: 0;">
+                  <h2 class="link" style="margin-bottom: 0; line-height: 2.0; text-decoration: underline;" ng-click="goToRss(post.name)">{{post.valueObj.title}}</h2>
+                </div>
+                <div class="col text-right" style="padding: 0;">
+                  <img class="link-to-section" ng-src="{{post.imageUrl}}" ng-if="!isEntity" ng-click="goToOrg(post.entity_Id)" style="max-width: 80px; border-radius: 0;">
+                </div>
+              </div>
+            </div>
+            <div class="item item-body">
+              <p style="padding: 0; margin: 0; color: black;">
+                {{post.valueObj.description}}
+              </p>
+              <div class="row" style="padding-left: 0; padding-right: 0;">
+                <div class="row" style="padding-left: 0; padding-right: 0;">
+                  <div class="col text-right medText" style="padding-left: 0; padding-right: 20px;">
+                    {{post.valueObj.fmtDate}}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="item item-button-right" ng-if="!isEntity">
+              <span class="{{post.entityType == 4 ? 'energized' : 'calm'}}" ng-click="goToUrl(post)" style="cursor: pointer;">
+                {{post.entityName}}
+              </span>
+              <p ng-if="post.organizationName" ng-click="goToEmployer(post.organization_Id)">
+                {{post.organizationName}}
+              </p>
+              <!--<div ng-if="!post.currentEntity.touchCreated" class="button button-clear" ng-click="addTouch(post)">
+                  <i class="shuri-touch-add balanced" style="font-size: 1.5em; cursor: pointer;"></i>
+              </div>
+              <div ng-if="post.currentEntity.touchCreated" class="button button-clear">
+                  <i style="font-size: .8em;" class="icon ion-checkmark-circled balanced"> Touch Created</i>
+              </div>-->
+            </div>
+          </div>
+        </div>
+        <div ng-if="!rssPosts || rssPosts.length == 0" class="item itemLabel bgCalmLight text-center">
+          No research
+        </div>
+      </div>
+      <!--<ion-infinite-scroll on-infinite="loadMore()" ng-if="hasMore" distance="30%">
+      </ion-infinite-scroll>-->
+      <div class="item  {{(isTwitter ? 'bgPositiveLight' : 'bgCalmLight')}}"
+           ng-if="((!isTwitter && rssPosts.length > 0) || (isTwitter && tweets.length > 0))">&nbsp;</div>
+    </ion-scroll>
+  </ion-list>
+
+</div>
+
+<script id="mediaFeedCordova.html" type="text/ng-template">
+  <ion-modal-view style="height:100%; width:100%; top:0; left:0;position:absolute;">
+    <ion-header-bar class="bar-header bar-dark ">
+      <div class="button-bar">
+        <div class="button button-clear button-stable icon ion-close-round" ng-click="closeFullscreen()">
+          Close
+        </div>
+      </div>
+    </ion-header-bar>
+    <ion-content class="has-header">
+    </ion-content>
+  </ion-modal-view>
+</script>
+
+<script id="entityCpDocFSDesktop.html" type="text/ng-template">
+  <ion-modal-view style="display: inline-block; position: fixed; top: 0; bottom: 0; left: 0; right: 0; width: 720px; height: 99%; margin: auto; margin-top: 4px; border-radius: 8px; border: 2px solid #444; overflow: hidden;">
+    <ion-header-bar class="bar-header bar-dark ">
+      <div class="button-bar">
+        <div class="button button-clear button-stable icon ion-close-round" ng-click="closeFullscreen()">
+          Close
+        </div>
+      </div>
+    </ion-header-bar>
+    <ion-content class="has-header">
+      <ion-list>
+        <div class="item item-input item-stacked-label ">
+          <div class="input-label  {{customCSSLabel}} ">
+            {{itemFS.typename}}
+            <span ng-show="showSpaceMessage" class="assertive ">
+              &nbsp;&nbsp;
+              space bar scrolls to end
+            </span>
+          </div>
+          <textarea id="taEntityCpDoc" style="height:{{taHeight}};width:100%;"
+                    ng-blur="blurItem(itemFS)"
+                    ng-model="itemFS.value"
+                    ng-keyup="inputChanged(itemFS)"></textarea>
+        </div>
+      </ion-list>
+    </ion-content>
+  </ion-modal-view>
+</script>
+
+
+<script id="replyTweet.html" type="text/ng-template">
+  <ion-modal-view>
+    <ion-header-bar>
+      <h1 class="title">Reply Tweet</h1>
+    </ion-header-bar>
+    <ion-content>
+      <div class="card">
+        <div class="item item-divider">
+          @{{current.valueObj.userSn}}
+        </div>
+      </div>
+      <div class="item item-input item-stacked-label">
+        <textarea class="medText" ng-model="status" rows="8" maxlength="{{140 - (current.valueObj.userSn.length + 1)}}" ng-change="twCharactersClass = (140 - status.length) < 20 ? 'assertive' : '';"></textarea>
+      </div>
+      <span style="padding-left: 10px;" ng-class='twCharactersClass'>({{current.valueObj.userSn.length + 1 + status.length}}/140 characters used) <i class="ion-social-twitter positive"></i></span>
+      <div class="button button-full button-stable" ng-click="cancelTweet()">
+        Cancel
+      </div>
+      <div class="button button-full button-balanced" ng-click="submitReply(status)">
+        Submit
+      </div>
+    </ion-content>
+  </ion-modal-view>
+</script>
+
+<script id="enlargePhoto.html" type="text/ng-template">
+  <ion-modal-view>
+    <ion-header-bar>
+      <h1 class="title" ng-click="cancelEnlargeModal()">Close Image<span style="float: right;">X</span></h1>
+    </ion-header-bar>
+    <ion-content>
+      <div>
+        <img ng-src="{{enlargedImageUrl}}" style="width: 100%;">
+      </div>
+    </ion-content>
+  </ion-modal-view>
+</script>

@@ -1,0 +1,125 @@
+
+<div class="item item-icon-left  {{(isOpen) ? 'item-dark active item-icon-right' : (isEntity) ? 'item-stable' : 'item-dark'}}" ng-click="toggleOpen()">
+  <i class="icon ion-ios-bolt {{(isOpen) ? '' : ((isEntity) ? 'positive' : 'iconInactive')}}"></i>
+  Media
+  <i ng-if="isOpen" class="icon ion-arrow-expand iconButton" ng-click="fullscreen($event)"></i>
+</div>
+<div ng-if="isOpen">
+
+  <div class="item {{classBackground}}" style="padding:4px !important;">
+    <div class="button-bar">
+      <div class="button icon ion-social-twitter {{(viewtab=='tw' ? 'button-positive' : '')}}" ng-click="switchView('tw')">
+        Twitter
+      </div>
+      <div ng-if="!isEntity" class="button icon ion-android-contacts {{(viewtab=='ar' ? 'button-team' : '')}}" ng-click="switchView('ar')">
+        AR Chat
+      </div>
+      <div class="button icon ion-social-rss {{(viewtab=='rs' ? 'button-calm' : '')}}" ng-click="switchView('rs')">
+        Research
+      </div>
+    </div>
+  </div>
+
+  <!-- Twitter Filter -->
+  <div ng-if="viewtab=='tw' && !isEntity" class="item item-icon-left {{(showFilter? 'bgPositive' : 'bgPositiveLight')}}  positive" ng-click="toggleFilter()">
+    <i class="icon {{(showFilter? 'ion-arrow-down-b' : 'ion-arrow-right-b ')}}" style="font-size:1.25em;"></i>
+    <div class="title" ng-if="!showFilter">Filters: {{filterSummary}}</div>
+    <div class="title" ng-if="showFilter">Setting Filters</div>
+  </div>
+  <div class="item bgPositive" ng-if="showFilter && !isEntity">
+    <div class="card" >
+      <div class="item item-divider" ng-if="showClearFilterButton  || showSaveFilterButton">
+        <div class="button-bar">
+          <div class="button button-clear icon ion-close-round button-assertive" ng-click="clearFilter()" ng-if="showClearFilterButton"> Clear</div>
+          <div class="button button-clear icon ion-checkmark-round button-balanced " ng-click="saveFilter()" ng-if="showSaveFilterButton"> Save  </div>
+        </div>
+      </div>
+      <ion-item class="item item-input item-select">
+        <span class="input-label itemLabel">Group</span>
+        <select ng-options="group.id as group.name for group in privateGroups | orderBy: 'name'" ng-model="preferences.filterObjTw.groupId" ng-change="filterChanged()"></select>
+      </ion-item>
+      <ion-item class="item item-input item-stacked-label">
+        <span class="input-label itemLabel">Keyword(s)</span>
+        <input type="text" ng-model="preferences.filterObjTw.filterText" ng-change="filterChanged()">
+      </ion-item>
+    </div>
+
+  </div>
+
+  <!-- Items ----------------------------------------------------->
+  <ion-list>
+    <ion-scroll style="max-height: {{displayHeight}};overflow:hidden;" ng-class="classBackground" delegate-handle="scrollMediaStream">
+      <div ng-if="viewtab=='tw'">
+        <div ng-repeat="tweet in tweets | orderBy: '-createdDt' ">
+          <tweet-card tweetdoc="tweet"></tweet-card>
+        </div>
+        <div ng-if="!tweets || tweets.length == 0" class="item itemLabel bgPositiveLight text-center">
+          No tweets
+        </div>
+      </div>
+
+      <div ng-if="viewtab=='rs'">
+        <div ng-repeat="post in rssPosts | orderBy: '-valueObj.date' ">
+          <rss-card rssdoc="post"></rss-card>
+        </div>
+
+        <div ng-if="!rssPosts || rssPosts.length == 0" class="item itemLabel bgCalmLight text-center">
+          No research
+        </div>
+      </div>
+
+      <div ng-if="viewtab=='ar'">
+        <div ng-repeat="tweet in artweets | orderBy: '-createdDt' ">
+          <tweet-card tweetdoc="tweet"></tweet-card>
+        </div>
+        <div ng-if="!artweets || artweets.length == 0" class="item itemLabel bgPositiveLight text-center">
+          No AR Chat tweets
+        </div>
+      </div>
+      <ion-infinite-scroll on-infinite="loadMore()"  distance="35%" >
+      </ion-infinite-scroll>
+      <list-footer></list-footer>
+
+    </ion-scroll>
+  </ion-list>
+
+</div>
+
+
+<script id="replyTweet.html" type="text/ng-template">
+  <ion-modal-view>
+    <ion-header-bar>
+      <h1 class="title">Reply Tweet</h1>
+    </ion-header-bar>
+    <ion-content>
+      <div class="card">
+        <div class="item item-divider">
+          @{{current.valueObj.UserSn}}
+        </div>
+      </div>
+      <div class="item item-input item-stacked-label">
+        <textarea class="medText" ng-model="status" rows="8" maxlength="{{140 - (current.valueObj.UserSn.length + 1)}}" ng-change="twCharactersClass = (140 - status.length) < 20 ? 'assertive' : '';"></textarea>
+      </div>
+      <span style="padding-left: 10px;" ng-class='twCharactersClass'>({{current.valueObj.UserSn.length + 1 + status.length}}/140 characters used) <i class="ion-social-twitter positive"></i></span>
+      <div class="button button-full button-stable" ng-click="cancelTweet()">
+        Cancel
+      </div>
+      <div class="button button-full button-balanced" ng-click="submitReply(status)">
+        Submit
+      </div>
+    </ion-content>
+  </ion-modal-view>
+</script>
+
+<script id="enlargePhoto.html" type="text/ng-template">
+  <ion-modal-view>
+    <ion-header-bar>
+      <h1 class="title" ng-click="cancelEnlargeModal()">Close Image<span style="float: right;">X</span></h1>
+    </ion-header-bar>
+    <ion-content>
+      <div>
+        <img ng-src="{{enlargedImageUrl}}" style="width: 100%;">
+      </div>
+    </ion-content>
+  </ion-modal-view>
+</script>

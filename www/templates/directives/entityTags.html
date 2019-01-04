@@ -1,0 +1,61 @@
+<div ng-if="entity">
+    <!--  Header -->
+    <div ng-show="!hideHeader" class="item itemDivider item-icon-left item-icon-right  {{(isOpen? ' bgRoyal' : 'item-stable')}} " ng-click="openToggle()">
+        <i class="icon ion-pound royal" style="font-size:1.25em;"></i>
+        <div>
+            <div ng-if="itemCount == 1">1 {{wordFor("Tag")}}</div>
+            <div ng-if="itemCount != 1">{{itemCount | number}} {{wordFor("Tags")}}</div>
+        </div>
+    </div>
+    <!-- Search bar-->
+    <div class="item item-input-inset bgRoyal" ng-if="isOpen && updatable">
+        <label class="item-input-wrapper">
+            <i class="icon ion-plus-round placeholder-icon"></i>
+            <input name="inputAdd" autocomplete="off" ng-model="addString" type="search" placeholder="{{placeholderAdd}}" onmouseup="this.select();" ng-focus="resetHideResults()" ng-blur="hideResults()" ng-keyup="keyPressedAdd($event, this)">
+        </label>
+        <div type="button" ng-show="addNew && addString" class="button button-small button-outline button-dark" ng-click="addNewItem()">{{wordFor("Add")}} {{wordFor("New")}} </div>
+    </div>
+    <!-- Search results-->
+    <div ng-if="showResults && isOpen && !preventSearch">
+        <div class="card">
+            <div class="item" ng-show="searching">{{wordFor("Searching")}}...</div>
+            <div class="item" ng-show="!searching && (!results || results.length == 0)">{{wordFor("No results found")}}</div>
+            <div class="item bgRoyal"
+                 ng-repeat="result in results"
+                 ng-click="selectAddResult(result)"
+                 ng-bind-html="result.name">
+            </div>
+        </div>
+    </div>
+    <!--  the list with scrolling -->
+    <ion-list ng-if="isPaged && isOpen && (!showResults && entityType != 8) ">
+        <ion-scroll style="height:320px;" on-scroll="loadMore()" delegate-handle="tagScroll">
+            <div ng-repeat="tagSet in tagSets | orderBy: 'name'">
+                <div ng-if="(tagSet.name && entityType != 8)" class="item item-divider bgRoyalLight">
+                    {{(tagSet.name == " Tags") ? "Loose Tags" : tagSet.name}} 
+                </div>
+                <div ng-repeat="tag in entity.tags | filter: {changeType: '!2', typename: tagSet.name} | orderBy: ['new', '-newsorter', 'name']">
+                    <ion-item class="item" ng-click="goTo(tag)">
+                        {{tag.name}}<span ng-if="tag.new && entityType != 8" class="royal">&nbsp;&nbsp;New!</span> 
+                        <ion-option-button ng-if="tag.updatable" class="icon energized  ion-edit" ng-click="editItem($event, tag);"></ion-option-button>
+                        <ion-option-button ng-if="entity.updatable && tag.updatable && entityType != 8" class="icon assertive  ion-minus-circled" ng-click="removeItem($event, tag)"></ion-option-button>
+                    </ion-item>
+                </div>
+            </div>
+</ion-scroll>
+    </ion-list>
+    <!--  the list NO scrolling-->
+    <ion-list ng-if="!isPaged && isOpen && (!showResults || entityType == 8) ">
+        <div ng-repeat="tagSet in tagSets | orderBy: 'name'">
+            <div ng-if="(tagSet.name && entityType != 8)" class="item item-divider bgRoyalLight">
+                {{(tagSet.name == " Tags") ? "Loose Tags" : tagSet.name}} 
+            </div>
+            <ion-item class="item" ng-click="goTo(tag)"
+                      ng-repeat="tag in entity.tags | filter: {changeType: '!2', typename: tagSet.name} | orderBy: ['new', '-newsorter', 'name']">
+                {{tag.name}}<span ng-if="tag.new && entityType != 8" class="royal">&nbsp;&nbsp;New!</span> 
+                <ion-option-button ng-if="tag.updatable" class="icon energized  ion-edit" ng-click="editItem($event, tag);"></ion-option-button>
+                <ion-option-button ng-if="entity.updatable && tag.updatable" class="icon assertive  ion-minus-circled" ng-click="removeItem($event, tag)"></ion-option-button>
+            </ion-item>
+        </div>
+    </ion-list>
+</div>

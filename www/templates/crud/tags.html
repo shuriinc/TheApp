@@ -1,0 +1,44 @@
+<ion-view ng-controller="TagsCtrl as vm">
+    <ion-nav-title>
+        Tags
+    </ion-nav-title>
+    <div class="bar bar-subheader bar-dark ">
+        <div class="row {{backgroundColor}} itemPadding no-border">
+            <div ng-if="vm.allExpanded" class="col-34 text-center  {{color}} " title="Collapse to tag sets" ng-click="vm.expandAll(!vm.allExpanded);"><i class="icon  ion-arrow-right-b" style="font-size:1.25em;opacity:.7"><span class="itemLabel"> Collapse </span></i></div>
+            <div ng-if="!vm.allExpanded" class="col-34 text-center {{color}}" ng-click="vm.expandAll(!vm.allExpanded);" title="Show all tags in all tag sets"><i class="icon ion-arrow-down-b" style="font-size:1.25em;opacity:.7"><span class="itemLabel"> Expand All</span></i> </div>
+            <div class="col-33 text-center {{color}}" title="Manage tag sets and customize" ng-click="vm.customize();"><i class="icon ion-gear-a" style="font-size:1.25em;opacity:.7"><span class="itemLabel"> Manage</span></i></div>
+            <div class="col-33 text-center {{color}}" title="Add new tag set" ng-click="vm.addTagSet()"><i class="icon ion-plus-circled" style="font-size:1.25em;opacity:.7"> <span class="itemLabel"> Add</span></i></div>
+        </div>
+
+    </div>
+    <ion-content class="has-header has-subheader">
+        <ion-refresher pulling-text="Pull for hard refresh" on-refresh="vm.hardRefresh()">
+        </ion-refresher>
+        <ion-list>
+            <!-- <ion-item class="text-center" ng-if="!vm.hideSpinner"><ion-spinner></ion-spinner> Loading</ion-item> -->
+                    <div ng-repeat="usertype in vm.tagUTs | orderBy: 'name'">
+                        <div ng-if="!usertype.isLoose || usertype.tags.length > 0" 
+                             class="item item-icon-left item-icon-right {{(!usertype.hide ? 'item-royal' : 'item-stable')}}"
+                              ng-click="vm.toggleOpenUT(usertype);">
+                            <i class="icon {{(!usertype.hide ? 'ion-arrow-down-b' : 'ion-arrow-right-b')}}" style="font-size:1.25em;"></i>
+                            <div class="{{(!usertype.hide ? '' : 'royal')}}">
+                                <span ng-if="!usertype.isLoose">{{usertype.name}}</span>
+                                <span ng-if="usertype.isLoose">Loose {{vm.wordFor("Tags")}}</span>
+                                &nbsp;&nbsp;<span class="itemLabel">({{usertype.tags.length}})</span>
+                            </div>
+                            <i class="icon {{(usertype.updatable)? 'ion-edit': 'ion-information-circled'}} iconButton " ng-if="!usertype.isLoose && (!usertype.hide || usertype.updatable) " ng-click="vm.editTagSet($event, usertype)" style="font-size:1.5em;"></i>
+                      </div>
+
+                        <div ng-repeat="tag in usertype.tags | orderBy: 'name'" ng-if="!usertype.hide">
+                             <item-entity entity="tag" entity-type="5" manage-updates="true" parent-entity-type="8" parent-entity="usertype" ng-click="vm.goTo(tag)" single-line="true"></item-entity>
+
+                        </div>
+                    </div>
+
+            <list-footer></list-footer>
+        </ion-list>
+
+    </ion-content>
+    <!--<div ng-include="'templates/tabs.html'"></div>-->
+
+</ion-view>

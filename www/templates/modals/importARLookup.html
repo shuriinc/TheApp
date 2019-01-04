@@ -1,0 +1,36 @@
+<ion-modal-view>
+    <ion-header-bar class="bar-positive">
+        <div class="title">Analyst Relations Lookup</div>
+        <div class="button button-icon ion-close-circled" ng-click="vm.closeLookupModal()"></div>
+    </ion-header-bar>
+    <ion-header-bar class="bar-subheader bar-dark">
+        <div class="title">{{vm.lookupEntity.name}}</div>
+    </ion-header-bar>
+    <ion-content class="has-header has-subheader">
+        <div class="list">
+            <div ng-if="false" class="item itemPadding itemLabel bgPositiveLight item-text-wrap">Use the search bar to </div>
+
+            <div class="item item-input-inset">
+                <div class="item-input-wrapper">
+                    <i class="icon ion-search placeholder-icon"></i>
+                    <input id="inputSearchLook" autocomplete="off"
+                           ng-model="vm.arLookupString" type="search"
+                           placeholder="Search here..."
+                           onmouseup="this.select();" ng-focus="vm.resetHideResults()" ng-blur="vm.hideResults()" ng-keyup="vm.keyPressedAdd($event, this)">
+                    <i ng-click="vm.resetSearch()" class="icon ion-close-round placeholder-icon"></i>
+                </div>
+            </div>
+            <!-- Search Results-------------------------->
+            <div ng-if="vm.showSearchResults">
+                <div class="item item-divider itemLabel text-center " ng-if="vm.searching">Searching... </div>
+                <div class="item item-divider itemLabel text-center " ng-if="!vm.searching && vm.entities.length == 0">{{vm.arLookupString}} not found.</div>
+                <div ng-repeat="enty in vm.entities  | orderBy: ['sorter', 'name']">
+                    <item-entity entity="enty" entity-type="vm.lookupEntityType" hide-action="true" manage-updates="false"
+                                 parent-entity-type="-1" parent-entity="vm.importGroup"
+                                 ng-click="vm.lookupResultSelected(enty, vm.lookupEntity.name)"></item-entity>
+                </div>
+            </div>
+        </div>
+    </ion-content>
+</ion-modal-view>
+

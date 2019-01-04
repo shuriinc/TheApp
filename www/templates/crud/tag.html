@@ -1,0 +1,70 @@
+<ion-view ng-controller="TagCtrl as vm">
+    <ion-nav-title>
+        {{vm.title}}
+    </ion-nav-title>
+    <ion-header-bar ng-if="vm.showList" class="bar-subheader bar-royal">
+        <div class="button button-icon ion-edit iconButton" ng-click="vm.editTag()" ng-if="vm.tag.updatable"></div>
+     <div class="title">{{vm.tag.name}}</div>
+    </ion-header-bar>
+    <ion-content class="has-header has-subheader">
+      <ion-list ng-if="vm.showList">
+        <ion-item ng-if="!vm.tag.isLoose" class="item item-icon-right wrapText" ng-click="vm.gotoUT()">
+          <div class="itemLabel">{{vmMaster.wordFor("Tag")}} {{vmMaster.wordFor("Set")}}</div>
+          {{vm.tag.typename}}
+          <div class="icon ion-chevron-right icon-accessory"></div>
+        </ion-item>
+        <ion-item ng-if="vm.tag.isLoose && vm.appUser.id == vm.tag.ownedBy_Id" class="item item-icon-right ">
+          &lt;{{vm.tag.typename}}&gt;
+          <div class="icon ion-code-download iconButton" style="font-size:1.25em;" ng-click="vm.openLooseToUT()">
+            <span class="smallText">Add To Set</span>&nbsp;
+          </div>
+        </ion-item>
+
+        <ion-item class="wrapText">
+          <div class="itemLabel">{{vmMaster.wordFor("Description")}}</div>
+          <div class="medText" ng-bind-html="vm.tag.description | lineBreaks"></div>
+          <div ng-if="!vm.tag.description">&nbsp;</div>
+        </ion-item>
+
+        <collection-entity entity-type="4" parent-entity-type="5" parent-entity="vm.tag" manage-updates="true"></collection-entity>
+        <collection-entity entity-type="9" parent-entity-type="5" parent-entity="vm.tag" manage-updates="true"></collection-entity>
+        <collection-entity entity-type="6" parent-entity-type="5" parent-entity="vm.tag" manage-updates="true"></collection-entity>
+        <media-stream entity-type="5" entity="vm.tag" ng-if="vm.appUser.showMedia && vm.twitter2Live" is-entity="true"></media-stream>
+        <collection-entity entity-type="11" parent-entity-type="5" parent-entity="vm.tag" manage-updates="true"></collection-entity>
+        <owned-item ng-if="vm.tag.isLoose" entity="vm.tag" entity-type="5" updatable="false" is-dirty="vm.isDirty"></owned-item>
+
+        <list-footer></list-footer>
+
+      </ion-list>
+
+    </ion-content>
+    
+
+    <script id="looseTagToUT.html" type="text/ng-template">
+        <ion-modal-view>
+            <ion-header-bar class="bar-dark">
+                <div class="title">Choose a Tag Set</div>
+            </ion-header-bar>
+            <ion-header-bar class="bar-subheader bar-dark">
+                <div class="button-bar ">
+                    <div class="button button-clear icon ion-close-round " ng-click="vm.closeModalMoveTag()">
+                        Cancel
+                    </div>
+                </div>
+            </ion-header-bar>
+            <ion-content class="has-header has-subheader">
+                <div class="list">
+                    <div ng-repeat="tagset in vm.tagsets  | orderBy: 'name'">
+                        <div class="item text-center no-padding" ng-click="vm.closeModalMoveTag(tagset)">
+                            <div class="button button-clear  button-royal" >{{tagset.name}}</div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+            </ion-content>
+        </ion-modal-view>
+    </script>
+
+</ion-view>

@@ -1,0 +1,52 @@
+<ion-modal-view>
+    <ion-header-bar class="bar-positive">
+        <div class="title"><i class="icon ion-help-circled"></i> Groups</div>
+    </ion-header-bar>
+    <ion-content class="has-header">
+
+        <ion-list>
+
+            <div class="item medText item-text-wrap help-content">
+              <span>
+                Once you’ve added your contacts into Databases, and/or subscribed to Shuri’s Analyst Relations Database the best way to compile your Favorites is through Groups.
+                <br /><br />
+                Groups are a way to group together contacts from across all of your Databases into one, easily accessible place.
+                You can make as many Groups as you’d like and we’ve started you out with your first one for Favorites.
+              </span>
+
+              <h3>All of your Favorites in one place</h3>
+              <span>
+                You can Favorite any contact by clicking the star on the top of their profile page.
+                This feature is also available for tags.
+                <br /><br />
+                <img src="https://shuristoragecdn.blob.core.windows.net/public/help-images/cpBar.png" alt="Example contact point bar" />
+              </span>
+
+              <h3>From Group to Database</h3>
+              <span>
+                Have a Group that you think might make a better Database?
+                No problem, click the pencil next to the Group’s name.
+                Then, click <em>Promote to Database</em> at the top of the page, assign it an Editing Team if you’d like and click promote.
+                You’ll also have the option to share this Database with all Shuri users for free.
+                <br /><br />
+                <i class="icon ion-information-circled energized"></i> Note: every contact added to a Group will still live in its assigned Database and can be accessed in both places.
+              </span>
+
+            </div>
+
+        </ion-list>
+    </ion-content>
+    <ion-footer-bar class="bar-dark no-padding footerButton">
+      <div class="button-bar ">
+          <button class="button" ng-if="!vmMaster.showOk" ng-click="vmMaster.closeAllHelp()">
+            Close
+          </button>
+          <button class="button ok-confirm" ng-if="!vmMaster.showOk" ng-click="vmMaster.closeHelp()">
+              Back
+          </button>
+          <button class="button ok-confirm" ng-if="vmMaster.showOk" ng-click="vmMaster.closeHelp()">
+              {{vmMaster.wordFor("OK")}}
+          </button>
+      </div>
+
+    </ion-footer-bar>

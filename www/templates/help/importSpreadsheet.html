@@ -1,0 +1,108 @@
+<ion-modal-view>
+    <ion-header-bar class="bar-positive">
+        <div class="title"><i class="icon ion-help-circled"></i> Imports</div>
+    </ion-header-bar>
+    <ion-content class="has-header">
+
+        <ion-list>
+            <div class="item itemDivider">
+                Import a Spreadsheet
+            </div>
+
+            <div class="item medText item-text-wrap help-content">
+              <h3>Get your files ready</h3>
+              <span>
+                If you’re on a mobile device you’ll need to have Google Drive, DropBox or other file-sharing app already downloaded to access your spreadsheet.
+              </span>
+
+              <h3>Choose where your data will go</h3>
+              <span>
+                Once you’ve chosen a spreadsheet, you’ll be asked to create the name of your new Group.
+                A Group is just what it sounds like: a way to group together similar information from your Databases into one place.
+                Groups automatically get created with every import.
+                <br /><br />
+                Below that, choose which Database you’d like to import your contacts into. They will be imported into both your chosen Group and Database.
+                <br /><br />
+                <img src="https://shuristoragecdn.blob.core.windows.net/public/help-images/importSpread01.png" alt="New group options for importing" />
+                <br /><br />
+
+                <i class="icon ion-information-circled energized"></i> You can only import into existing Databases that you either own or have editing permissions on. So if you want to import your contacts into a new Database, make sure to create one before you start.
+              </span>
+
+              <h3>Map Your Columns</h3>
+              <span>
+                Next, start mapping how you want your spreadsheet to look in Shuri, one column at a time.
+                <br /><br />
+                Shuri will pull up a column from your spreadsheet and show you samples from its rows. You can click <em style="font-style:italic;">Skip</em> if you don’t want that column imported or:
+              </span>
+
+              <h3>Choose which kind of item it is</h3>
+              <span>
+                Select if this column refers to a Person, an Org or a Touch.
+                <br /><br />
+                <img src="https://shuristoragecdn.blob.core.windows.net/public/help-images/importSpread02.png" alt="Selecting Person as an example item" />
+              </span>
+
+              <h3>Select the appropriate field</h3>
+              <span>
+                Choose which field this info refers to (ie. First Name, Last Name, Business Phone Number, etc…) and click <em style="font-style:italic;">Next</em>.
+                <br /><br />
+                <img src="https://shuristoragecdn.blob.core.windows.net/public/help-images/importSpread03.png" alt="Choosing a field that the information refers to" />
+              </span>
+
+              <h3>Create a Custom Field</h3>
+              <span>
+                If none of Shuri’s fields are close enough to the type of data in your column, you can create a custom field by selecting <em style="font-style:italic;">None of the Above</em>.
+                <br /><br />
+                Once you’ve titled it, you’ll need to select what type of field it is (ie. anything, anything (multiple lines), date, number, phone, etc...)
+                <br /><br />
+                <img src="https://shuristoragecdn.blob.core.windows.net/public/help-images/importSpread04.png" alt="Selecting the type of field" />
+              </span>
+
+              <h3>Create Custom Tags</h3>
+              <span>
+                Under <em style="font-style:italic;">None of the Above</em> you can also create tags. Tags can be used to label and categorize your data.
+                <br /><br />
+                When you select to create tags in importing, it’s most likely because your column has many occurrences of only a few different entries (ie. in a spreadsheet of US Senators, a column that denotes political party).
+                <br /><br />
+                You create a name for your tag set, which becomes the umbrella that these tags live under, and the entries in the column become the tags for the Person, Org, and/or Touch in their row of the spreadsheet.
+                <br /><br />
+                <img src="https://shuristoragecdn.blob.core.windows.net/public/help-images/importSpread05.png" alt="Selecting the Tag category" />
+              </span>
+
+              <h3>Check your work</h3>
+              <span>
+                Once you’ve mapped out all of your desired columns, you’ll find a summary page where you can go back and make changes by swiping left on any of the fields and clicking the pencil.
+                <br /><br />
+                <img src="https://shuristoragecdn.blob.core.windows.net/public/help-images/importSpread06.png" alt="Viewing summary" />
+              </span>
+
+              <h3>Finish the Import</h3>
+              <span>
+                Once you’re ready, click <em style="font-style:italic;">Import</em>. It may take up to a couple minutes for the import to complete, depending on the size of your spreadsheet.
+                <br /><br />
+                When importing is over, you’ll see all of those People Orgs and/or Touches stored in the Database and Group you chose.
+                <br /><br />
+                Every item that was linked in your spreadsheet will be linked in Shuri (ie. associated People will show up in the People tab on an Org’s page and vice-versa).
+                <br /><br />
+                To fill in more information about these contacts, see <em class="link-to-section energized" ng-click="vmMaster.deepModal('entity');">FLESH OUT YOUR DATA.</em>
+              </span>
+
+            </div>
+
+        </ion-list>
+    </ion-content>
+    <ion-footer-bar class="bar-dark no-padding footerButton">
+      <div class="button-bar ">
+          <button class="button" ng-if="!vmMaster.showOk" ng-click="vmMaster.closeAllHelp()">
+            Close
+          </button>
+          <button class="button ok-confirm" ng-if="!vmMaster.showOk" ng-click="vmMaster.closeHelp()">
+              Back
+          </button>
+          <button class="button ok-confirm" ng-if="vmMaster.showOk" ng-click="vmMaster.closeHelp()">
+              {{vmMaster.wordFor("OK")}}
+          </button>
+      </div>
+
+    </ion-footer-bar>

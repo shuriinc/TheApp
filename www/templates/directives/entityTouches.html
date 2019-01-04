@@ -1,0 +1,35 @@
+﻿
+<div ng-if="entity && ((entity.touches && entity.touches.length > 0) || addNew)">
+    <!--  Header -->
+    <div class="item itemDivider item-icon-left item-icon-right  {{(isOpen? ' bgBalanced' : 'item-stable')}}  " ng-click="openToggle()">
+        <i class="icon shuri-touch balanced"style="font-size:1.5em;" ng-click="isOpen = !isOpen;"></i>
+        <div>
+            <div ng-if="itemCount == 1">1 {{wordFor("Touch")}}</div>
+            <div ng-if="itemCount != 1">{{itemCount | number}} {{wordFor("Touches")}}</div>
+        </div>
+        <i ng-if="addNew"  class="icon ion-plus-round icon-accessory" style="font-size:2em;" ng-click="addTouch($event)" ></i>
+    </div>
+
+    <!--  the list with scrolling -->
+    <ion-list ng-if="isPaged && isOpen" >
+        <ion-scroll style="height:320px;" on-scroll="loadMore()">
+            <div ng-repeat="item in entity.touches | filter: {changeType: '!2'} |  orderBy: [{'dateStart' : true}, 'name']">
+                <ion-item class="item bgBalancedLight" ng-click="goTo(item)">
+                    <span ng-click="goTo(item)" ng-bind-html="item | touchItem"></span>
+                    <ion-option-button class="icon energized  ion-edit" ng-click="editItem($event, item);"></ion-option-button>
+                    <ion-option-button ng-if="updatable" class="icon assertive  ion-minus-circled" ng-click="removeItem($event, item)"></ion-option-button>
+                </ion-item>
+            </div>
+        </ion-scroll>
+    </ion-list>
+
+    <!--  the list NO scrolling-->
+    <ion-list ng-if="!isPaged && isOpen" ng-repeat="item in entity.touches | filter: {changeType: '!2'} | orderBy: [{'dateStart' : true}, 'name']">
+        <ion-item class="item bgBalancedLight" ng-click="goTo(item)">
+            <span ng-click="goTo(item)" ng-bind-html="item | touchItem"></span>
+            <ion-option-button class="icon energized  ion-edit" ng-click="editItem($event, item);"></ion-option-button>
+            <ion-option-button ng-if="updatable" class="icon assertive  ion-minus-circled" ng-click="removeItem($event, item)"></ion-option-button>
+        </ion-item>
+    </ion-list>
+
+</div>

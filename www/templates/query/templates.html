@@ -1,0 +1,82 @@
+﻿
+<!-- Templates ------------------------------------------------>
+<div ng-show="false" class="item  item-icon-right item-positive" >
+    <div>Reports</div>
+    <div class="icon   iconButton ">
+        <div  ng-click="vm.getGlossary($event)" style="font-size:1.0em; padding-right:12px; padding-left:4px;"class="ion-help-circled"
+                  title="Tokens Glossary for creating your own templates">
+        </div>
+
+        <div class="ion-plus-round" ng-click="vm.browseForTemplates($event)" style="font-size:1.25em;"></div>
+    </div>
+</div>
+<div ng-if="false && !vm.hideTemplates" class="item item-dark no-padding text-center">
+    <div class="row medText">
+        <div class="col stable itemLabel">Sort</div>
+        <div class="col {{(vm.rptSorter == 1) ? 'bgPositiveLight dark' : 'bgDark'}}" style="border-bottom-left-radius:4px;border-top-left-radius:4px;" ng-click="vm.setRptSort(1)">Type</div>
+        <div class="col {{(vm.rptSorter == 2) ? 'bgPositiveLight dark' : 'bgDark'}}" ng-click="vm.setRptSort(2)">Date</div>
+        <div class="col {{(vm.rptSorter == 3) ? 'bgPositiveLight dark' : 'bgDark'}}" ng-click="vm.setRptSort(3)"  style="border-bottom-right-radius:4px;border-top-right-radius:4px;" >Name</div>
+    </div>
+</div>
+
+    <div class="item bgDarkLight  text-center item-text-wrap itemPadding" ng-if="vm.totalCount > vm.max4Report">
+        <div class="itemLabel assertive" ng-click="vm.setActionBar(3)">Too many {{vm.entityWord.toLowerCase()}} to report ({{vm.max4Report}} max).  Touch here and choose some filters. </div>
+    </div>
+
+<div class="item item-icon-left item-positive" ng-click="vm.toggler(null, 'templates');">
+    <i class="icon   {{(!vm.hideTemplates? 'ion-arrow-down-b' : 'ion-arrow-right-b ')}}" style="font-size:1.25em;"></i>
+    My Templates
+</div>
+
+<div class="item item-stable  no-padding" ng-if="!vm.hideTemplates">
+    <div class="button-bar" ng-if="!vm.isNarrow">
+        <div class="button button-clear  icon ion-help-circled button-positive " ng-click="vm.getGlossary()"> Download Glossary</div>
+        <div class="button button-clear button-positive  icon ion-plus-round" ng-click="vm.browseForTemplates()" > Upload Template</div>
+    </div>
+    <div class="button-bar  " ng-if="vm.isNarrow">
+        <div class="button button-clear button-icon ion-ios-download-outline button-positive " ng-click="vm.getGlossary()">  Glossary</div>
+        <div class="button button-clear  button-positive  button-icon ion-ios-upload-outline" ng-click="vm.browseForTemplates()">  Template</div>
+   </div>
+</div>
+
+<div ng-if="!vm.hideTemplates">
+
+    <div ng-repeat="rpt in vm.reports |  orderBy: 'sorter'">
+        <query-item entity="rpt" query-item-type="report" query="vm.query" ng-click="vm.report($event, rpt, vm.defaultPdf)" may-report="!vm.showCBs && (vm.totalCount <= vm.max4Report)"></query-item>
+    </div>
+    <ion-item class="item item-divider item-stable  itemLabel" ng-if="!vm.reports || vm.reports.length == 0">
+        <span>None</span>
+    </ion-item>
+</div>
+
+    <div class="item item-icon-left item-positive" ng-click="vm.toggler(null, 'publictemplates');">
+        <i class="icon   {{(!vm.hidePublicTemplates? 'ion-arrow-down-b' : 'ion-arrow-right-b ')}}" style="font-size:1.25em;"></i>
+        Public Templates
+    </div>
+
+    <div ng-show="!vm.hidePublicTemplates">
+        <div ng-repeat="rpt in vm.reportsPublic | orderBy: 'sorter'">
+            <query-item entity="rpt" query-item-type="report" query="vm.query" ng-click="vm.report($event, rpt, vm.defaultPdf)" may-report="!vm.showCBs && (vm.totalCount <= vm.max4Report)"></query-item>
+        </div>
+   </div>
+
+
+<!-- Saved Reports ------------------------------------------------>
+<!--<div class="item  item-icon-left item-positive "  ng-click="vm.toggler(null, 'reports');">
+    <i class="icon {{(!vm.hideReports? 'ion-arrow-down-b' : 'ion-arrow-right-b ')}}" style="font-size:1.5em;"></i>
+    My Reports
+
+</div>
+<div ng-if="!vm.hideReports">
+    <div class="item  item-stable  text-center" ng-if="vm.showExport && vm.totalCount > vm.max4Export">
+        <div class="itemLabel">Too many {{vm.entityWord.toLowerCase()}} to export. Please choose some filters on the Query tab. ({{vm.totalCount}}/{{vm.max4Report}} max) </div>
+    </div>
+    <div ng-repeat="doc in vm.exportFiles | orderBy: '-createdDt'" >
+        <query-item entity="doc" query-item-type="export" ></query-item>
+    </div>
+    <ion-item class="item itemLabel medText" ng-if="!vm.exportFiles || vm.exportFiles.length == 0">
+        <span>No reports or export files found</span>
+    </ion-item>
+
+</div>-->
+

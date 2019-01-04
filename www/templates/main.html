@@ -1,0 +1,256 @@
+<ion-view ng-controller="MainCtrl as vm" title="ShuriApp">
+  <!--<style>
+      ul {
+          list-style-type: disc;
+          margin: 10px;
+      }
+
+      li {
+          margin: 8px 0;
+      }
+  </style>-->
+ 
+    <ion-nav-title>
+      {{vm.title}}
+    </ion-nav-title>
+
+    <!-- Search bar----------------------------->
+    <ion-header-bar class="bar-subheader bar-dark item-input-inset" ng-show="!vm.isLoading">
+      <label class="item-input-wrapper">
+        <i class="icon ion-search placeholder-icon"></i>
+        <input autocomplete="off" ng-model="vm.searchString" type="text" placeholder="{{vm.placeholderSearch}}" onmouseup="this.select();"
+               readonly onfocus="this.removeAttribute('readonly');" 
+               ng-focus="vm.resetHideResults()" ng-blur="vm.hideResults()" ng-keyup="vm.keyPressedAdd($event, this)"
+               title="Search people, orgs, touches, and/or tags.">
+      </label>
+      <div class="button button-clear icon ion-close-circled button-assertive"
+           ng-click="vm.searchString = ''; vm.keyPressedAdd($event, this);"
+           title="Close search"
+           ng-if="vm.searchString != ''"></div>
+    </ion-header-bar>
+
+    <ion-content class="has-header">
+      <ion-refresher pulling-text="Pull for hard refresh" on-refresh="vm.resetExpanded();vm.hardRefresh()">
+      </ion-refresher>
+      <div ng-if="vm.isLoading">
+        <div class="row  text-center " style="padding-top:60px;opacity: 0.18;">
+          <div class="col">
+            <div class="h5">Refreshing your data ...</div>
+            <br />
+
+            <img src="https://shuristoragecdn.blob.core.windows.net/images/chatTrans250.png" />
+
+          </div>
+        </div>
+      </div>
+
+      <ion-list ng-show="!vm.isLoading">
+
+        <div class="item bgDark item-icon-right text-center" ng-if="(vm.isStaging || vm.isStagingAPI) && !vm.hideStaging" ng-click="vm.hideStaging = true;">
+          <div class="assertive">This is Staging</div>
+          <i class="icon ion-close-round assertive iconButton" style="font-size:1em;"></i>
+        </div>
+
+        <license-status alert-only="x" app-user="vm.appUser"></license-status>
+
+        <!-- Search results-->
+        <div class="card" ng-if="vm.showSearchResults ">
+          <div class="item itemLabel item-stable" ng-if="vm.searching">{{vm.wordFor("Searching")}}...</div>
+          <div class="item itemLabel item-stable text-center" ng-if="!vm.searching && (!vm.searchResults || vm.searchResults.length == 0) && (vm.searchString.length != 1)"><span class="assertive">{{vm.wordFor("No results found")}}</span></div>
+          <!--<div class="item itemLabel item-stable text-center" ng-if="!vm.searching && (vm.searchString.length == 1)"><span class="">2 letters begins search</span></div>-->
+          <div ng-repeat="result in vm.searchResults " ng-show="!vm.searching">
+            <item-entity entity="result" entity-type="-1" entity-count="0" parent-entity-type="-1" parent-entity="vm.databases" ng-click="vm.selectAddResult(result)" manage-updates="true"></item-entity>
+          </div>
+        </div>
+
+
+        <!-- ------------------------- Recents -->
+        <div ng-if="vm.recents && vm.recents.length > 0">
+          <div class="item item-icon-left  {{(!vm.openRecent) ? '  item-dark' : '   item-dark active'}}" ng-click="vm.toggleDiv('recent')">
+            <i class="icon ion-clock {{(!vm.openRecent) ? 'iconInactive' : ''}}"></i>
+            {{vm.wordFor("Recent")}}
+          </div>
+          <div ng-show="vm.openRecent" ng-repeat="recent in vm.recents">
+            <item-entity entity="recent" entity-type="-1" entity-count="0" parent-entity-type="-1" parent-entity="vm.databases" ng-click="vm.selectAddResult(recent)" manage-updates="true"></item-entity>
+          </div>
+        </div>
+
+        <!-- ------------------------- Media -->
+        <div ng-if="vm.appUser.showMedia">
+          <media-stream ng-if="vm.twitter2Live" entity="vm.title" entity-type="-1"></media-stream>
+          <media-feed ng-if="!vm.twitter2Live" entity="vm.title" entity-type="-1"></media-feed>
+
+        </div>
+
+
+        <!--------------------------- Teams -->
+        <div class="item item-icon-left  item-icon-right  {{(!vm.openTeams) ? '  item-dark' : '   item-dark active'}}" ng-click="vm.toggleDiv('teams')">
+          <i class="icon ion-ios-people {{(!vm.openTeams) ? 'iconInactive' : ''}}"></i>
+          <div>Teams</div>
+          <!--<i ng-if="(vm.appUser.licenseStatus == 0)" class="icon ion-plus-round icon-accessory" style="font-size:2em;" ng-click="vm.openAddTeam($event)" title="Create a new team"></i>-->
+        </div>
+        <div ng-if="vm.openTeams" ng-repeat="team in vm.teams | filter: {changeType: '!2', id: '!FFFFFFFF-FFFF-FFFF-FFFF-FFFFFFFFFFFF'} | orderBy: 'name'">
+          <collection-entity entity-type="4" parent-entity-type="10" parent-entity="team" manage-updates="true"></collection-entity>
+        </div>
+        <div ng-if="vm.openTeams && vm.teams.length == 0">
+          <div class="item item-icon-left bgTeamLight" ui-sref="home.quickStart">
+            <i class="icon ion-ios-people"></i>Team Quick Start <span class="itemLabel"> (provision a new site)</span>
+          </div>
+          <!--<div class="item item-icon-left bgTeam" ui-sref="home.requestTeam">
+        <i class="icon ion-person-add"></i>Join a team<span class="itemLabel"> (request an existing site)</span>
+    </div>-->
+        </div>
+        <div class="button-bar bgDarkLight " ng-click="vm.openAddTeam()" ng-if="vm.openTeams">
+          <div class="button icon button-clear teamColor  ion-plus-circled "> New Team</div>
+        </div>
+
+
+        <!--  ---------------- Groups    -->
+        <ion-item class="item item-icon-left item-icon-right {{(!vm.openGroups) ? '  item-dark' : '   item-dark active'}}" ng-click="vm.toggleDiv('groups')">
+          <i class="icon ion-ios-star {{(!vm.openGroups) ? 'iconInactive' : ''}}"></i>
+          <span>Groups</span>
+          <!--<i class="icon ion-plus-round icon-accessory" style="font-size:2em;" ng-click="vm.openAddGroup($event)" title="Create a new group"></i>-->
+        </ion-item>
+
+        <div ng-if="vm.openGroups" ng-repeat="grp in vm.privateGroups | filter: {changeType: '!2'}  | orderBy: 'orderer'">
+          <ion-item class="item item-icon-left item-icon-right groupColor" ng-click="vm.toggleDiv(grp)" id="privgrp{{grp.id}}">
+            <i ng-if="grp.name != 'Favorites'" ng-class="(grp.isOpen) ? 'icon ion-arrow-down-b' : 'icon ion-arrow-right-b'"></i>
+            <i ng-if="grp.name == 'Favorites'" ng-class="(grp.isOpen) ? 'icon ion-ios-star' : 'icon ion-ios-star-outline'"></i>
+            <span>{{grp.name}}</span>
+            <!--<i ng-if="grp.updatable" class="icon ion-edit icon-accessory" style="font-size:1.5em;" ng-click="vm.goTo($event, grp)" title="Edit {{grp.name}}"></i>-->
+          </ion-item>
+          <div class="item item-stable text-center no-padding" ng-if="grp.updatable && grp.isOpen" ng-click="vm.goTo(null, grp)">
+            <div class="button button-clear icon ion-edit groupColor"> Edit</div>
+          </div>
+          <collection-entity ng-show="grp.isOpen" entity-type="4" parent-entity-type="2" parent-entity="grp" manage-updates="true"></collection-entity>
+          <collection-entity ng-show="grp.isOpen" entity-type="9" parent-entity-type="2" parent-entity="grp" manage-updates="true"></collection-entity>
+          <collection-entity ng-show="grp.isOpen && grp.name != 'Favorites'" entity-type="6" parent-entity-type="2" parent-entity="grp" manage-updates="true"></collection-entity>
+          <tag-picker ng-show="grp.isOpen" parent-entity-type="2" parent-entity="grp" manage-updates="true"></tag-picker>
+        </div>
+        <div class="button-bar bgDarkLight" ng-click="vm.openAddGroup()" ng-if="vm.openGroups">
+          <div class="button icon button-clear groupColor  ion-plus-circled"> New Group</div>
+        </div>
+
+        <!--  -------------------------Databases -------------------------------------------------->
+        <ion-item ng-click="vm.toggleDiv('dbs')" class="item item-icon-left item-icon-right {{(!vm.openDBs) ? ' item-dark ' : ' item-dark active '}}">
+          <i class="icon {{(!vm.openDBs) ? 'iconInactive' : ''}} ion-soup-can {{(vmMaster.isFiltered) ? ' energized ' : ''}}" style="font-size:1.5em;"></i>
+          <div>
+            {{vm.wordFor("Collections")}}
+            <span class='itemLabel energized' ng-if="vm.defaultWarning > ''">&nbsp;&nbsp;(viewing: {{vm.defaultWarning}})</span>
+          </div>
+          <!--<i ng-if="(vm.appUser.licenseStatus == 0)" class="icon ion-plus-round icon-accessory" style="font-size:2em;" ng-click="vm.openAddDB($event)" title="Create a new database"></i>-->
+        </ion-item>
+        <div ng-if="vm.openDBs" ng-repeat="grp in vm.databases | filter: {changeType: '!2'} | orderBy: ['orderer', 'name']">
+          <ion-item class="item  item-icon-left item-icon-right item-positive {{(grp.id == vm.appUser.defaultCollection_Id) ? '' : ''}}" ng-click="vm.toggleDiv(grp)">
+            <i ng-class="(grp.isOpen) ? 'icon ion-arrow-down-b' : 'icon ion-arrow-right-b '"></i>
+            <div>{{grp.name}}</div>
+            <div class="icon" ng-if="(grp.id == vm.appUser.defaultCollection_Id)" style="font-size:1em;">
+              <span class="itemLabel">Default</span>
+            </div>
+          </ion-item>
+          <div class="item bgPositiveLight  no-padding" ng-if="grp.isOpen && grp.updatable">
+            <div class="button-bar" ng-if="!vm.isNarrow">
+              <div class="button button-clear  icon ion-edit button-positive " ng-click="vm.goTo(null, grp)"> Edit</div>
+              <div class="button button-clear button-positive  icon ion-gear-a" ui-sref="home.customize({collectionId: '{{grp.id}}'})"> Custom</div>
+              <div ng-if="!(grp.id == vm.appUser.defaultCollection_Id)" class="button  button-clear button-positive icon  ion-android-checkbox-outline" ng-click="vm.makeDefault(grp);">  Default</div>
+
+            </div>
+            <div class="button-bar button-bar-small " ng-if="vm.isNarrow">
+              <div class="button button-small button-icon button-clear  ion-edit button-positive " ng-click="vm.goTo(null, grp)"> Edit</div>
+              <div class="button button-small button-clear button-positive button-icon ion-gear-a" ui-sref="home.customize({collectionId: '{{grp.id}}'})"> Custom</div>
+              <div ng-if="!(grp.id == vm.appUser.defaultCollection_Id)" class="button button-small button-clear button-positive  button-icon  ion-android-checkbox-outline" ng-click="vm.makeDefault(grp);">  Default</div>
+
+            </div>
+          </div>
+          <div class="item bgPositiveLight no-padding" ng-if="grp.isOpen && !grp.updatable">
+            <div class="button-bar">
+              <div class="button icon button-clear  ion-information-circled button-positive " ng-click="vm.goTo(null, grp);"> Info</div>
+            </div>
+          </div>
+
+          <collection-entity ng-show="grp.isOpen" entity-type="4" parent-entity-type="2" parent-entity="grp" manage-updates="true"></collection-entity>
+          <collection-entity ng-show="grp.isOpen" entity-type="9" parent-entity-type="2" parent-entity="grp" manage-updates="true"></collection-entity>
+          <collection-entity ng-show="grp.isOpen" entity-type="6" parent-entity-type="2" parent-entity="grp" manage-updates="true"></collection-entity>
+          <tag-picker ng-show="grp.isOpen" parent-entity-type="2" parent-entity="grp" manage-updates="true"></tag-picker>
+        </div>
+        <div class="button-bar bgDarkLight" ng-if="vm.openDBs">
+          <div class="button icon button-clear  ion-edit button-positive  ion-plus-circled" ng-click="vm.openAddDB()"> New {{vm.isNarrow? 'DB' : 'Database'}}</div>
+          <div class="button icon button-clear  ion-edit button-positive  ion-soup-can-outline" ng-click="vm.getDBs()"> Get {{(!vm.hasAR ? 'the AR' : 'a')}} {{vm.isNarrow? 'DB' : 'Database'}}</div>
+        </div>
+
+        <div class="item item-icon-left  {{(!vm.openHelp) ? '  item-dark' : '   item-dark active'}}" ng-click="vm.toggleDiv('help')">
+          <i class="icon ion-help-buoy {{(!vm.openHelp) ? 'iconInactive' : ''}}"></i>
+          Support &amp; Help
+        </div>
+        <div ng-if="vm.openHelp">
+          <div class="item item-icon-left bgEnergizedLight" ng-click="vm.getFeedback()">
+            <i class="icon ion-email"></i>Ask Support
+          </div>
+
+          <div class="item item-icon-left bgPositiveLight" ng-click="vm.addinLink($event, 'install');">
+            <i class="icon ion-arrow-down-a"></i>Download Add-in for
+            <img src="img/outlook.png" height="20" style="vertical-align:bottom;" />
+          </div>
+
+
+
+          <div class="item item-icon-left bgTeamLight" ui-sref="home.quickStart">
+            <i class="icon ion-ios-people"></i>Team Quick Start <span class="itemLabel"> (provision a new 'site')</span>
+          </div>
+          <!--<div class="item item-icon-left bgTeam" ui-sref="home.requestTeam">
+      <i class="icon ion-person-add"></i>Join a team<span class="itemLabel"> (request an existing site)</span>
+    </div>-->
+          <!-- About Shuri ----------------------------------------------------->
+          <ion-item class="item item-icon-left item-icon-right item-stable  {{(vm.showAbout) ? 'active' : ''}}" ng-click="vm.showAbout = ! vm.showAbout">
+            <i class="icon {{(vm.showAbout) ? 'ion-arrow-down-b' : 'ion-arrow-right-b' }} " style="font-size:1.5em;"></i>
+            <div>
+              About
+            </div>
+          </ion-item>
+          <div ng-if="vm.showAbout">
+            <!--<div class="item item-input item-stacked-label">
+      <span class="input-label itemLabel">Login Username</span><br />
+      {{vm.appUser.username}} &nbsp;&nbsp; <span ng-if="false" class="smallText positive" ng-click="vm.changePassword(); ">Change password</span>
+  </div>
+  <div class="item item-input item-stacked-label">
+      <span class="input-label itemLabel">Primary Email</span><br />
+      {{vm.appUser.emailAddress}} &nbsp;&nbsp; <span ng-if="false" class="smallText positive" ng-click="vm.changeEmail(); ">Change</span>
+  </div>-->
+            <div class="item item-input item-stacked-label" ng-click="vm.showAbout2 = ! vm.showAbout2">
+              <span class="input-label itemLabel">Version</span><br />
+              <span class="medText">{{vm.appVersion}} </span>
+            </div>
+            <div ng-if="vm.showAbout2" class="item item-input item-stacked-label">
+              <span class="input-label itemLabel">Built In</span><br />
+              Colorado <img src="https://shuristoragecdn.blob.core.windows.net:443/images/coFlag.png" height="22" width="32" style="opacity:0.8; border:1px solid #888888" /> and
+              California <img src="https://shuristoragecdn.blob.core.windows.net:443/images/caFlag.png" height="22" width="32" style="opacity:0.8; border:1px solid #888888" />
+            </div>
+            <div class="item item-input item-stacked-label">
+              <span class="input-label itemLabel">Data Source</span><br />
+              <span class="medText">{{vm.currentDS.name}} ({{vm.currentDS.apiUrl}} )</span>
+            </div>
+            <div>
+              <div class="item link item-icon-right" ng-click="vm.dispenseUrl('privacy')">
+                <span class="fakeLink itemLabel">Privacy Policy</span>
+                <i class="icon ion-android-open iconButton"></i>
+              </div>
+              <div class="item link item-icon-right" ng-click="vm.dispenseUrl('terms')">
+                <span class="fakeLink itemLabel">Terms of Service</span>
+                <i class="icon ion-android-open iconButton"></i>
+              </div>
+            </div>
+            <div class="item item-input item-stacked-label">
+              <span class="input-label itemLabel">All software herein (this app) is</span><br />
+              <span class="medText">©Copyright Shuri, Inc. 2015-{{vm.year}}  All rights reserved.</span>
+            </div>
+
+          </div>
+
+
+
+        </div>
+
+        <list-footer />
+      </ion-list>
+    </ion-content>
+</ion-view>

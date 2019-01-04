@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="cache-control" content="no-cache">
+  <meta http-equiv="expires" content="Tue, 01 Jan 1980 11:00:00 GMT">
+  <meta http-equiv="pragma" content="no-cache">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="viewport" content="viewport-fit=cover, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+  <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self' https://apistage.shuri.com https://api.shuri.com http://www.shuri.com http://maps.googleapis.com https://cdnjs.cloudflare.com http://cdnjs.cloudflare.com http://csi.gstatic.com 'unsafe-inline' 'unsafe-eval';">
+  <meta http-equiv="Content-Security-Policy" content="default-src * gap://ready file:; style-src 'self' 'unsafe-inline'; img-src 'self' data:; script-src * 'unsafe-inline' 'unsafe-eval'"> -->
+  <!-- <meta http-equiv="Content-Security-Policy" content="default-src gap://ready file://* *; script-src 'self' 'unsafe-inline' 'unsafe-eval' *; img-src 'self' data: *; style-src 'self' 'unsafe-inline' */angular-sanitize.min.js.map"> -->
+  <title>Shuri</title>
+
+  <script type="text/javascript">
+    var _appVersion = "1.5.9a";
+
+    var _twitter2Live = true;
+    var _twitter3Live = false;
+
+    var _unique = _appVersion;
+    if (document.location.href.toLowerCase().indexOf("appstage.shuri") > -1) _unique = encodeURI((new Date()).toISOString());
+    var _cacheBuster = "v=" + _unique;
+
+    document.write('<lin' + 'k href="css/ionic.app.min.css?' + _cacheBuster + '" rel="stylesheet" />');
+    document.write('<lin' + 'k href="css/ionic-datepicker.styles.css?' + _cacheBuster + '" rel="stylesheet" type="text/css" />');
+    document.write('<lin' + 'k href="css/shuri.css?' + _cacheBuster + '" rel="stylesheet" />');
+    document.write('<lin' + 'k href="css/shuri-icons.css?' + _cacheBuster + '" rel="stylesheet" />');
+
+  </script>
+
+</head>
+<body>
+  <ion-nav-view animation="slide-left-right" class="app">
+
+    <div style="position: fixed;  top: 50%;  left: 50%;  margin-top: -168px;  margin-left: -108px; ">
+      <div style="opacity: 0.28; padding-left:60px;">Loading the app ...</div>
+      <br />
+
+      <img src="https://shuristoragecdn.blob.core.windows.net/images/chatTrans250.png" style="opacity: 0.18;" />
+      <!--<img src="img/logo215.png" style="opacity: 0.18;" />-->
+    </div>
+  </ion-nav-view>
+
+  <!-- cordova script (this will be a 404 on web) -->
+  <script src="cordova.js"></script>
+
+  <!-- Core Scripts ionic/angularjs js -->
+  <script src="lib/ionic.bundle.min.js"></script>
+  <script src="lib/ng-cordova.min.js"></script>
+  <script src="lib/moment.js"></script>
+  <script src="https://shuristoragecdn.blob.core.windows.net/lib/angular-resource.min.js"></script>
+  <script src="lib/ionic-datepicker.bundle.min.js"></script>
+
+
+  <script>
+
+    //<!-- TinyMCE/regular ---------------------------->
+    document.write('<scr' + 'ipt src="lib/tinymce/tinymce.min.js?' + _cacheBuster + '" type="text/javascript"></scr' + 'ipt>');
+    document.write('<scr' + 'ipt src="lib/tinymce/ui-tinymce.js?' + _cacheBuster + '" type="text/javascript"></scr' + 'ipt>');
+
+
+    //<!-- Google analytics------& ForceSSL ---------------------------->
+    var _gAnalyticsApp = null;
+
+    if (!window.cordova) {
+
+      //Force SSL
+      if (location.protocol != 'https:' && location.href.indexOf("localhost") == -1 && location.href.indexOf("http://10.0.1") == -1) {
+        console.log("forcing ssl");
+        location.protocol = 'https:';
+      }
+
+      //(function (i, s, o, g, r, a, m) {
+      //  i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+      //    (i[r].q = i[r].q || []).push(arguments)
+      //  }, i[r].l = 1 * new Date(); a = s.createElement(o),
+      //    m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+      //})(window, document, 'script', 'https://www.google-analytics.com/analytics.js', '_gAnalyticsWeb');
+    }
+
+    //device url trigger
+    var _openGo = null;
+    function handleOpenURL(url) {
+      console.log("received url: " + url);
+      var href = window.location.href;
+      if (href.indexOf("index.html#/") > 0) {
+        var baseHref = href.substring(0, href.indexOf("index.html#/") + 12);
+        var id = url.substring(url.indexOf("?id=") + 4);
+
+        if (url.indexOf("touch") > 0) {
+          location.href = baseHref + "home/touch/" + id;
+
+        }
+      }
+      else console.log("Unrecognized url: ", href);
+    }
+
+
+  </script>
+  <script type="text/javascript">
+
+    document.write('<scr' + 'ipt src="js/shuri.js?' + _cacheBuster + '" type="text/javascript"></scr' + 'ipt>');
+    document.write('<scr' + 'ipt src="js/shuriModels.js?' + _cacheBuster + '" type="text/javascript"></scr' + 'ipt>');
+    document.write('<scr' + 'ipt src="js/app.js?' + _cacheBuster + '" type="text/javascript"></scr' + 'ipt>');
+    document.write('<scr' + 'ipt src="js/data.js?' + _cacheBuster + '" type="text/javascript"></scr' + 'ipt>');
+    document.write('<scr' + 'ipt src="js/globals.js?' + _cacheBuster + '" type="text/javascript"></scr' + 'ipt>');
+    document.write('<scr' + 'ipt src="js/directives/miscDirectives.js?' + _cacheBuster + '" type="text/javascript"></scr' + 'ipt>');
+    document.write('<scr' + 'ipt src="js/directives/collectionEntity.js?' + _cacheBuster + '" type="text/javascript"></scr' + 'ipt>');
+    document.write('<scr' + 'ipt src="js/directives/entityAttachments.js?' + _cacheBuster + '" type="text/javascript"></scr' + 'ipt>');
+    //document.write('<scr' + 'ipt src="js/directives/entityTags.js?' + _cacheBuster + '" type="text/javascript"></scr' + 'ipt>');
+    //document.write('<scr' + 'ipt src="js/directives/entityTouches.js?' + _cacheBuster + '" type="text/javascript"></scr' + 'ipt>');
+    //document.write('<scr' + 'ipt src="js/directives/entityLanguages.js?' + _cacheBuster + '" type="text/javascript"></scr' + 'ipt>');
+    document.write('<scr' + 'ipt src="js/directives/entityLocations.js?' + _cacheBuster + '" type="text/javascript"></scr' + 'ipt>');
+    document.write('<scr' + 'ipt src="js/directives/entityReports.js?' + _cacheBuster + '" type="text/javascript"></scr' + 'ipt>');
+    document.write('<scr' + 'ipt src="js/directives/entityMedia.js?' + _cacheBuster + '" type="text/javascript"></scr' + 'ipt>');
+    document.write('<scr' + 'ipt src="js/directives/entityCpDoc.js?' + _cacheBuster + '" type="text/javascript"></scr' + 'ipt>');
+    document.write('<scr' + 'ipt src="js/directives/entityDescription.js?' + _cacheBuster + '" type="text/javascript"></scr' + 'ipt>');
+    //document.write('<scr' + 'ipt src="js/directives/entityContactPoints.js?' + _cacheBuster + '" type="text/javascript"></scr' + 'ipt>');
+    document.write('<scr' + 'ipt src="js/directives/itemEntity1.js?' + _cacheBuster + '" type="text/javascript"></scr' + 'ipt>');
+    //document.write('<scr' + 'ipt src="js/directives/dataVisualizations.js?' + _cacheBuster + '" type="text/javascript"></scr' + 'ipt>');
+    document.write('<scr' + 'ipt src="js/directives/avatar.js?' + _cacheBuster + '" type="text/javascript"></scr' + 'ipt>');
+    document.write('<scr' + 'ipt src="js/directives/mediaFeed.js?' + _cacheBuster + '" type="text/javascript"></scr' + 'ipt>');
+    document.write('<scr' + 'ipt src="js/directives/mediaStream.js?' + _cacheBuster + '" type="text/javascript"></scr' + 'ipt>');
+    document.write('<scr' + 'ipt src="js/directives/ownedItem.js?' + _cacheBuster + '" type="text/javascript"></scr' + 'ipt>');
+    document.write('<scr' + 'ipt src="js/directives/queryPicker.js?' + _cacheBuster + '" type="text/javascript"></scr' + 'ipt>');
+    document.write('<scr' + 'ipt src="js/directives/queryItem.js?' + _cacheBuster + '" type="text/javascript"></scr' + 'ipt>');
+    document.write('<scr' + 'ipt src="js/directives/tagPicker.js?' + _cacheBuster + '" type="text/javascript"></scr' + 'ipt>');
+    document.write('<scr' + 'ipt src="js/directives/trackedEmail.js?' + _cacheBuster + '" type="text/javascript"></scr' + 'ipt>');
+    document.write('<scr' + 'ipt src="js/directives/cards.js?' + _cacheBuster + '" type="text/javascript"></scr' + 'ipt>');
+    document.write('<scr' + 'ipt src="js/filters/filters.js?' + _cacheBuster + '" type="text/javascript"></scr' + 'ipt>');
+    document.write('<scr' + 'ipt src="js/services/connectedService.js?' + _cacheBuster + '" type="text/javascript"></scr' + 'ipt>');
+
+    //document.write('<scr' + 'ipt src="js/services/map.js?' + _cacheBuster + '" type="text/javascript"></scr' + 'ipt>');
+    document.write('<scr' + 'ipt src="js/services/purchases.js?' + _cacheBuster + '" type="text/javascript"></scr' + 'ipt>');
+    document.write('<scr' + 'ipt src="js/controllers/master.js?' + _cacheBuster + '" type="text/javascript"></scr' + 'ipt>');
+    document.write('<scr' + 'ipt src="js/controllers/main.js?' + _cacheBuster + '" type="text/javascript"></scr' + 'ipt>');
+    document.write('<scr' + 'ipt src="js/controllers/admin.js?' + _cacheBuster + '" type="text/javascript"></scr' + 'ipt>');
+    document.write('<scr' + 'ipt src="js/controllers/common.js?' + _cacheBuster + '" type="text/javascript"></scr' + 'ipt>');
+    document.write('<scr' + 'ipt src="js/controllers/customize.js?' + _cacheBuster + '" type="text/javascript"></scr' + 'ipt>');
+    document.write('<scr' + 'ipt src="js/controllers/groups.js?' + _cacheBuster + '" type="text/javascript"></scr' + 'ipt>');
+    document.write('<scr' + 'ipt src="js/controllers/login.js?' + _cacheBuster + '" type="text/javascript"></scr' + 'ipt>');
+    document.write('<scr' + 'ipt src="js/controllers/people.js?' + _cacheBuster + '" type="text/javascript"></scr' + 'ipt>');
+    document.write('<scr' + 'ipt src="js/controllers/query.js?' + _cacheBuster + '" type="text/javascript"></scr' + 'ipt>');
+    document.write('<scr' + 'ipt src="js/controllers/reports.js?' + _cacheBuster + '" type="text/javascript"></scr' + 'ipt>');
+    document.write('<scr' + 'ipt src="js/controllers/tags.js?' + _cacheBuster + '" type="text/javascript"></scr' + 'ipt>');
+    document.write('<scr' + 'ipt src="js/controllers/touchEdit.js?' + _cacheBuster + '" type="text/javascript"></scr' + 'ipt>');
+    document.write('<scr' + 'ipt src="js/controllers/touches.js?' + _cacheBuster + '" type="text/javascript"></scr' + 'ipt>');
+    document.write('<scr' + 'ipt src="js/controllers/tweets.js?' + _cacheBuster + '" type="text/javascript"></scr' + 'ipt>');
+    //document.write('<scr' + 'ipt src="js/controllers/usertypes.js?' + _cacheBuster + '" type="text/javascript"></scr' + 'ipt>');
+    document.write('<scr' + 'ipt src="js/controllers/import.js?' + _cacheBuster + '" type="text/javascript"></scr' + 'ipt>');
+    document.write('<scr' + 'ipt src="js/controllers/importXls.js?' + _cacheBuster + '" type="text/javascript"></scr' + 'ipt>');
+
+
+  </script>
+  <script src="lib/ngTweet.min.1.5.js"></script>
+
+  <script type="text/javascript">
+    if (window.cordova) {
+      document.addEventListener('deviceready', function () {
+        localStorage.setItem("deviceready", "true");
+        InitializeTheApp();
+      }, false);
+    }
+    else {
+      InitializeTheApp();
+    }
+
+  </script>
+
+  <!--- DEFER These  -->
+  <script src="lib/load-image.js"></script>
+  <script src="lib/load-image-meta.js"></script>
+  <script src="lib/load-image-orientation.js"></script>
+  <script src="lib/load-image-exif.js"></script>
+  <script src="lib/blob.js"></script>
+  <script async src="lib/linkify.js"></script>
+  <script async src="lib/validate.min.js"></script>
+  <script async src="lib/xlsx.core.min.js"></script>
+
+  <!--<script src="https://cdn.tinymce.com/4/tinymce.min.js"></script>-->
+  <!-- google maps api key -->
+  <script async src="https://maps.googleapis.com/maps/api/js?key=[google_api_key_here]" type="text/javascript"></script>
+  <!-- d3  -->
+  <!--<script async  src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.12/d3.min.js"></script>-->
+  <!-- jsSHA for twitter oauth -->
+  <script async src="https://cdnjs.cloudflare.com/ajax/libs/jsSHA/1.42/sha.js"></script>
+  <script async src="https://cdnjs.cloudflare.com/ajax/libs/jsSHA/1.42/sha1.js"></script>
+
+  <!-- stripe -->
+  <script async src="https://checkout.stripe.com/checkout.js"></script>
+
+</body>
+</html>

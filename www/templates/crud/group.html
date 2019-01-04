@@ -1,0 +1,343 @@
+﻿<ion-view ng-controller="GroupCtrl as vm">
+    <ion-nav-title>
+        {{vm.title}}
+    </ion-nav-title>
+    <ion-header-bar ng-if="vm.showList && vm.group.updatable && vm.isDirty" class="bar bar-subheader bar-dark">
+        <div class="button-bar bar-stable">
+            <div ng-click="vm.save()" click-once class="button button-clear icon ok-confirm  ion-checkmark-round ">&nbsp;&nbsp;{{vm.wordFor("Save")}}</div>
+        </div>
+    </ion-header-bar>
+
+    <ion-header-bar ng-if="vm.showList && !(vm.group.updatable && vm.isDirty)" class="bar bar-subheader {{vm.headerCls}}">
+        <h1 class="title light">{{vm.group.name}}</h1>
+    </ion-header-bar>
+
+
+    <ion-content class="has-header has-subheader">
+        <sspinner ng-if="!vm.showList" text='{{vm.wordFor("Working...")}}' runs-long="vm.runsLong"></sspinner>
+        <ion-list ng-if="vm.showList">
+            <div ng-if="false" class="button-bar button-bar-small bgLight ">
+
+                <div ng-if="vm.group.grpType == 0 && vm.group.updatable" class="button button-small button-clear button-dark button-icon ion-ios-upload-outline" ng-click="vm.promoteGroup()"> Promote to Database</div>
+                <div ng-if="vm.group.grpType == 0 && vm.group.updatable && 1 === 2" class="button button-small button-clear button-positive button-icon ion-arrow-swap" ng-click="vm.copyMerge()"> Copy/Merge</div>
+            </div>
+
+            <div ng-if="vm.group.updatable && vm.appUser.licenseStatus == 0">
+                <div class="item item-input item-stacked-label item-icon-right">
+                    <div class="input-label itemLabel">Name</div>
+                    <input type="text" ng-model="vm.group.name" placeholder="Something short, but descriptive here..." ng-change="vm.groupNameChange(vm.group.name, vm.group.id)" />
+                    <div ng-if="vm.groupnameChecked">
+                        <i ng-if="!vm.groupnameOK" class="icon ion-close-circled assertive" style="padding-top:20px;"></i>
+                        <i ng-if="vm.groupnameOK" class="icon ion-checkmark-circled positive" style="padding-top:20px;"></i>
+                    </div>
+                </div>
+
+                <ion-item class="item-input  item-stacked-label">
+                    <div class="itemLabel">{{vm.wordFor("Description")}}</div>
+                    <textarea ng-model="vm.group.description"
+                              ng-change="vm.isDirty = true;"
+                              rows="{{(vm.group.description && vm.group.description.length > 140) ? '10' : '3'}}"></textarea>
+                </ion-item>
+
+
+            </div>
+            <div ng-if="!vm.group.updatable || vm.appUser.licenseStatus != 0">
+                <div class="item item-stacked-label  item-text-wrap" ng-if="vm.group.description">
+                    <div class="itemLabel">{{vm.wordFor("Description")}}</div>
+                    <div class="medText">{{vm.group.description}}</div>
+                </div>
+                <div class="item bgLight itemLabel wrapText" ng-if="!vm.group.description">
+                    {{vm.group.name}} has no description.
+                </div>
+
+
+            </div>
+
+
+            <div ng-if="false && vm.group.grpType == 0">
+                <collection-entity entity-type="4" parent-entity-type="2" parent-entity="vm.group" manage-updates="true"></collection-entity>
+                <collection-entity entity-type="9" parent-entity-type="2" parent-entity="vm.group" manage-updates="true"></collection-entity>
+                <collection-entity entity-type="6" parent-entity-type="2" parent-entity="vm.group" manage-updates="true"></collection-entity>
+                <tag-picker parent-entity-type="2" parent-entity="vm.group" manage-updates="true"></tag-picker>
+           </div>
+
+            <!-- Custom Fields for databases.   Read-only users view custom fields here ---------------------------------------------------->
+            <div ng-if="vm.group.grpType == 1 && !vm.group.updatable">
+                <div class="item bgRoyal item-stable" ng-if="vm.usertypesTags.length > 0 ">
+                    Tag Sets
+                </div>
+                <div ng-repeat="ut in vm.usertypesTags | orderBy: 'name'">
+                    <div class="item  wrapText item-icon-left"  ng-click="ut.isOpen = !ut.isOpen">
+                        <i  class="{{(ut.isOpen) ? 'icon ion-arrow-down-b' : 'icon ion-arrow-right-b'}}" style="font-size:1.25em; opacity:.8">
+                        </i>
+
+                        {{ut.name}}
+                        <span class="itemLabel">({{ut.tags.length}} {{vm.wordFor("tags")}})</span>
+                    </div>
+                    <div ng-if="ut.isOpen" ng-repeat="tg in ut.tags | orderBy: 'name'" class="row">
+                        <div class="col-10">
+
+                        </div>
+                        <div class="col">
+                            {{tg.name}}
+                        </div>
+                     </div>
+
+                </div>
+                <div class="item bgBalanced item-stable" ng-if="vm.usertypesTouches.length > 0 ">
+                    Touch Types
+                </div>
+                <div class="item  wrapText"
+                     ng-repeat="ut in vm.usertypesTouches | orderBy: 'name'">
+                    {{ut.name}}
+                </div>
+
+                <div class="item bgEnergized item-stable" ng-if="vm.usertypesCPDocs.length > 0 ">
+                    Custom Fields
+                </div>
+                <div class="item no-padding "
+                     ng-repeat="ut in vm.usertypesCPDocs | orderBy:  'name'">
+                    <div class="row">
+                        <div class="col">
+                            {{ut.name}}
+                            <i ng-if="ut.forPeople" class="icon ion-person energized"></i>
+                            <i ng-if="ut.forOrgs" class="icon ion-person-stalker calm"></i>
+                            <i ng-if="ut.forTouches" class="icon shuri-touch balanced"></i>
+                            <i ng-if="ut.forAllDBs" class="icon ion-earth "></i>
+                        </div>
+                        <div class="col itemLabel text-right">{{ut.friendlyPrim}}</div>
+                    </div>
+                    <!--<i class="icon ion-chevron-right icon-accessory"></i>-->
+                </div>
+
+
+            </div>
+
+            <!-- Databases for a Team-------------------------------------------------------------->    
+            <div ng-if="vm.group.grpType == 2">
+                    <collection-entity entity-type="4" parent-entity-type="10" parent-entity="vm.group" manage-updates="true"></collection-entity>
+                    <div class="item itemDivider item-icon-left item-icon-right item-stable">
+                        <i class="icon positive shuri-database" ng-click="vm.isCollOpen = !vm.isCollOpen;"></i>
+                        <div ng-click="vm.isCollOpen = !vm.isCollOpen;">
+                            <div ng-if="vm.group.collections.length == 1">1 {{vm.wordFor("Collection")}}</div>
+                            <div ng-if="vm.group.collections.length != 1">{{vm.group.collections.length | number}} {{vm.wordFor("Collections")}}</div>
+                        </div>
+                        <i ng-if="vm.group.updatable && vm.appUser.licenseStatus == 0" class="icon ion-plus-round icon-accessory" style="font-size:1.5em;" ng-click="vm.addCollection()"></i>
+                    </div>
+                    <div ng-if="vm.isCollOpen" ng-repeat="item in vm.group.collections | orderBy: 'name'">
+                        <ion-item class="item bgPositiveLight">
+                            {{item.name}}
+                        </ion-item>
+                    </div>
+
+                </div>
+
+                <owned-item entity="vm.group" entity-type="2" updatable="vm.group.updatable && vm.appUser.licenseStatus == 0" is-dirty="vm.isDirty"></owned-item>
+            
+            <!-- Publications of a Database-------------------------------------------------------------------------------->
+            <div ng-if="false && vm.group.grpType == 1 &&  vm.group.updatable">
+                <ion-item class="item item-icon-left item-icon-right item-stable" ng-click="vm.showPubs = (!vm.showPubs);">
+                    <span>View-only Publications</span>
+                    <i ng-class="(vm.showPubs) ? 'icon ion-arrow-down-b' : 'icon ion-arrow-right-b'" style="font-size:1.5em;" ></i>
+                    <i class="icon ion-plus-round icon-accessory" style="font-size:1.5em;" ng-click="vm.editSubscription($event)" ng-show="vm.mayManageSubs && !vm.hasPublicShare"></i>
+                </ion-item>
+                <div class="item  no-padding" ng-if="vm.showPubs">
+                    <div class="row bgLightLight noPaddingTopBottom" ng-if="vm.subscriptions.length > 0">
+                        <div class="col col-60 itemLabel">
+                            Published to
+                        </div>
+                        <div class="col itemLabel text-right">
+                            Subscribers
+                        </div>
+                        <div class="col-10 text-right">
+                        </div>
+                    </div>
+                    <div ng-if="vm.subscriptions.length > 0">
+                        <div class="row row-center medText bgLightLight" ng-repeat="subscript in vm.subscriptions | orderBy: 'name'">
+                            <div class="col col-60 ">
+                                {{subscript.sharedWith}}
+                            </div>
+                            <div ng-if="!subscript.isPending" class="col text-right positive" ng-click="vm.showSubscribers(subscript);">
+                                <div class="button button-small button-clear {{(subscript.countSubscribers > 0) ? 'button-positive' : 'button-dark'}}">{{subscript.countSubscribers | number}}</div>
+                            </div>
+                            <div ng-if="subscript.isPending" class="col text-right">
+                                {{subscript.approvalStatusname}}
+                            </div>
+                            <div class="col-10 text-right">
+                                <i class="icon ion-trash-a assertive" ng-if="vm.group.updatable && vm.appUser.licenseStatus == 0" ng-click="vm.deleteSubscription(subscript)"></i>
+                            </div>
+                        </div>
+                        <div class="row bgBalanced noPaddingTopBottom" ng-if="vm.totalSubscribers && vm.totalSubscribers > 0">
+                            <div class="col col-60 itemLabel">
+                                Total subscribers
+                            </div>
+                            <div class="col text-right">
+                                <div class="button button-small button-clear button-dark"><b>{{vm.totalSubscribers | number}}</b></div>
+                            </div>
+                            <div class="col col-10">
+                                &nbsp;
+                            </div>
+                        </div>
+                    </div>
+                    <div ng-if="vm.subscriptions.length == 0" class="item medText bgLightLight">
+                        <div class="itemLabel">
+                            No publications.
+                        </div>
+                    </div>
+                </div>
+            </div>
+           
+            <div ng-if="vm.group.deletable" class="item text-center item-stable button-bar">
+                    <div class="button button-clear button-assertive  icon ion-trash-a "
+                         ng-click="vm.deleteGroup()">
+                        Delete
+                    </div>
+                </div>
+                <list-footer></list-footer>
+
+</ion-list>
+    </ion-content>
+
+
+    <script id="deleteGroup.html" type="text/ng-template">
+        <div class="item item-divider bgAssertive medText text-center">
+            This will delete the {{vm.wordFor(vm.group.grpTypename).toLowerCase()}}.
+        </div>
+        <div ng-if="vm.group.grpType == 0" class='item item-toggle bgAssertiveLight'>
+            <span class='input-label medText '>Delete contents also</span>
+            <label class='toggle toggle-balanced'>
+                <input type='checkbox' ng-model='vm.nukeGroup'>
+                <div class='track'><div class='handle'></div></div>
+            </label>
+        </div>
+        <div ng-if="vm.group.grpType == 1" class='item item-icon-left medText bgAssertiveLight item-text-wrap'>
+            <i class="icon ion-alert assertive"></i>
+            This will also delete everything in the {{vm.wordFor(vm.group.grpTypename).toLowerCase()}}.  
+        </div>
+        <div ng-if="vm.group.grpType == 0 && vm.nukeGroup" class='item item-icon-left medText bgAssertiveLight item-text-wrap'>
+            <i class="icon ion-alert assertive"></i>
+            This will also delete every person, organization and touch in the {{vm.wordFor(vm.group.grpTypename).toLowerCase()}}
+        </div>
+        <div ng-if="vm.group.grpType == 2" class='item item-text-wrap medText bgAssertiveLight'>
+            If this team has any editing privileges, those will be lost.
+        </div>
+        <div class="item item-divider bgAssertive medText text-center">
+            There is NO undo
+        </div>
+    </script>
+
+    <script id="deleteDefaultGroup.html" type="text/ng-template">
+        <div class="item item-divider bgAssertive medText text-center">
+            This is your default database.
+        </div>
+        <div class='item item-icon-left medText bgAssertiveLight item-text-wrap'>
+            <i class="icon ion-alert assertive"></i>
+            In order to delete this database, please assign another one as your default.
+        </div>
+        <div class="item item-divider bgAssertive medText text-center">
+        </div>
+    </script>
+
+    <script id="newSubscription.html" type="text/ng-template">
+        <div>
+            <label class="item item-input item-select" ng-if="vm.subscription.isNew">
+                <span class="input-label itemLabel">Publish to:</span>
+                <select ng-options="team as team.name for team in vm.shareWithTeams" ng-model="vm.selectedTeam" ng-change="vm.subChanged()"></select>
+            </label>
+            <div class="item item-input item-stacked-label item-icon-right" ng-if="vm.selectedTeam.id == vm.guidSystem">
+                <div class="input-label itemLabel">New Team Name</div>
+                <input type="text" ng-model="vm.newTeamName" placeholder="Something short, but descriptive here..." ng-change="vm.newTeamNameChange()" />
+
+                <div ng-if="vm.teamnameChecked">
+                    <i ng-if="!vm.teamnameOK" class="icon ion-close-circled assertive" style="padding-top:30px;"></i>
+                    <i ng-if="vm.teamnameOK" class="icon ion-checkmark-circled positive" style="padding-top:30px;"></i>
+                </div>
+            </div>
+            <div ng-if="vm.selectedTeam.id == vm.guidEmpty" class="item text-center itemLabel wrapText ">
+                {{vm.approvalStatus}}
+            </div>
+        </div>
+    </script>
+
+
+    <script id="modalSubscribers.html" type="text/ng-template">
+        <ion-modal-view>
+            <ion-header-bar class="bar-positive">
+              <div class="title">{{vm.subscription.name}}</div>
+                <!-- <div class="title">{{vm.subscription.availableToGroupname}} <span ng-if="vm.subscription.value > 0">${{vm.subscription.value | number}} </span> {{vm.subscription.subscriptionTypename}}</div> -->
+            </ion-header-bar>
+            <ion-header-bar class="bar-subheader bar-dark">
+                <div class="button-bar ">
+                    <div class="button button-clear ok-confirm" ng-click="vm.closeModalB()">
+                        {{vm.wordFor("OK")}}
+                    </div>
+                </div>
+            </ion-header-bar>
+
+            <ion-content class="has-header has-subheader">
+                <div class="list">
+                    <div class="item item-divider item-positive">Subscribers</div>
+                    <div ng-repeat="subscriber in vm.subscription.subscribers ">
+                        <div class="item">
+                            {{subscriber.name}}
+                            <span ng-if="subscriber.endDt" class="smallText" style="float: right;">Expires: {{subscriber.endDt | EndDate}}</span>
+                        </div>
+                    </div>
+                </div>
+            </ion-content>
+         </ion-modal-view>
+    </script>
+
+    <script id="addCollection.html" type="text/ng-template">
+        <ion-modal-view>
+            <ion-header-bar class="bar-dark">
+                <h1 class="title">{{vm.group.name}}</h1>
+            </ion-header-bar>
+            <ion-header-bar class="bar-subheader bar-dark">
+                <div class="button-bar ">
+                    <div ng-click="vm.closeModalC()" class="button icon ion-close-round button-stable">{{vm.wordFor("Cancel")}}</div>
+                    <div ng-click="vm.saveCollection()" ng-disabled="!vm.saveCollEnabled" class="button icon ion-checkmark-round ok-confirm">{{vm.wordFor("Save")}}</div>
+                </div>
+            </ion-header-bar>
+            <ion-content class="has-header">
+                <div class="card">
+                    <div class="item item-divider item-positive">
+                        {{vm.wordFor("Add New")}} {{vm.wordFor("Collection")}}
+                    </div>
+                    <ion-item class="item item-input item-stacked-label item-icon-right">
+                        <span class="input-label itemLabel">{{vm.wordFor("Name")}}</span>
+                        <input type="text" ng-model="vm.collection.name" placeholder="Something short, but descriptive here..." ng-change="vm.newGroupNameChange(vm.collection.name, vm.collection.id)">
+                        <div ng-if="vm.newGroupnameChecked">
+                            <i ng-if="!vm.newGroupnameOK" class="icon ion-close-circled assertive" style="padding-top:20px;"></i>
+                            <i ng-if="vm.newGroupnameOK" class="icon ion-checkmark-circled positive" style="padding-top:20px;"></i>
+                        </div>
+
+                    </ion-item>
+
+                    <ion-item class="item-input  item-stacked-label">
+                        <div class="itemLabel">{{vm.wordFor("Description")}}</div>
+                        <textarea type="text" rows="6" ng-model="vm.collection.description" placeholder="Optional description and comments here..."></textarea>
+                    </ion-item>
+
+                    <div ng-show="false">
+                        <div class="item item-divider  item-dark medText ">
+                            {{vm.group.name}}  permissions<span class="smallText energized" ng-if="!vm.collection.permType"> &nbsp;&nbsp;&nbsp;(choose 1)</span>
+                        </div>
+                        <item class="item wrapText medText item-icon-left {{(vm.collection.permType == 'subscribe') ? 'bgPositive' : ''}}" ng-click="vm.modalCChanged('subscribe')">
+                            <i ng-show="(vm.collection.permType == 'subscribe')" class="icon ion-checkmark-round"></i>
+                            Team members <span class="positive">subscribe</span> (Read Only)
+                        </item>
+                        <item class="item wrapText medText item-icon-left {{(vm.collection.permType == 'own') ? 'bgPositive' : ''}}" ng-click="vm.modalCChanged('own')">
+                            <i ng-show="(vm.collection.permType == 'own')" class="icon ion-checkmark-round"></i>
+                            Team members <span class="positive">own</span> (Add and Update)
+                        </item>
+                    </div>
+
+                </div>
+            </ion-content>
+        </ion-modal-view>
+    </script>
+
+
+
+</ion-view>

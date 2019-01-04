@@ -1,0 +1,87 @@
+<ion-modal-view>
+    <ion-header-bar class="bar-positive">
+        <div class="title"><i class="icon ion-help-circled"></i> Home</div>
+    </ion-header-bar>
+    <ion-content class="has-header">
+
+        <ion-list>
+            <div class="item itemDivider">
+                The Nuts & Bolts
+            </div>
+
+            <div class="item medText item-text-wrap help-content">
+                <h3>Databases</h3>
+                <span>
+                  Databases are where information gets stored in Shuri. You can create any number of Databases to organize different projects, separate departments within your company, or even your various business partnerships with other organizations. It will be these Databases that allow you to share information with your co-workers when you assign Teams to them.
+                </span>
+
+                <h3>Default Database</h3>
+                <span>
+                  The Default Database will be marked as such on your homepage. Any items created on the fly (like Touches, people, or orgs) will automatically be stored in your Default Database.
+                  <br><br>
+                  As a new user, your Default Database is <em>My Private Database</em>, but you can change this at any time by clicking <em>Edit</em> in a Database’s tab and selecting <em>Set as Default Database</em>.
+
+                </span>
+
+                <h3>Teams</h3>
+                <span>
+                  A Team is a collection of your collaborators, who are other Shuri users. Teams can gain editing or view-only permissions to any Database that you own.
+                  <br><br>
+                  To give a Team editing access to a Database, assign it as an Editing Team in the Sharing section on the Database’s edit page.
+                  <br><br>
+                  To publish a Database for view-only access, click the plus sign next to <em>Publications</em> on the Database’s edit page.
+                  <br><br>
+                  To learn the best practices for getting started see <em class="link-to-section energized" ng-click="vmMaster.deepModal('Database_deep');">TEAMS AND DATABASES.</em>
+                  </span>
+                <h3>Touches</h3>
+                <span>
+                  A Touch is a recording of any interaction you’ve had with another person or organization, whether it’s a meeting, a specific event, or even a tracked email that you’d like to send.
+                  To learn more about Touches, see <em class="link-to-section energized energized" ng-click="vmMaster.deepModal('touch_edit')">TRACK YOUR INTERACTIONS WITH TOUCHES.</em>
+                </span>
+
+                <h3>Save Time by clicking the menu next to any item</h3>
+                <span>
+                  Most items in Shuri have their own menus attached to them, which allow you to take certain shortcuts to accomplish tasks. On the righthand side of an item, you’ll see 3 horizontal lines. Clicking on these will open up a menu that will allow you to create a touch, edit an item, add to a group or your favorites, and more.
+                    <br /><br />
+                    <img src="https://shuristoragecdn.blob.core.windows.net/public/help-images/swipeLeft.png" alt="menu image" />
+                    <br /><br />
+                    <img src="https://shuristoragecdn.blob.core.windows.net/public/help-images/menu.png" alt="menu image" />
+                </span>
+
+                <h3>Dual-purpose text boxes</h3>
+                <span>
+                  At the top of every tab in Shuri, there is a text box. You can see it when opening a tab for people, orgs or Touches on the homepage, or anywhere else in the app. This text box acts as a navigator for its list and can be in ADD mode or SEARCH mode.
+                  <br><br>
+                  Typing in here gives you the option to add new items to the list, or if the list is longer than 6 items, search it. Once your list adds up to more than 6 items, you’ll see a magnifying glass icon to the right of the text box. Selecting it will switch to SEARCH mode. Once you’ve switched, the icon will change to a plus sign. Clicking the plus sign will switch it back to ADD mode.
+                  <br><br>
+                  Another good way to tell which mode your text box is in, is to read the text in it before typing. If the text says, "Add items to…" then it’s in ADD mode. If it reads, "Search the list by name," it’s in SEARCH mode.
+                </span>
+
+                <h3></h3>
+                <span></span>
+
+                <h3></h3>
+                <span></span>
+
+                <h3></h3>
+                <span></span>
+
+            </div>
+
+        </ion-list>
+    </ion-content>
+    <ion-footer-bar class="bar-dark no-padding footerButton">
+        <div class="button-bar ">
+            <button class="button" ng-if="!vmMaster.showOk" ng-click="vmMaster.closeHelp()">
+              Close All
+            </button>
+            <button class="button ok-confirm" ng-if="!vmMaster.showOk" ng-click="vmMaster.closeHelp()">
+                Back
+            </button>
+            <button class="button ok-confirm" ng-if="vmMaster.showOk" ng-click="vmMaster.closeHelp()">
+                {{vmMaster.wordFor("OK")}}
+            </button>
+        </div>
+
+    </ion-footer-bar>
+</ion-modal-view>

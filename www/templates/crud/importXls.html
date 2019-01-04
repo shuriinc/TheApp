@@ -1,0 +1,107 @@
+<ion-view ng-controller="ImportXlsCtrl as vm">
+    <ion-nav-title>Import</ion-nav-title>
+
+    <ion-header-bar class="bar bar-subheader bar-dark text-center">
+        <div class="button-bar">
+            <div class="button button-clear icon ion-close-round button-stable" 
+                 ng-click="vm.cancel()"> Cancel</div>
+            <div class="button button-clear icon ion-code-download ok-confirm" 
+                 ng-click="vm.importNow()"
+                 ng-if="vm.mayImport"> Import Now </div>
+        </div>
+
+    </ion-header-bar>
+    <ion-content class="has-subheader has-header">
+        <ion-list>
+            <div class="item item-positive text-center item-icon-right" ng-if="vm.filename">
+                <div class="title">{{vm.filename}}</div>
+                <i class="icon ion-upload" ng-click="vm.attachfile()" title="Choose spreadsheet"></i>
+                <div class="itemLabel smallText" ng-if="vm.columns"> {{vm.columns.length}} columns  and {{vm.rowCount - 1 | number}} rows </div>
+
+            </div>
+            <div class="item button-bar item-positive itemPadding" ng-if="!vm.filename">
+                <div class="button button-clear button-light button-large icon ion-upload " ng-click="vm.attachfile()">&nbsp;&nbsp;&nbsp; Choose spreadsheet</div>
+
+            </div>
+            <div ng-show="vm.columns.length">
+              <div class="item item-icon-left item-dark  " ng-click="vm.hideOptions = !vm.hideOptions" ng-if="vm.idColumns.length > 0">
+                Options
+                <i class="icon {{(vm.hideOptions) ?'ion-arrow-right-b' : 'ion-arrow-down-b'}}"></i>
+              </div>
+              <div ng-if="!vm.hideOptions">
+                <ion-item class="item  item-select">
+                  <span class="itemLabel">Database</span>
+                  <select ng-options="sub.group_Id as sub.name for sub in vm.collections" ng-model="vm.collectionId"></select>
+                </ion-item>
+                <div class="item item-input item-stacked-label item-icon-right">
+                  <span class="item-label itemLabel">Private Group Name</span>
+                  <input type="text" placeholder="Enter group name here" ng-model="vm.groupname" ng-change="vm.newGroupNameChange()">
+                  <div ng-if="vm.groupnameChecked">
+                    <i ng-if="!vm.groupnameOK" class="icon ion-close-circled assertive" style="padding-top:20px;"></i>
+                    <i ng-if="vm.groupnameOK" class="icon ion-checkmark-circled positive" style="padding-top:20px;"></i>
+                  </div>
+                </div>
+                <ion-item class="item item-toggle" ng-if="false && vm.isAR">
+                  <span class="itemLabel">
+                    Match to Analyst Relations if possible
+                  </span>
+                  <label class="toggle toggle-balanced">
+                    <input type="checkbox" ng-model="vm.matchAR" ng-change="vm.toggleSync()">
+                    <div class="track">
+                      <div class="handle"></div>
+                    </div>
+                  </label>
+                </ion-item>
+
+              </div>
+              <div class="item itemPadding itemLabel item-dark" ng-if="vm.importSummary ">
+                {{vm.importSummary }}
+              </div>
+              <div ng-if="vm.overLicense" class="item item-divider item-assertive">License Warning</div>
+              <div ng-if="vm.overLicense" class="item medText item-text-wrap bgAssertiveLight">
+                Your <span class="positive">{{vm.licenseName}}</span> license
+                allows you <span class="positive">
+                  {{vm.allowedItems | number}}
+                </span> items.  You currently own <span class="positive">
+                  {{vm.ownedItems | number}}
+                </span>,
+                and this import will increase that to <span class="positive">
+                  {{(vm.ownedItems + vm.importItems) | number}}
+                </span>.
+                Please do one of the following:  1. upgrade your license after this import or 2. Reduce the number of items in your spreadsheet.
+              </div>
+
+              <div class="item item-icon-left item-balanced  " ng-click="vm.hideKnown = !vm.hideKnown" ng-if="vm.idColumns.length > 0">
+                <i class="icon {{(vm.hideKnown) ?'ion-arrow-right-b' : 'ion-arrow-down-b'}}"></i>
+                {{vm.idColumns.length}} Column<span ng-if="vm.idColumns.length != 1">s</span> to import
+              </div>
+              <div ng-repeat="column in vm.idColumns" ng-show="!vm.hideKnown">
+                <div class="item item-icon-left medText bgBalancedLight " ng-click="vm.resolveCol(column)">
+                  <i class="icon {{column.icon}}" style="font-size:1.75em;"></i>
+                  {{column.name}}
+                  <span>
+                    &nbsp;&nbsp;>>>&nbsp;&nbsp;
+                    {{column.field.fieldName}}
+                  </span>
+                </div>
+              </div>
+              <div class="item item-icon-left  item-assertive" ng-click="vm.hideUnknown = !vm.hideUnknown" ng-if="vm.unColumns.length > 0">
+                <i class="icon {{(vm.hideUnknown) ?'ion-arrow-right-b' : 'ion-arrow-down-b'}}"></i>
+                {{vm.unColumns.length}} Unknown Column<span ng-if="vm.unColumns.length != 1">s</span>
+              </div>
+              <div ng-repeat="column in vm.unColumns" ng-show="!vm.hideUnknown">
+                <div class="item medText item-icon-right item-stable" ng-click="vm.resolveCol(column)" title="Click to identify for import">
+                  {{column.name}}
+                  <i class="icon ion-chevron-right icon-accessory"></i>
+                </div>
+              </div>
+            </div>
+
+        </ion-list>
+        <list-footer></list-footer>
+        <input type="file" id="file-upload" accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+               onchange="angular.element(this).scope().filesChanged(this.files)">
+
+
+    </ion-content>
+</ion-view>

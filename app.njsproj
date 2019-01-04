@@ -1,0 +1,702 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">14.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+    <Name>app</Name>
+    <RootNamespace>app</RootNamespace>
+    <NameOfLastUsedPublishProfile>ash-StageAsh - Web Deploy</NameOfLastUsedPublishProfile>
+    <LastActiveSolutionConfig>Debug|Any CPU</LastActiveSolutionConfig>
+    <SaveNodeJsSettingsInProjectFile>False</SaveNodeJsSettingsInProjectFile>
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>7b4225ca-4c9b-4a22-87e9-80ba8206e784</ProjectGuid>
+    <ProjectHome>.</ProjectHome>
+    <StartupFile>index.html</StartupFile>
+    <SearchPath>
+    </SearchPath>
+    <WorkingDirectory>.</WorkingDirectory>
+    <OutputPath>.</OutputPath>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <ProjectTypeGuids>{3AF33F2E-1136-4D97-BBB7-1795711AC8B8};{349c5851-65df-11da-9384-00065b846f21};{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}</ProjectTypeGuids>
+    <NodejsPort>80</NodejsPort>
+    <StartWebBrowser>True</StartWebBrowser>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="gulpfile.js" />
+    <Compile Include="hooks\after_prepare\010_add_platform_class.js" />
+    <Compile Include="www\js\app.js" />
+    <Compile Include="www\js\controllers\admin.js" />
+    <Compile Include="www\js\controllers\common.js" />
+    <Compile Include="www\js\controllers\customize.js" />
+    <Compile Include="www\js\controllers\groups.js" />
+    <Compile Include="www\js\controllers\import.js" />
+    <Compile Include="www\js\controllers\importXls.js" />
+    <Compile Include="www\js\controllers\login.js" />
+    <Compile Include="www\js\controllers\main.js" />
+    <Compile Include="www\js\controllers\master.js" />
+    <Compile Include="www\js\controllers\people.js" />
+    <Compile Include="www\js\controllers\query.js" />
+    <Compile Include="www\js\controllers\reports.js" />
+    <Compile Include="www\js\controllers\tags.js" />
+    <Compile Include="www\js\controllers\touchEdit.js" />
+    <Compile Include="www\js\controllers\touches.js" />
+    <Compile Include="www\js\controllers\tweets.js" />
+    <Compile Include="www\js\data.js" />
+    <Compile Include="www\js\directives\avatar.js" />
+    <Compile Include="www\js\directives\collectionEntity.js" />
+    <Compile Include="www\js\directives\entityAttachments.js" />
+    <Compile Include="www\js\directives\entityCpDoc.js" />
+    <Compile Include="www\js\directives\entityDescription.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="www\js\directives\entityLocations.js" />
+    <Compile Include="www\js\directives\entityReports.js" />
+    <Compile Include="www\js\directives\itemEntity1.js" />
+    <Compile Include="www\js\directives\mediaFeed.js" />
+    <Compile Include="www\js\directives\mediaStream.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="www\js\directives\miscDirectives.js" />
+    <Compile Include="www\js\directives\ownedItem.js" />
+    <Compile Include="www\js\directives\queryItem.js" />
+    <Compile Include="www\js\directives\queryPicker.js" />
+    <Compile Include="www\js\directives\tagPicker.js" />
+    <Compile Include="www\js\directives\trackedEmail.js" />
+    <Compile Include="www\js\directives\cards.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="www\js\filters\filters.js" />
+    <Compile Include="www\js\globals.js" />
+    <Compile Include="www\js\services\connectedService.js" />
+    <Compile Include="www\js\services\purchases.js" />
+    <Compile Include="www\js\shuri.js" />
+    <Compile Include="www\js\shuriModels.js" />
+    <Compile Include="www\lib\blob.js" />
+    <Compile Include="www\lib\ionic-datepicker.bundle.min.js" />
+    <Compile Include="www\lib\ionic.bundle.min.js" />
+    <Compile Include="www\lib\linkify.js" />
+    <Compile Include="www\lib\load-image-exif.js" />
+    <Compile Include="www\lib\load-image-meta.js" />
+    <Compile Include="www\lib\load-image-orientation.js" />
+    <Compile Include="www\lib\load-image.js" />
+    <Compile Include="www\lib\moment.js" />
+    <Compile Include="www\lib\ng-cordova.min.js" />
+    <Compile Include="www\lib\ng-quill.min.js" />
+    <Compile Include="www\lib\ngTweet.min.1.5.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="www\lib\tinymce.min.js" />
+    <Compile Include="www\lib\tinymce\jquery.tinymce.min.js" />
+    <Compile Include="www\lib\tinymce\plugins\advlist\plugin.min.js" />
+    <Compile Include="www\lib\tinymce\plugins\anchor\plugin.min.js" />
+    <Compile Include="www\lib\tinymce\plugins\autolink\plugin.min.js" />
+    <Compile Include="www\lib\tinymce\plugins\autoresize\plugin.min.js" />
+    <Compile Include="www\lib\tinymce\plugins\autosave\plugin.min.js" />
+    <Compile Include="www\lib\tinymce\plugins\bbcode\plugin.min.js" />
+    <Compile Include="www\lib\tinymce\plugins\charmap\plugin.min.js" />
+    <Compile Include="www\lib\tinymce\plugins\codesample\plugin.min.js" />
+    <Compile Include="www\lib\tinymce\plugins\code\plugin.min.js" />
+    <Compile Include="www\lib\tinymce\plugins\colorpicker\plugin.min.js" />
+    <Compile Include="www\lib\tinymce\plugins\contextmenu\plugin.min.js" />
+    <Compile Include="www\lib\tinymce\plugins\directionality\plugin.min.js" />
+    <Compile Include="www\lib\tinymce\plugins\emoticons\plugin.min.js" />
+    <Compile Include="www\lib\tinymce\plugins\fullpage\plugin.min.js" />
+    <Compile Include="www\lib\tinymce\plugins\fullscreen\plugin.min.js" />
+    <Compile Include="www\lib\tinymce\plugins\help\plugin.min.js" />
+    <Compile Include="www\lib\tinymce\plugins\hr\plugin.min.js" />
+    <Compile Include="www\lib\tinymce\plugins\imagetools\plugin.min.js" />
+    <Compile Include="www\lib\tinymce\plugins\image\plugin.min.js" />
+    <Compile Include="www\lib\tinymce\plugins\importcss\plugin.min.js" />
+    <Compile Include="www\lib\tinymce\plugins\insertdatetime\plugin.min.js" />
+    <Compile Include="www\lib\tinymce\plugins\legacyoutput\plugin.min.js" />
+    <Compile Include="www\lib\tinymce\plugins\link\plugin.min.js" />
+    <Compile Include="www\lib\tinymce\plugins\lists\plugin.min.js" />
+    <Compile Include="www\lib\tinymce\plugins\media\plugin.min.js" />
+    <Compile Include="www\lib\tinymce\plugins\nonbreaking\plugin.min.js" />
+    <Compile Include="www\lib\tinymce\plugins\noneditable\plugin.min.js" />
+    <Compile Include="www\lib\tinymce\plugins\pagebreak\plugin.min.js" />
+    <Compile Include="www\lib\tinymce\plugins\paste\plugin.min.js" />
+    <Compile Include="www\lib\tinymce\plugins\preview\plugin.min.js" />
+    <Compile Include="www\lib\tinymce\plugins\print\plugin.min.js" />
+    <Compile Include="www\lib\tinymce\plugins\save\plugin.min.js" />
+    <Compile Include="www\lib\tinymce\plugins\searchreplace\plugin.min.js" />
+    <Compile Include="www\lib\tinymce\plugins\spellchecker\plugin.min.js" />
+    <Compile Include="www\lib\tinymce\plugins\tabfocus\plugin.min.js" />
+    <Compile Include="www\lib\tinymce\plugins\table\plugin.min.js" />
+    <Compile Include="www\lib\tinymce\plugins\template\plugin.min.js" />
+    <Compile Include="www\lib\tinymce\plugins\textcolor\plugin.min.js" />
+    <Compile Include="www\lib\tinymce\plugins\textpattern\plugin.min.js" />
+    <Compile Include="www\lib\tinymce\plugins\toc\plugin.min.js" />
+    <Compile Include="www\lib\tinymce\plugins\visualblocks\plugin.min.js" />
+    <Compile Include="www\lib\tinymce\plugins\visualchars\plugin.min.js" />
+    <Compile Include="www\lib\tinymce\plugins\wordcount\plugin.min.js" />
+    <Compile Include="www\lib\tinymce\themes\inlite\theme.min.js" />
+    <Compile Include="www\lib\tinymce\themes\mobile\theme.min.js" />
+    <Compile Include="www\lib\tinymce\themes\modern\theme.min.js" />
+    <Compile Include="www\lib\tinymce\tinymce.min.js" />
+    <Compile Include="www\lib\tinymce\ui-tinymce.js" />
+    <Compile Include="www\lib\ui-tinymce.js" />
+    <Compile Include="www\lib\validate.min.js" />
+    <Compile Include="www\lib\widgets.js" />
+    <Compile Include="www\lib\xlsx.core.min.js" />
+    <Compile Include="www\server.js" />
+    <Compile Include="www\service-worker.js" />
+    <Content Include="hooks\README.md" />
+    <Content Include="package.json" />
+    <Content Include="README.md" />
+    <Content Include="scss\ionic.app.scss" />
+    <Content Include="Web.config" />
+    <None Include="Web.Debug.config" />
+    <Content Include="www\config.xml" />
+    <Content Include="www\css\app.css" />
+    <Content Include="www\css\fonts\ShuriFont.eot" />
+    <Content Include="www\css\fonts\ShuriFont.svg" />
+    <Content Include="www\css\fonts\ShuriFont.ttf" />
+    <Content Include="www\css\fonts\ShuriFont.woff" />
+    <Content Include="www\css\index.css" />
+    <Content Include="www\css\ionic-datepicker.styles.css" />
+    <Content Include="www\css\ionic.app.min.css" />
+    <Content Include="www\css\shuri-icons.css" />
+    <Content Include="www\css\shuri.css" />
+    <Content Include="www\favicon.ico" />
+    <Content Include="www\icon.png" />
+    <Content Include="www\img\43px_grey_on_white.gif" />
+    <Content Include="www\img\android.png" />
+    <Content Include="www\img\caFlag.png" />
+    <Content Include="www\img\coFlag.png" />
+    <Content Include="www\img\icon-person-128.png" />
+    <Content Include="www\img\icon152.png" />
+    <Content Include="www\img\icon_right-32.png" />
+    <Content Include="www\img\ios.png" />
+    <Content Include="www\img\logo.png" />
+    <Content Include="www\img\Logo215.png" />
+    <Content Include="www\img\Logo94.png" />
+    <Content Include="www\img\logoPadded.png" />
+    <Content Include="www\img\outlook.png" />
+    <Content Include="www\img\res\icon\android\icon-36-ldpi.png" />
+    <Content Include="www\img\res\icon\android\icon-48-mdpi.png" />
+    <Content Include="www\img\res\icon\android\icon-72-hdpi.png" />
+    <Content Include="www\img\res\icon\android\icon-96-xhdpi.png" />
+    <Content Include="www\img\res\icon\bada-wac\icon-48-type5.png" />
+    <Content Include="www\img\res\icon\bada-wac\icon-50-type3.png" />
+    <Content Include="www\img\res\icon\bada-wac\icon-80-type4.png" />
+    <Content Include="www\img\res\icon\bada\icon-128.png" />
+    <Content Include="www\img\res\icon\blackberry\icon-80.png" />
+    <Content Include="www\img\res\icon\ios2\Icon-App-20x20%401x.png" />
+    <Content Include="www\img\res\icon\ios2\Icon-App-20x20%402x.png" />
+    <Content Include="www\img\res\icon\ios2\Icon-App-20x20%403x.png" />
+    <Content Include="www\img\res\icon\ios2\Icon-App-29x29%401x.png" />
+    <Content Include="www\img\res\icon\ios2\Icon-App-29x29%402x.png" />
+    <Content Include="www\img\res\icon\ios2\Icon-App-29x29%403x.png" />
+    <Content Include="www\img\res\icon\ios2\Icon-App-40x40%401x.png" />
+    <Content Include="www\img\res\icon\ios2\Icon-App-40x40%402x.png" />
+    <Content Include="www\img\res\icon\ios2\Icon-App-40x40%403x.png" />
+    <Content Include="www\img\res\icon\ios2\Icon-App-50x50%401x.png" />
+    <Content Include="www\img\res\icon\ios2\Icon-App-50x50%402x.png" />
+    <Content Include="www\img\res\icon\ios2\Icon-App-57x57%401x.png" />
+    <Content Include="www\img\res\icon\ios2\Icon-App-57x57%402x.png" />
+    <Content Include="www\img\res\icon\ios2\Icon-App-60x60%401x.png" />
+    <Content Include="www\img\res\icon\ios2\Icon-App-60x60%402x.png" />
+    <Content Include="www\img\res\icon\ios2\Icon-App-60x60%403x.png" />
+    <Content Include="www\img\res\icon\ios2\Icon-App-72x72%401x.png" />
+    <Content Include="www\img\res\icon\ios2\Icon-App-72x72%402x.png" />
+    <Content Include="www\img\res\icon\ios2\Icon-App-76x76%401x.png" />
+    <Content Include="www\img\res\icon\ios2\Icon-App-76x76%402x.png" />
+    <Content Include="www\img\res\icon\ios2\Icon-App-76x76%403x.png" />
+    <Content Include="www\img\res\icon\ios2\Icon-App-83.5x83.5%402x.png" />
+    <Content Include="www\img\res\icon\ios\Icon-1024.png" />
+    <Content Include="www\img\res\icon\ios\icon-57-2x.png" />
+    <Content Include="www\img\res\icon\ios\icon-57.png" />
+    <Content Include="www\img\res\icon\ios\icon-72-2x.png" />
+    <Content Include="www\img\res\icon\ios\icon-72.png" />
+    <Content Include="www\img\res\icon\ios\Icon-App-1024x1024%401x.png" />
+    <Content Include="www\img\res\icon\ios\Icon-App-20x20%401x.png" />
+    <Content Include="www\img\res\icon\ios\Icon-App-20x20%402x.png" />
+    <Content Include="www\img\res\icon\ios\Icon-App-20x20%403x.png" />
+    <Content Include="www\img\res\icon\ios\Icon-App-29x29%401x.png" />
+    <Content Include="www\img\res\icon\ios\Icon-App-29x29%402x.png" />
+    <Content Include="www\img\res\icon\ios\Icon-App-29x29%403x.png" />
+    <Content Include="www\img\res\icon\ios\Icon-App-40x40%401x.png" />
+    <Content Include="www\img\res\icon\ios\Icon-App-40x40%402x.png" />
+    <Content Include="www\img\res\icon\ios\Icon-App-40x40%403x.png" />
+    <Content Include="www\img\res\icon\ios\Icon-App-50x50%401x.png" />
+    <Content Include="www\img\res\icon\ios\Icon-App-50x50%402x.png" />
+    <Content Include="www\img\res\icon\ios\Icon-App-57x57%401x.png" />
+    <Content Include="www\img\res\icon\ios\Icon-App-57x57%402x.png" />
+    <Content Include="www\img\res\icon\ios\Icon-App-60x60%401x.png" />
+    <Content Include="www\img\res\icon\ios\Icon-App-60x60%402x.png" />
+    <Content Include="www\img\res\icon\ios\Icon-App-60x60%403x.png" />
+    <Content Include="www\img\res\icon\ios\Icon-App-72x72%401x.png" />
+    <Content Include="www\img\res\icon\ios\Icon-App-72x72%402x.png" />
+    <Content Include="www\img\res\icon\ios\Icon-App-76x76%401x.png" />
+    <Content Include="www\img\res\icon\ios\Icon-App-76x76%402x.png" />
+    <Content Include="www\img\res\icon\ios\Icon-App-76x76%403x.png" />
+    <Content Include="www\img\res\icon\ios\Icon-App-83.5x83.5%402x.png" />
+    <Content Include="www\img\res\icon\ios\icon.png" />
+    <Content Include="www\img\res\icon\ios\icon120-2x.png" />
+    <Content Include="www\img\res\icon\ios\icon120.png" />
+    <Content Include="www\img\res\icon\ios\icon152-2x.png" />
+    <Content Include="www\img\res\icon\ios\icon152.png" />
+    <Content Include="www\img\res\icon\ios\icon76-2x.png" />
+    <Content Include="www\img\res\icon\ios\icon76.png" />
+    <Content Include="www\img\res\icon\tizen\icon-128.png" />
+    <Content Include="www\img\res\icon\webos\icon-64.png" />
+    <Content Include="www\img\res\icon\windows-phone\icon-173-tile.png" />
+    <Content Include="www\img\res\icon\windows-phone\icon-48.png" />
+    <Content Include="www\img\res\icon\windows-phone\icon-62-tile.png" />
+    <Content Include="www\img\res\screen\android\screen-hdpi-landscape.png" />
+    <Content Include="www\img\res\screen\android\screen-hdpi-portrait.png" />
+    <Content Include="www\img\res\screen\android\screen-ldpi-landscape.png" />
+    <Content Include="www\img\res\screen\android\screen-ldpi-portrait.png" />
+    <Content Include="www\img\res\screen\android\screen-mdpi-landscape.png" />
+    <Content Include="www\img\res\screen\android\screen-mdpi-portrait.png" />
+    <Content Include="www\img\res\screen\android\screen-xhdpi-landscape.png" />
+    <Content Include="www\img\res\screen\android\screen-xhdpi-portrait.png" />
+    <Content Include="www\img\res\screen\bada-wac\screen-type3.png" />
+    <Content Include="www\img\res\screen\bada-wac\screen-type4.png" />
+    <Content Include="www\img\res\screen\bada-wac\screen-type5.png" />
+    <Content Include="www\img\res\screen\bada\screen-portrait.png" />
+    <Content Include="www\img\res\screen\blackberry\screen-225.png" />
+    <Content Include="www\img\res\screen\ios2\Default%402x~iphone_640x960.png" />
+    <Content Include="www\img\res\screen\ios2\Default-1242%403x~iphone6s-landscape_2208x1242.png" />
+    <Content Include="www\img\res\screen\ios2\Default-1242%403x~iphone6s-portrait_1242x2208.png" />
+    <Content Include="www\img\res\screen\ios2\Default-568h%402x~iphone_640x1136.png" />
+    <Content Include="www\img\res\screen\ios2\Default-750%402x~iphone6-landscape_1334x750.png" />
+    <Content Include="www\img\res\screen\ios2\Default-750%402x~iphone6-portrait_750x1334.png" />
+    <Content Include="www\img\res\screen\ios2\Default-Landscape%402x~ipad_2048x1496.png" />
+    <Content Include="www\img\res\screen\ios2\Default-Landscape%402x~ipad_2048x1536.png" />
+    <Content Include="www\img\res\screen\ios2\Default-Landscape~ipad_1024x748.png" />
+    <Content Include="www\img\res\screen\ios2\Default-Landscape~ipad_1024x768.png" />
+    <Content Include="www\img\res\screen\ios2\Default-Portrait%402x~ipad_1536x2008.png" />
+    <Content Include="www\img\res\screen\ios2\Default-Portrait%402x~ipad_1536x2048.png" />
+    <Content Include="www\img\res\screen\ios2\Default-Portrait~ipad_768x1024.png" />
+    <Content Include="www\img\res\screen\ios2\Default.png" />
+    <Content Include="www\img\res\screen\ios2\Default~ipad.png" />
+    <Content Include="www\img\res\screen\ios2\Default~iphone.png" />
+    <Content Include="www\img\res\screen\ios\screen-ipad-landscape-2x.png" />
+    <Content Include="www\img\res\screen\ios\screen-ipad-landscape.png" />
+    <Content Include="www\img\res\screen\ios\screen-ipad-portrait-2x.png" />
+    <Content Include="www\img\res\screen\ios\screen-ipad-portrait.png" />
+    <Content Include="www\img\res\screen\ios\screen-iphone-landscape-2x.png" />
+    <Content Include="www\img\res\screen\ios\screen-iphone-landscape.png" />
+    <Content Include="www\img\res\screen\ios\screen-iphone-portrait-2x.png" />
+    <Content Include="www\img\res\screen\ios\screen-iphone-portrait-568h-2x.png" />
+    <Content Include="www\img\res\screen\ios\screen-iphone-portrait-568h.png" />
+    <Content Include="www\img\res\screen\ios\screen-iphone-portrait.png" />
+    <Content Include="www\img\res\screen\tizen\README.md" />
+    <Content Include="www\img\res\screen\webos\screen-64.png" />
+    <Content Include="www\img\res\screen\windows-phone\screen-portrait.jpg" />
+    <Content Include="www\index.html" />
+    <Content Include="www\lib\angular-sanitize.min.js.map" />
+    <Content Include="www\lib\ionic\angular-sanitize.min.js.map" />
+    <Content Include="www\lib\ionic\css\ionic.css" />
+    <Content Include="www\lib\ionic\css\ionic.min.css" />
+    <Content Include="www\lib\ionic\fonts\ionicons.eot" />
+    <Content Include="www\lib\ionic\fonts\ionicons.svg" />
+    <Content Include="www\lib\ionic\fonts\ionicons.ttf" />
+    <Content Include="www\lib\ionic\fonts\ionicons.woff" />
+    <Content Include="www\lib\ionic\scss\ionic.scss" />
+    <Content Include="www\lib\ionic\scss\ionicons\ionicons.scss" />
+    <Content Include="www\lib\ionic\scss\ionicons\_ionicons-font.scss" />
+    <Content Include="www\lib\ionic\scss\ionicons\_ionicons-icons.scss" />
+    <Content Include="www\lib\ionic\scss\ionicons\_ionicons-variables.scss" />
+    <Content Include="www\lib\ionic\scss\ionicons\_style.scss" />
+    <Content Include="www\lib\ionic\scss\_action-sheet.scss" />
+    <Content Include="www\lib\ionic\scss\_animations.scss" />
+    <Content Include="www\lib\ionic\scss\_backdrop.scss" />
+    <Content Include="www\lib\ionic\scss\_badge.scss" />
+    <Content Include="www\lib\ionic\scss\_bar.scss" />
+    <Content Include="www\lib\ionic\scss\_button-bar.scss" />
+    <Content Include="www\lib\ionic\scss\_button.scss" />
+    <Content Include="www\lib\ionic\scss\_checkbox.scss" />
+    <Content Include="www\lib\ionic\scss\_form.scss" />
+    <Content Include="www\lib\ionic\scss\_grid.scss" />
+    <Content Include="www\lib\ionic\scss\_items.scss" />
+    <Content Include="www\lib\ionic\scss\_list.scss" />
+    <Content Include="www\lib\ionic\scss\_loading.scss" />
+    <Content Include="www\lib\ionic\scss\_menu.scss" />
+    <Content Include="www\lib\ionic\scss\_mixins.scss" />
+    <Content Include="www\lib\ionic\scss\_modal.scss" />
+    <Content Include="www\lib\ionic\scss\_platform.scss" />
+    <Content Include="www\lib\ionic\scss\_popover.scss" />
+    <Content Include="www\lib\ionic\scss\_popup.scss" />
+    <Content Include="www\lib\ionic\scss\_progress.scss" />
+    <Content Include="www\lib\ionic\scss\_radio.scss" />
+    <Content Include="www\lib\ionic\scss\_range.scss" />
+    <Content Include="www\lib\ionic\scss\_refresher.scss" />
+    <Content Include="www\lib\ionic\scss\_reset.scss" />
+    <Content Include="www\lib\ionic\scss\_scaffolding.scss" />
+    <Content Include="www\lib\ionic\scss\_select.scss" />
+    <Content Include="www\lib\ionic\scss\_slide-box.scss" />
+    <Content Include="www\lib\ionic\scss\_slides.scss" />
+    <Content Include="www\lib\ionic\scss\_spinner.scss" />
+    <Content Include="www\lib\ionic\scss\_style.scss" />
+    <Content Include="www\lib\ionic\scss\_tabs.scss" />
+    <Content Include="www\lib\ionic\scss\_toggle.scss" />
+    <Content Include="www\lib\ionic\scss\_transitions.scss" />
+    <Content Include="www\lib\ionic\scss\_type.scss" />
+    <Content Include="www\lib\ionic\scss\_util.scss" />
+    <Content Include="www\lib\ionic\scss\_variables.scss" />
+    <Content Include="www\lib\ionic\version.json" />
+    <Content Include="www\lib\tinymce\langs\readme.md" />
+    <Content Include="www\lib\tinymce\license.txt" />
+    <Content Include="www\lib\tinymce\plugins\codesample\css\prism.css" />
+    <Content Include="www\lib\tinymce\plugins\emoticons\img\smiley-cool.gif" />
+    <Content Include="www\lib\tinymce\plugins\emoticons\img\smiley-cry.gif" />
+    <Content Include="www\lib\tinymce\plugins\emoticons\img\smiley-embarassed.gif" />
+    <Content Include="www\lib\tinymce\plugins\emoticons\img\smiley-foot-in-mouth.gif" />
+    <Content Include="www\lib\tinymce\plugins\emoticons\img\smiley-frown.gif" />
+    <Content Include="www\lib\tinymce\plugins\emoticons\img\smiley-innocent.gif" />
+    <Content Include="www\lib\tinymce\plugins\emoticons\img\smiley-kiss.gif" />
+    <Content Include="www\lib\tinymce\plugins\emoticons\img\smiley-laughing.gif" />
+    <Content Include="www\lib\tinymce\plugins\emoticons\img\smiley-money-mouth.gif" />
+    <Content Include="www\lib\tinymce\plugins\emoticons\img\smiley-sealed.gif" />
+    <Content Include="www\lib\tinymce\plugins\emoticons\img\smiley-smile.gif" />
+    <Content Include="www\lib\tinymce\plugins\emoticons\img\smiley-surprised.gif" />
+    <Content Include="www\lib\tinymce\plugins\emoticons\img\smiley-tongue-out.gif" />
+    <Content Include="www\lib\tinymce\plugins\emoticons\img\smiley-undecided.gif" />
+    <Content Include="www\lib\tinymce\plugins\emoticons\img\smiley-wink.gif" />
+    <Content Include="www\lib\tinymce\plugins\emoticons\img\smiley-yell.gif" />
+    <Content Include="www\lib\tinymce\plugins\help\img\logo.png" />
+    <Content Include="www\lib\tinymce\plugins\visualblocks\css\visualblocks.css" />
+    <Content Include="www\lib\tinymce\skins\custom\content.inline.min.css" />
+    <Content Include="www\lib\tinymce\skins\custom\content.min.css" />
+    <Content Include="www\lib\tinymce\skins\custom\fonts\readme.md" />
+    <Content Include="www\lib\tinymce\skins\custom\fonts\tinymce-small.eot" />
+    <Content Include="www\lib\tinymce\skins\custom\fonts\tinymce-small.json" />
+    <Content Include="www\lib\tinymce\skins\custom\fonts\tinymce-small.svg" />
+    <Content Include="www\lib\tinymce\skins\custom\fonts\tinymce-small.ttf" />
+    <Content Include="www\lib\tinymce\skins\custom\fonts\tinymce-small.woff" />
+    <Content Include="www\lib\tinymce\skins\custom\fonts\tinymce.eot" />
+    <Content Include="www\lib\tinymce\skins\custom\fonts\tinymce.json" />
+    <Content Include="www\lib\tinymce\skins\custom\fonts\tinymce.svg" />
+    <Content Include="www\lib\tinymce\skins\custom\fonts\tinymce.ttf" />
+    <Content Include="www\lib\tinymce\skins\custom\fonts\tinymce.woff" />
+    <Content Include="www\lib\tinymce\skins\custom\img\anchor.gif" />
+    <Content Include="www\lib\tinymce\skins\custom\img\loader.gif" />
+    <Content Include="www\lib\tinymce\skins\custom\img\object.gif" />
+    <Content Include="www\lib\tinymce\skins\custom\img\trans.gif" />
+    <Content Include="www\lib\tinymce\skins\custom\skin.ie7.min.css" />
+    <Content Include="www\lib\tinymce\skins\custom\skin.json" />
+    <Content Include="www\lib\tinymce\skins\custom\skin.min.css" />
+    <Content Include="www\lib\tinymce\skins\custom\Variables.less" />
+    <Content Include="www\lib\tinymce\skins\lightgray\content.inline.min.css" />
+    <Content Include="www\lib\tinymce\skins\lightgray\content.min.css" />
+    <Content Include="www\lib\tinymce\skins\lightgray\content.mobile.min.css" />
+    <Content Include="www\lib\tinymce\skins\lightgray\fonts\tinymce-mobile.woff" />
+    <Content Include="www\lib\tinymce\skins\lightgray\fonts\tinymce-small.eot" />
+    <Content Include="www\lib\tinymce\skins\lightgray\fonts\tinymce-small.svg" />
+    <Content Include="www\lib\tinymce\skins\lightgray\fonts\tinymce-small.ttf" />
+    <Content Include="www\lib\tinymce\skins\lightgray\fonts\tinymce-small.woff" />
+    <Content Include="www\lib\tinymce\skins\lightgray\fonts\tinymce.eot" />
+    <Content Include="www\lib\tinymce\skins\lightgray\fonts\tinymce.svg" />
+    <Content Include="www\lib\tinymce\skins\lightgray\fonts\tinymce.ttf" />
+    <Content Include="www\lib\tinymce\skins\lightgray\fonts\tinymce.woff" />
+    <Content Include="www\lib\tinymce\skins\lightgray\img\anchor.gif" />
+    <Content Include="www\lib\tinymce\skins\lightgray\img\loader.gif" />
+    <Content Include="www\lib\tinymce\skins\lightgray\img\object.gif" />
+    <Content Include="www\lib\tinymce\skins\lightgray\img\trans.gif" />
+    <Content Include="www\lib\tinymce\skins\lightgray\skin.min.css" />
+    <Content Include="www\lib\tinymce\skins\lightgray\skin.min.css.map" />
+    <Content Include="www\lib\tinymce\skins\lightgray\skin.mobile.min.css" />
+    <Content Include="www\lib\validate.min.map" />
+    <Content Include="www\lib\xlsx.core.min.map" />
+    <Content Include="www\manifest.json" />
+    <Content Include="www\README.md" />
+    <Content Include="www\splashIonic.png" />
+    <Content Include="www\templates\account.html" />
+    <Content Include="www\templates\crud\contacts.html" />
+    <Content Include="www\templates\crud\editLocation.html" />
+    <Content Include="www\templates\crud\facebookUpload.html" />
+    <Content Include="www\templates\crud\files.html" />
+    <Content Include="www\templates\crud\group.html" />
+    <Content Include="www\templates\crud\importXls.html" />
+    <Content Include="www\templates\crud\linkedinUpload.html" />
+    <Content Include="www\templates\crud\org.html" />
+    <Content Include="www\templates\crud\orgEdit.html" />
+    <Content Include="www\templates\crud\person.html" />
+    <Content Include="www\templates\crud\personality.html">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="www\templates\crud\personEdit.html" />
+    <Content Include="www\templates\crud\promoteGroup.html" />
+    <Content Include="www\templates\crud\sysAdmin.html" />
+    <Content Include="www\templates\crud\tag.html" />
+    <Content Include="www\templates\crud\tagEdit.html" />
+    <Content Include="www\templates\crud\tags.html" />
+    <Content Include="www\templates\crud\touch.html" />
+    <Content Include="www\templates\crud\touchEdit.html" />
+    <Content Include="www\templates\crud\tweet.html" />
+    <Content Include="www\templates\crud\twitterUpload.html" />
+    <Content Include="www\templates\crud\user.html" />
+    <Content Include="www\templates\customEdit.html" />
+    <Content Include="www\templates\customize.html" />
+    <Content Include="www\templates\debug.html" />
+    <Content Include="www\templates\directives\adminBar.html" />
+    <Content Include="www\templates\directives\avatar.html" />
+    <Content Include="www\templates\directives\circularProgress.html" />
+    <Content Include="www\templates\directives\collectionEntity.html" />
+    <Content Include="www\templates\directives\entityAttachments.html" />
+    <Content Include="www\templates\directives\entityCpDoc.html" />
+    <Content Include="www\templates\directives\entityDescription.html">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="www\templates\directives\entityLocations.html" />
+    <Content Include="www\templates\directives\entityMedia.html" />
+    <Content Include="www\templates\directives\entityReports.html" />
+    <Content Include="www\templates\directives\entityTags.html" />
+    <Content Include="www\templates\directives\entityTouches.html" />
+    <Content Include="www\templates\directives\itemEntity1.html" />
+    <Content Include="www\templates\directives\legalItem.html" />
+    <Content Include="www\templates\directives\licenseStatus.html" />
+    <Content Include="www\templates\directives\listFooter.html" />
+    <Content Include="www\templates\directives\mediaFeed.html" />
+    <Content Include="www\templates\directives\mediaStream.html">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="www\templates\directives\ownedItem.html" />
+    <Content Include="www\templates\directives\radarGraph.html" />
+    <Content Include="www\templates\directives\rssCard.html">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="www\templates\directives\sspinner.html" />
+    <Content Include="www\templates\directives\tagPicker.html" />
+    <Content Include="www\templates\directives\touchTemplate.html" />
+    <Content Include="www\templates\directives\touchTemplates.html" />
+    <Content Include="www\templates\directives\trackedEmail.html" />
+    <Content Include="www\templates\directives\tweetCard.html">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="www\templates\filterSubs.html" />
+    <Content Include="www\templates\help\arDb.html" />
+    <Content Include="www\templates\help\attachments.html" />
+    <Content Include="www\templates\help\customFields.html" />
+    <Content Include="www\templates\help\database.html" />
+    <Content Include="www\templates\help\entity.html" />
+    <Content Include="www\templates\help\group.html" />
+    <Content Include="www\templates\help\helpMain.html" />
+    <Content Include="www\templates\help\helpTemplate.html" />
+    <Content Include="www\templates\help\importContacts.html" />
+    <Content Include="www\templates\help\importSpreadsheet.html" />
+    <Content Include="www\templates\help\importTwitter.html" />
+    <Content Include="www\templates\help\newDatabase.html" />
+    <Content Include="www\templates\help\newTeam.html" />
+    <Content Include="www\templates\help\reports.html" />
+    <Content Include="www\templates\help\tagAndQuery.html" />
+    <Content Include="www\templates\help\tagSets.html" />
+    <Content Include="www\templates\help\team.html" />
+    <Content Include="www\templates\help\touchEdit.html" />
+    <Content Include="www\templates\help\touchEditEvent.html" />
+    <Content Include="www\templates\help\touchEditMediaCapture.html" />
+    <Content Include="www\templates\help\touchEditMeeting.html" />
+    <Content Include="www\templates\help\touchEditTracked.html" />
+    <Content Include="www\templates\help\touchEditTwitter.html" />
+    <Content Include="www\templates\help\touchTypes.html" />
+    <Content Include="www\templates\help\touchTypesDeep.html" />
+    <Content Include="www\templates\import.html" />
+    <Content Include="www\templates\inappPurchases.html" />
+    <Content Include="www\templates\login.html" />
+    <Content Include="www\templates\logs.html" />
+    <Content Include="www\templates\main.html" />
+    <Content Include="www\templates\master.html" />
+    <Content Include="www\templates\masterEdit.html" />
+    <Content Include="www\templates\modals\changeOwner.html" />
+    <Content Include="www\templates\modals\choosePrivateGroup.html" />
+    <Content Include="www\templates\modals\choosePrivateGroupVM.html" />
+    <Content Include="www\templates\modals\cloneTouch.html" />
+    <Content Include="www\templates\modals\importARLookup.html" />
+    <Content Include="www\templates\modals\importResolveAREntity.html" />
+    <Content Include="www\templates\modals\masterModal.html" />
+    <Content Include="www\templates\modals\newGroup.html" />
+    <Content Include="www\templates\modals\permissions.html" />
+    <Content Include="www\templates\modals\resolveColumnImport.html" />
+    <Content Include="www\templates\modals\settingsTouches.html" />
+    <Content Include="www\templates\modals\tenure.html" />
+    <Content Include="www\templates\modals\twitterFeedback.html" />
+    <Content Include="www\templates\modals\viewMedia.html">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="www\templates\popover.html" />
+    <Content Include="www\templates\pwChange.html" />
+    <Content Include="www\templates\query\query.html" />
+    <Content Include="www\templates\query\queryAddNewGroup.html" />
+    <Content Include="www\templates\query\queryEntity.html" />
+    <Content Include="www\templates\query\queryFilters.html" />
+    <Content Include="www\templates\query\queryItem.html" />
+    <Content Include="www\templates\query\queryOrgs.html" />
+    <Content Include="www\templates\query\queryPeople.html" />
+    <Content Include="www\templates\query\queryPicker.html" />
+    <Content Include="www\templates\query\queryTouches.html" />
+    <Content Include="www\templates\query\report.html" />
+    <Content Include="www\templates\query\reportUpload.html" />
+    <Content Include="www\templates\query\savedQueryEdit.html" />
+    <Content Include="www\templates\query\templates.html" />
+    <Content Include="www\templates\quickStart.html" />
+    <Content Include="www\templates\reports\masterReport.html" />
+    <Content Include="www\templates\reports\report1.html" />
+    <Content Include="www\templates\requestTeam.html" />
+    <Content Include="www\templates\search.html" />
+    <Content Include="www\templates\tabs.html" />
+    <Content Include="www\templates\userAdmin.html" />
+    <Content Include="www\templates\useragreement.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="hooks\" />
+    <Folder Include="hooks\after_prepare\" />
+    <Folder Include="scss\" />
+    <Folder Include="www\" />
+    <Folder Include="www\css\" />
+    <Folder Include="www\css\fonts\" />
+    <Folder Include="www\img\" />
+    <Folder Include="www\img\res\" />
+    <Folder Include="www\img\res\icon\" />
+    <Folder Include="www\img\res\icon\android\" />
+    <Folder Include="www\img\res\icon\bada-wac\" />
+    <Folder Include="www\img\res\icon\bada\" />
+    <Folder Include="www\img\res\icon\blackberry\" />
+    <Folder Include="www\img\res\icon\ios2\" />
+    <Folder Include="www\img\res\icon\ios\" />
+    <Folder Include="www\img\res\icon\tizen\" />
+    <Folder Include="www\img\res\icon\webos\" />
+    <Folder Include="www\img\res\icon\windows-phone\" />
+    <Folder Include="www\img\res\screen\" />
+    <Folder Include="www\img\res\screen\android\" />
+    <Folder Include="www\img\res\screen\bada-wac\" />
+    <Folder Include="www\img\res\screen\bada\" />
+    <Folder Include="www\img\res\screen\blackberry\" />
+    <Folder Include="www\img\res\screen\ios2\" />
+    <Folder Include="www\img\res\screen\ios\" />
+    <Folder Include="www\img\res\screen\tizen\" />
+    <Folder Include="www\img\res\screen\webos\" />
+    <Folder Include="www\img\res\screen\windows-phone\" />
+    <Folder Include="www\js\" />
+    <Folder Include="www\js\controllers\" />
+    <Folder Include="www\js\directives\" />
+    <Folder Include="www\js\filters\" />
+    <Folder Include="www\js\services\" />
+    <Folder Include="www\lib\" />
+    <Folder Include="www\lib\ionic\" />
+    <Folder Include="www\lib\ionic\css\" />
+    <Folder Include="www\lib\ionic\fonts\" />
+    <Folder Include="www\lib\ionic\scss\" />
+    <Folder Include="www\lib\ionic\scss\ionicons\" />
+    <Folder Include="www\lib\tinymce\" />
+    <Folder Include="www\lib\tinymce\langs\" />
+    <Folder Include="www\lib\tinymce\plugins\" />
+    <Folder Include="www\lib\tinymce\plugins\advlist\" />
+    <Folder Include="www\lib\tinymce\plugins\anchor\" />
+    <Folder Include="www\lib\tinymce\plugins\autolink\" />
+    <Folder Include="www\lib\tinymce\plugins\autoresize\" />
+    <Folder Include="www\lib\tinymce\plugins\autosave\" />
+    <Folder Include="www\lib\tinymce\plugins\bbcode\" />
+    <Folder Include="www\lib\tinymce\plugins\charmap\" />
+    <Folder Include="www\lib\tinymce\plugins\codesample\" />
+    <Folder Include="www\lib\tinymce\plugins\codesample\css\" />
+    <Folder Include="www\lib\tinymce\plugins\code\" />
+    <Folder Include="www\lib\tinymce\plugins\colorpicker\" />
+    <Folder Include="www\lib\tinymce\plugins\contextmenu\" />
+    <Folder Include="www\lib\tinymce\plugins\directionality\" />
+    <Folder Include="www\lib\tinymce\plugins\emoticons\" />
+    <Folder Include="www\lib\tinymce\plugins\emoticons\img\" />
+    <Folder Include="www\lib\tinymce\plugins\fullpage\" />
+    <Folder Include="www\lib\tinymce\plugins\fullscreen\" />
+    <Folder Include="www\lib\tinymce\plugins\help\" />
+    <Folder Include="www\lib\tinymce\plugins\help\img\" />
+    <Folder Include="www\lib\tinymce\plugins\hr\" />
+    <Folder Include="www\lib\tinymce\plugins\imagetools\" />
+    <Folder Include="www\lib\tinymce\plugins\image\" />
+    <Folder Include="www\lib\tinymce\plugins\importcss\" />
+    <Folder Include="www\lib\tinymce\plugins\insertdatetime\" />
+    <Folder Include="www\lib\tinymce\plugins\legacyoutput\" />
+    <Folder Include="www\lib\tinymce\plugins\link\" />
+    <Folder Include="www\lib\tinymce\plugins\lists\" />
+    <Folder Include="www\lib\tinymce\plugins\media\" />
+    <Folder Include="www\lib\tinymce\plugins\nonbreaking\" />
+    <Folder Include="www\lib\tinymce\plugins\noneditable\" />
+    <Folder Include="www\lib\tinymce\plugins\pagebreak\" />
+    <Folder Include="www\lib\tinymce\plugins\paste\" />
+    <Folder Include="www\lib\tinymce\plugins\preview\" />
+    <Folder Include="www\lib\tinymce\plugins\print\" />
+    <Folder Include="www\lib\tinymce\plugins\save\" />
+    <Folder Include="www\lib\tinymce\plugins\searchreplace\" />
+    <Folder Include="www\lib\tinymce\plugins\spellchecker\" />
+    <Folder Include="www\lib\tinymce\plugins\tabfocus\" />
+    <Folder Include="www\lib\tinymce\plugins\table\" />
+    <Folder Include="www\lib\tinymce\plugins\template\" />
+    <Folder Include="www\lib\tinymce\plugins\textcolor\" />
+    <Folder Include="www\lib\tinymce\plugins\textpattern\" />
+    <Folder Include="www\lib\tinymce\plugins\toc\" />
+    <Folder Include="www\lib\tinymce\plugins\visualblocks\" />
+    <Folder Include="www\lib\tinymce\plugins\visualblocks\css\" />
+    <Folder Include="www\lib\tinymce\plugins\visualchars\" />
+    <Folder Include="www\lib\tinymce\plugins\wordcount\" />
+    <Folder Include="www\lib\tinymce\skins\" />
+    <Folder Include="www\lib\tinymce\skins\custom\" />
+    <Folder Include="www\lib\tinymce\skins\custom\fonts\" />
+    <Folder Include="www\lib\tinymce\skins\custom\img\" />
+    <Folder Include="www\lib\tinymce\skins\lightgray\" />
+    <Folder Include="www\lib\tinymce\skins\lightgray\fonts\" />
+    <Folder Include="www\lib\tinymce\skins\lightgray\img\" />
+    <Folder Include="www\lib\tinymce\themes\" />
+    <Folder Include="www\lib\tinymce\themes\inlite\" />
+    <Folder Include="www\lib\tinymce\themes\mobile\" />
+    <Folder Include="www\lib\tinymce\themes\modern\" />
+    <Folder Include="www\templates\" />
+    <Folder Include="www\templates\crud\" />
+    <Folder Include="www\templates\directives\" />
+    <Folder Include="www\templates\help\" />
+    <Folder Include="www\templates\modals\" />
+    <Folder Include="www\templates\query\" />
+    <Folder Include="www\templates\reports\" />
+  </ItemGroup>
+  <!-- Do not delete the following Import Project.  While this appears to do nothing it is a marker for setting TypeScript properties before our import that depends on them. -->
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="False" />
+  <Import Project="$(VSToolsPath)\Node.js Tools\Microsoft.NodejsTools.targets" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>False</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>0</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:48022/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>True</UseCustomServer>
+          <CustomServerUrl>http://localhost:1337</CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}" User="">
+        <WebProjectProperties>
+          <StartPageUrl>
+          </StartPageUrl>
+          <StartAction>CurrentPage</StartAction>
+          <AspNetDebugging>True</AspNetDebugging>
+          <SilverlightDebugging>False</SilverlightDebugging>
+          <NativeDebugging>False</NativeDebugging>
+          <SQLDebugging>False</SQLDebugging>
+          <ExternalProgram>
+          </ExternalProgram>
+          <StartExternalURL>
+          </StartExternalURL>
+          <StartCmdLineArguments>
+          </StartCmdLineArguments>
+          <StartWorkingDirectory>
+          </StartWorkingDirectory>
+          <EnableENC>False</EnableENC>
+          <AlwaysStartWebServerOnDebug>False</AlwaysStartWebServerOnDebug>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>

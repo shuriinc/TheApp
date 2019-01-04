@@ -1,0 +1,72 @@
+﻿<ion-view ng-controller="SysAdminCtrl as vm">
+    <ion-nav-title>
+        Sys Admin
+    </ion-nav-title>
+
+    <ion-content class="has-header">
+        <div ng-show="vm.isReady">
+            <ion-item class="item-assertive text-center" ng-if="!vm.authorized">
+                Unauthorized
+            </ion-item>
+            <div ng-if="vm.authorized">
+                <ion-list>
+                    <collection-entity entity-type="14" parent-entity-type="10" parent-entity="vm.entity"></collection-entity>
+                    <ion-item class="item item-icon-left item-icon-right item-balanced" ng-click="vm.getUsage()">
+                        <i class="icon {{(vm.showUsage) ? 'ion-arrow-down-b' : 'ion-arrow-right-b' }} " style="font-size:1.5em;"></i>
+                        <div>Usage</div>
+                        <div class="icon itemLabel" style="font-size:1em;">{{vm.lastHit}}</div>
+                    </ion-item>
+                    <ion-scroll ng-if="vm.showUsage" style="height:352px;">
+                        <div ng-repeat="usg in vm.usage  | orderBy: '-usageDate'">
+                            <item-entity entity="usg" entity-type="usg.entityType"
+                                         manage-updates="true" parent-entity="vm.usage" parent-entity-type="16"></item-entity>
+                        </div>
+                    </ion-scroll>
+
+                    <!--<div class="item item-icon-left teamColor" ng-click="vm.hideUsers = !vm.hideUsers;">
+                    <i class="icon {{(!vm.hideReports? 'ion-arrow-down-b' : 'ion-arrow-right-b ')}}" style="font-size:1.5em;"></i>
+                 Manage {{vm.userCnt | number}} Users
+
+                </div>
+                <div ng-if="!vm.hideUsers" class="item item-divider item-dark ">
+                    <div class="button-bar">
+                        <div class="button button-small button-dark">Sort</div>
+                        <div class="button button-small {{(vm.sorter == 1) ? 'bgTeamLight dark' : 'bgDark'}}" style="border-bottom-left-radius:4px;border-top-left-radius:4px;" ng-click="vm.setRptSort(1)">Name</div>
+                        <div class="button button-small {{(vm.sorter == 2) ? 'bgTeamLight dark' : 'bgDark'}}" ng-click="vm.setRptSort(2)">Usage</div>
+                        <div class="button button-small {{(vm.sorter == 3) ? 'bgTeamLight dark' : 'bgDark'}}" ng-click="vm.setRptSort(3)">Date</div>
+                    </div>
+                </div>
+
+                <div ng-if="!vm.hideUsers" ng-repeat="user in vm.users | orderBy: ['sortname']">
+                    <div class="item medText bgTeamLight item-avatar-left" ui-sref="home.userAdmin({userId: '{{user.id}}' })">
+                        <img ng-if="user.hasImage" ng-src="{{user.imageUrlThumb}}" />
+                        <div class="row no-padding">
+                             <div class="col">{{user.name}}</div>
+                            <div class="col-10">{{user.touchesCount | number}}</div>
+                            <div class="col-20" ng-if="user.hasDate">{{user.modifiedDt | date}}</div>
+                            <div class="col-20 itemLabel" ng-if="!user.hasDate">&nbsp;</div>
+                        </div>
+
+                    </div>
+                </div>-->
+                    <div class="item text-center item-stable button-bar" ng-if="vm.onDesktop">
+                        <div class="button button-clear button-assertive  icon ion-iphone"
+                             ng-click="vm.toggleDeviceMode()">
+                            {{vm.deviceModeText}}
+                        </div>
+                        <div class="button button-clear groupColor  icon ion-iphone"
+                             ng-click="vm.updatePaidSubsGroup()">
+                            Update Subscribers Group
+                        </div>
+                    </div>
+
+                    <list-footer></list-footer>
+                </ion-list>
+            </div>
+        </div>
+
+    </ion-content>
+
+
+
+</ion-view>

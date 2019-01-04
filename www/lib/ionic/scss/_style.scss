@@ -1,0 +1,518 @@
+/**
+ * Custom Styles
+ * --------------------------------------------------
+ */
+
+
+#overflowingContent{
+  width: -webkit-max-content;
+  width: max-content;
+}
+
+.h-scroll{
+  display:block;
+  float:left;
+}
+
+/*  Extended Styles*/
+.accessory {
+    opacity: 0.5;
+}
+
+.itemButton {
+
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+
+}
+
+.itemLabel {
+    font-size: .80em;
+    font-weight: bold;
+    opacity: 0.5;
+}
+
+
+.rowLabel {
+    font-size: .90em;
+    font-weight: bold;
+    opacity: 0.5 !important;
+}
+
+.itemLabelLinked {
+    font-size: .80em;
+    font-weight: bold;
+    opacity: 0.8;
+    text-decoration: underline;
+    color:blue;
+}
+
+.itemPadding {
+    padding: 8px  !important;
+
+}
+
+.footerButton {
+        height: 36px !important;
+}
+
+.medText {
+    font-size: .90em !important;
+}
+.no-padding {
+    padding: 0px !important;
+}
+.noPaddingTopBottom {
+    padding-top: 0px !important;
+    padding-bottom: 0px !important;
+}
+
+.dividerBar {
+    padding-bottom:4px !important; 
+    padding-top:4px !important;
+    font-size: 1em;
+    opacity:0.80;
+
+}
+
+.dividerBarTouch {
+    padding-bottom:12px !important; 
+    padding-top:12px !important;
+    opacity:0.90;
+
+}
+
+.smallText {
+    font-size: .70em !important;
+}
+
+.textareaPrewrap {
+     white-space: pre-wrap;
+}
+
+.wrapText {
+    white-space: normal !important;
+    line-height: 110%;
+}
+
+/*  Fix for Ionic*/
+.button-bar-small>.button .icon:before, .button-bar-small>.button:before {
+  line-height:20px !important;
+}
+
+.no-scroll{
+    overflow: hidden !important;
+}
+
+/* Accordian */
+.list .item.item-accordion {
+  line-height: 38px;
+  padding-top: 0;
+  padding-bottom: 0;
+  transition: 0.09s all linear;
+}
+.list .item.item-accordion.ng-hide {
+  line-height: 0px;
+}
+.list .item.item-accordion.ng-hide-add,
+.list .item.item-accordion.ng-hide-remove {
+  display: block !important;
+}
+
+/* For Google Maps*/
+.scroll {
+    height: 100%;
+}
+
+#map {
+    width: 100%;
+    height: 100%;
+}
+
+
+/* Widget Styling by Entity */
+.homeColor{
+    color: #4B8FFF;
+}
+
+/*groups*/
+.groupColor {
+  color: $groupColor;
+}
+
+.bar.groupColor {
+   background-color: $groupColor;
+ border-color: $groupColor;
+  color: #fff !important;
+}
+
+.item.groupColor {
+   background-color: $groupColor;
+ border-color: $groupColor;
+  color: #fff;
+}
+
+
+.icon.groupColorBright {
+  color: $groupColorBright;
+}
+.groupColorBright {
+  color: $groupColorBright;
+}
+
+.groupColorText {
+  color: $groupColor;
+}
+
+
+.bgGroups {
+  background-color: $bgGroups;
+}
+
+.bgGroups .item-content {
+  background-color: $bgGroups;
+
+}
+.bgGroupsLight {
+  background-color: $bgGroupsLight;
+}
+
+.bgGroupsLight .item-content {
+  background-color: $bgGroupsLight;
+}
+
+
+.button-clear.groupColor {
+  color: $groupColor !important;
+}
+
+/*teams*/
+.teamColor {
+  color: $teamColor;
+}
+
+.item.teamColor {
+  background-color: $teamColor;
+  border-color: $teamColor;
+  color: #fff;
+}
+
+.icon.teamColor {
+  color: $teamColorDark;
+}
+.teamColorDark {
+  color: $teamColorDark;
+}
+
+.button-clear.teamColor {
+  color: $teamColorDark !important;
+}
+
+  .bar.teamColor {
+    border-color: $teamColor;
+    background-color: $teamColor;
+    background-image: linear-gradient(0deg, #006587, #006587 50%, transparent 50%);
+    color: #fff; }
+    .bar.teamColor .title {
+      color: #fff; }
+    .bar.teamColor.bar-footer {
+      background-image: linear-gradient(180deg, #006587, #006587 50%, transparent 50%); }
+
+
+.bgTeam {
+  background-color: $bgTeam;
+}
+.bgTeam .item-content{
+  background-color: $bgTeam;
+}
+.bgTeamLight {
+  background-color: $bgTeamLight;
+}
+.bgTeamLight .item-content{
+  background-color: $bgTeamLight;
+}
+
+/*ion positive*/
+.bgPositive {
+ background-color: $bgPositive;
+}
+
+.bgPositive .item-content {
+  background-color: $bgPositive;
+}
+
+.bgPositiveLight {
+  background-color: $bgPositiveLight;
+}
+
+.bgPositiveLight .item-content {
+  background-color: $bgPositiveLight;
+}
+
+/*ion assertive*/
+.bgAssertive {
+ background-color: $bgAssertive;
+}
+.bgAssertiveLight {
+ background-color: $bgAssertiveLight;
+}
+.bgAssertiveLight .item-content{
+ background-color: $bgAssertiveLight;
+}
+
+
+/*ion balanced*/
+.bgBalanced {
+ background-color: $bgBalanced;
+}
+
+.bgBalancedLight {
+ background-color: $bgBalancedLight;
+}
+.bgBalancedLight .item-content {
+  background-color: $bgBalancedLight;
+}
+.bgBalancedLight2 {
+  background-color: $bgBalancedLight2;
+}
+
+.icon.balanced {
+  color: $balancedBright;
+}
+.balancedBright {
+  color: $balancedBright;
+}
+
+
+
+/*ion calm*/
+.bgCalm {
+ background-color: $bgCalm;
+}
+.bgCalm .item-content {
+  background-color: $bgCalm;
+}
+.bgCalmLight {
+ background-color: $bgCalmLight;
+}
+.bgCalmLight .item-content {
+ background-color: $bgCalmLight;
+}
+.calmDark{
+    color: $calmDark;
+}
+/*ion dark*/
+.bgDark {
+ background-color: $bgDark;
+}
+.bgDarkLight {
+ background-color: $bgDarkLight;
+}
+/*no ion*/
+.bgLight {
+ background-color: $bgLight;
+}
+.bgLightLight {
+ background-color: $bgLightLight;
+}
+
+/*ion royal*/
+.bgRoyal {
+  background-color: $bgRoyal;
+}
+
+.buttonTextRoyal {
+  color: $royalBright;
+}
+
+.bgRoyal .item-content {
+  background-color: $bgRoyal;
+}
+
+.bgRoyalLight {
+  background-color: $bgRoyalLight;
+}
+.bgRoyalLight .item-content {
+  background-color: $bgRoyalLight;
+}
+
+.icon.royal {
+  color: $royalBright;
+}
+
+
+/*ion energized*/
+
+.bgEnergized {
+  background-color: $bgEnergized;
+}
+.bgEnergized .item-content {
+  background-color: $bgEnergized;
+}
+.bgEnergizedLight {
+ background-color: $bgEnergizedLight;
+}
+.bgEnergizedLight .item-content {
+ background-color: $bgEnergizedLight;
+}
+
+.icon.energized {
+  color: $energizedBright;
+}
+  .button.button-energized {
+    border-color: transparent;
+    background-color: $energizedBright;
+    color: #fff; }
+    .button.button-energized:hover {
+      color: #fff;
+      text-decoration: none; }
+    .button.button-energized.button-clear {
+      border-color: transparent;
+      background: none;
+      box-shadow: none;
+      color: $energizedBright; }
+    .button.button-energized.button-icon {
+      border-color: transparent;
+      background: none; }
+    .button.button-energized.button-outline {
+      border-color: $energizedBright;
+      background: transparent;
+      color: $energizedBright; }
+      .button.button-energized.button-outline.active, .button.button-energized.button-outline.activated {
+        background-color: $energizedBright;
+        box-shadow: none;
+        color: #fff; }
+
+
+.ok-confirm {
+  color: $greenConfirm;
+}
+
+.item.ok-confirm {
+  background-color: $greenConfirm;
+  color: #fff;
+}
+
+.button.ok-confirm {
+  background-color: $greenConfirm;
+  color: #fff;
+}
+
+.button.ok-confirm.button-clear {
+  color: $greenConfirm !important;
+}
+
+.warning-alert {
+  color: $assertive;
+}
+
+.bgNew .item-content {
+  background-color: $bgNew;
+}
+
+.bgNew {
+  background-color: $bgNew;
+}
+/*touchEdit specific*/
+
+.cursor-fix {
+  cursor: pointer;
+}
+
+.large-delete {
+  font-size: 5em;
+}
+
+.entity-upload, #file-upload, #old-files, #camera-file, #camera-fileorg {
+  /*display: none;*/
+  visibility:hidden; height:0px;position:absolute;top:-50px;left:-50px;
+}
+
+
+.upload-count {
+  color: green;
+}
+
+.toggle-delete {
+  float: right;
+}
+
+.relativeWrapper{
+  position:relative;
+  z-index:1000;
+}
+
+.attachment{
+position:absolute;
+bottom:0px;
+right:0px;
+height: 30px;
+width:30px;
+font-size: 25px;
+color: #777;
+font-weight: bolder;
+}
+
+
+.bar.bar-loading {
+  display: block;
+  height: 44px;
+
+  /* starts right below a normal header */
+  top: 44px;
+
+  /* make the text centered vertically and horizontally */
+  text-align: center;
+  padding: 0;
+  line-height: 44px;
+
+  /* transition 'sliding down' (check below)*/
+  -webkit-transition: 200ms all;
+}
+
+
+/*
+ * make the content's top changes animate.
+ * might not always look good, but looks
+ * good when our loader is added & removed
+ */
+ .has-header {
+   -webkit-transition: 200ms top;
+ }
+ .has-header.has-loading {
+   /* 44px (header) + 24px */
+   top: 68px;
+ }
+
+/* make loading bar slide up/down */
+.bar-loading.ng-enter,
+.bar-loading.ng-leave.ng-leave-active {
+  height: 0;
+  border-width: 0px;
+}
+.bar-loading.ng-enter.ng-enter-active,
+.bar-loading.ng-leave {
+  height: 44px;
+  border-width: 1px;
+}
+.bar-loading.ng-enter span,
+.bar-loading.ng-leave.ng-leave-active span{
+  opacity: 0;
+}
+.bar-loading.ng-enter.ng-enter-active span,
+.bar-loading.ng-leave span{
+  opacity: 0;
+}
+
+/* emailEntity */
+.email-data {
+  display: inline-block;
+}
+
+.email-data p {
+  text-align: center;
+}
+
+.email-data:not(:first-of-type) {
+  margin-left: 50px;
+}

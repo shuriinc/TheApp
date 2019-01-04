@@ -1,0 +1,40 @@
+<ion-view ng-controller="FacebookUploadCtrl as vm">
+    <ion-nav-title>
+        {{vm.title}}
+    </ion-nav-title>
+
+    <ion-content class="has-header">
+        <sspinner ng-if="!vm.showList" text='Working...'></sspinner>
+        <ion-list ng-if="vm.showList">
+
+              <button type="button" class="button button-small ok-confirm" ng-click="vm.facebookLogin()">Upload from Facebook </button>
+              <button type="button" class="button button-small button-energized" ng-click="vm.getPerson()">Get Person</button>
+
+        </ion-list>
+    </ion-content>
+
+    <div ng-show="vm.showMe" class="bar bar-dark" style="position: absolute; bottom: 38px;">
+      <div ng-show="vm.currentProgress > 1" class="col text-center" style="padding: 5px;">
+        <p class="positive" style="font-size: 16px;" ng-click="vm.previousMapping(vm.currentProgress, vm.column, vm.currentWorksheet.columns)">
+          <i class="icon ion-chevron-left"></i>&nbsp;&nbsp;Previous</p>
+      </div>
+      <div ng-show="vm.column.field && !vm.lastUpload" class="col text-center" style="padding: 5px;">
+        <p class="positive" style="font-size: 16px;" ng-click="vm.mapping(vm.currentProgress, vm.column, vm.currentWorksheet.columns)">
+          Next&nbsp;&nbsp;<i class="icon ion-chevron-right"></i></p>
+      </div>
+      <div ng-show="vm.column.field && vm.lastUpload" class="col text-center" style="padding: 5px;">
+        <p class="positive" style="font-size: 16px;" ng-click="vm.finishMapping()">
+          Finish&nbsp;&nbsp;<i class="icon ion-checkmark"></i></p>
+      </div>
+    </div>
+
+    <ion-footer-bar class="bar-dark" ng-style="vm">
+      <div class="button-bar bar-stable">
+          <button ng-click="vm.resetForm()" class="button icon ion-close-round button-stable">{{vm.wordFor("Cancel")}}</button>
+          <button ng-click="vm.mapping(vm.currentProgress)" ng-if="!vm.lastUpload && (vm.currentProgress == 0)" ng-disabled="!vm.filename" ng-class="vm.buttonClasses('done')">Begin Mapping</button>
+          <button ng-click="vm.mapping(vm.currentProgress)" ng-if="!vm.lastUpload && (vm.currentProgress > 0)" ng-disabled="vm.filename" ng-class="vm.buttonClasses('done')">Import</button>
+          <button ng-click="vm.import(vm.myWorksheets[0])" ng-if="vm.lastUpload" ng-disabled="!vm.uploadComplete" ng-class="vm.buttonClasses('done')">Import</button>
+      </div>
+    </ion-footer-bar>
+
+</ion-view>

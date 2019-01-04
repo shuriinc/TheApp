@@ -1,0 +1,56 @@
+<!-- Key -->
+  <!-- italics -->
+    <!-- <em style="font-style:italic;">word</em> -->
+  <!-- images -->
+    <!-- <img src="https://shuristoragecdn.blob.core.windows.net/public/help-images/FILENAME.png" alt="FILEDESC" /> -->
+  <!-- tip -->
+    <!-- <i class="icon ion-information-circled energized"></i> -->
+  <!-- Link Deep Modal -->
+    <!-- <em class="link-to-section energized" ng-click="vmMaster.deepModal('globalsPath');">LINKTEXT</em> -->
+<!-- End Key -->
+<!-- NOTE: Copy and Paste below for great success! -->
+<ion-modal-view>
+    <ion-header-bar class="bar-positive">
+        <div class="title"><i class="icon ion-help-circled"></i> Modal Header</div>
+    </ion-header-bar>
+    <ion-content class="has-header">
+
+        <ion-list>
+            <div class="item itemDivider">
+                Section Header
+            </div>
+
+            <div class="item medText item-text-wrap help-content">
+              <h3>Sub headers here</h3>
+              <span>
+                Content here
+              </span>
+
+              <!-- <h3></h3>
+              <span>
+              </span> -->
+
+              <!-- <h3></h3>
+              <span>
+              </span> -->
+
+              <!-- <h3></h3>
+              <span>
+              </span> -->
+
+              <!-- <h3></h3>
+              <span>
+              </span> -->
+
+            </div>
+
+        </ion-list>
+    </ion-content>
+    <ion-footer-bar class="bar-dark no-padding footerButton">
+        <div class="button-bar ">
+            <button class="button ok-confirm" ng-click="vmMaster.closeHelp()">
+                {{vmMaster.wordFor("OK")}}
+            </button>
+        </div>
+
+    </ion-footer-bar>

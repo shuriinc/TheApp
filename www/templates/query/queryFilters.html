@@ -1,0 +1,229 @@
+﻿<div class="item item-icon-left item-dark"
+     ng-click="vm.toggler(null, 'filters')">
+    <i class="icon {{(!vm.hideFilters? 'ion-arrow-down-b' : 'ion-arrow-right-b ')}} " style="font-size:1.5em;"></i>
+    Query Filters
+
+ </div>
+<div ng-show="!vm.hideFilters"">
+    <!--  Time Period ------------------------------------->
+    <div class="item {{vm.isNarrow ? '' : 'item-icon-left'}} item-select  item-stable item-text-wrap" ng-show="vm.entityType == 6">
+        <div class="balanced bolderText ">{{vm.wordFor("Time Period")}}
+        <span ng-if="vm.timePeriodString" class="itemLabel smallText"><br />{{vm.timePeriodString}}</span>
+        </div>
+        <select ng-model="vm.query.timePeriod"
+                ng-options="tp.value as tp.name for tp in vm.timePeriods | orderBy: ['sorter', 'name'] "
+                ng-change="vm.timeperiodChange()"></select>
+    </div>
+    <div ng-if="vm.isCustomTP">
+        <div class="item item-input">
+            <span class="input-label itemLabel">Start </span><br />
+            <input type="date" ng-model="vm.jsDateStart" ng-change="vm.customTPChanged(true)" ng-focus="vm.dateStartFocus()" />
+        </div>
+        <div class="item item-input">
+            <span class="input-label itemLabel">End</span><br />
+            <input type="date" ng-model="vm.jsDateEnd"   ng-change="vm.customTPChanged(false)" />
+        </div>
+    </div>
+
+    <!--  Types ------------------------------------->
+    <div ng-show="vm.utTouches && vm.entityType == 6">
+        <div class="item item-icon-left item-icon-right {{(vm.filterTypesOpen || vm.touchesSelectedCnt > 0) ? 'item-balanced' : 'bgDark'}}" ng-click="vm.filterTypesOpen = !vm.filterTypesOpen">
+            <i class="icon {{(vm.filterTypesOpen? 'ion-arrow-down-b' : 'ion-arrow-right-b ')}}" style="font-size:1.25em;"></i>
+            <div>
+                Touch Types
+                <span class="itemLabel" ng-if="vm.touchesSelectedCnt > 0">&nbsp;&nbsp;({{vm.touchesSelectedCnt}})</span>
+            </div>
+            <i class="icon icon-accessory medText" ng-if="vm.filterTypesOpen" style="padding-left:10px; padding-right:10px;">
+                <span class="{{(vm.allTypeSelected) ? 'ion-android-checkbox-outline-blank' : 'ion-android-checkbox-outline'}}"
+                      ng-click="vm.toggler($event,'typesselected')">
+                    &nbsp;All
+                </span>
+            </i>
+        </div>
+        <div ng-if="vm.filterTypesOpen" ng-repeat="ut in vm.utTouches  | orderBy: 'name' " class="item item-divider item-icon-left medText {{ut.isSelected ? 'bgBalancedLight' : 'item-light'}}" ng-click="vm.typeChange(ut)">
+            <i ng-show="ut.isSelected" class="icon ion-checkmark-round" style="font-size:1.0em;"></i>
+            <div class=""> {{ut.name}}</div>
+        </div>
+    </div>
+    <!--  Tags  ------------------------------------->
+    <div class="item item-icon-left item-icon-right {{(vm.filterTagsOpen || vm.tagsSelectedCnt > 0) ? 'item-royal' : ' bgDark '}}" ng-click="vm.filterTagsOpen = !vm.filterTagsOpen">
+        <i class="icon {{(vm.filterTagsOpen? 'ion-arrow-down-b' : 'ion-arrow-right-b ')}}" style="font-size:1.25em;"></i>
+        <div>
+            <span ng-if="vm.entityType !== 9"><span class="h5 {{((vm.filterTagsOpen  || vm.tagsSelectedCnt > 0)? 'light' : '')}}">Any</span> of these </span>
+            {{vm.wordFor('Tags')}}
+            <span class="itemLabel" ng-if="vm.tagsSelectedCnt > 0">&nbsp;&nbsp;({{vm.tagsSelectedCnt}})</span>
+
+         </div>
+        <i class="icon icon-accessory smallText" ng-if="vm.filterTagsOpen">
+            <span class="{{(vm.tagsExpanded) ? 'ion-arrow-right-b' : 'ion-arrow-down-b'}}"
+                  ng-click="vm.toggler($event,'tagsexpand');">
+                {{(vm.tagsExpanded) ? 'Collapse All' : 'Expand All '}}
+            </span>
+        </i>
+   </div>
+    <div ng-if="vm.filterTagsOpen" ng-repeat="ut in vm.utTags | orderBy: 'name' ">
+        <div class="item   item-icon-left  {{(ut.open || ut.tagsSelectedCnt > 0) ? 'bgRoyalLight' : 'bgLight'}}" ng-click="ut.open = !ut.open">
+            <i class="icon {{(ut.open) ? 'ion-arrow-down-b' : 'ion-arrow-right-b '}}" style="font-size:1.0em;"></i>
+            <span class="royal">{{(ut.name == ' Tags') ? 'Loose Tags' : ut.name}}</span>
+            <span class="royal itemLabel" ng-if="ut.tagsSelectedCnt > 0">&nbsp;&nbsp;({{ut.tagsSelectedCnt}})</span>
+        </div>
+        <div ng-if="ut.open" ng-repeat="tag in ut.tags | orderBy: 'name' " class="item item-divider item-icon-left medText {{tag.isSelected ? 'bgRoyal' : 'item-light'}}" ng-click="vm.tagChange(tag, false)">
+            <i ng-show="tag.isSelected" class="icon ion-checkmark-round" style="font-size:1.0em;"></i>
+            {{tag.name}}
+        </div>
+    </div>
+    <!--  Tags All ------------------------------------->
+    <div ng-if="vm.entityType !== 9">
+        <div class="item item-icon-left item-icon-right {{(vm.filterTagsAllOpen || vm.tagsAllSelectedCnt > 0) ? 'item-royal' : ' bgDark'}}" ng-click="vm.filterTagsAllOpen = !vm.filterTagsAllOpen">
+            <i class="icon {{(vm.filterTagsAllOpen? 'ion-arrow-down-b' : 'ion-arrow-right-b ')}}" style="font-size:1.25em;"></i>
+            <div>
+                <span class="h5 {{(vm.filterTagsAllOpen  || vm.tagsAllSelectedCnt > 0) ? 'light' : ''}}">All</span> of these {{vm.wordFor('Tags')}}
+                <span class="itemLabel" ng-if="vm.tagsAllSelectedCnt > 0">&nbsp;&nbsp;({{vm.tagsAllSelectedCnt}})</span>
+            </div>
+            <i class="icon icon-accessory smallText" ng-if="vm.filterTagsAllOpen">
+                <span class="{{(vm.tagsAllExpanded) ? 'ion-arrow-right-b' : 'ion-arrow-down-b'}}"
+                      ng-click="vm.toggler($event,'tagsallexpand');">
+                    {{(vm.tagsAllExpanded) ? 'Collapse All' : 'Expand All '}}
+                </span>
+            </i>
+        </div>
+        <div ng-if="vm.filterTagsAllOpen" ng-repeat="ut in vm.utTagsAll | orderBy: 'name' ">
+            <div class="item   item-icon-left  {{(ut.open || ut.tagsSelectedCnt > 0) ? 'bgRoyalLight' : 'bgLight'}}" ng-click="ut.open = !ut.open">
+                <i class="icon {{(ut.open) ? 'ion-arrow-down-b' : 'ion-arrow-right-b '}}" style="font-size:1.0em;"></i>
+                <span class="royal">{{(ut.name == ' Tags') ? 'Loose Tags' : ut.name}}</span>
+                <span class="royal itemLabel" ng-if="ut.tagsSelectedCnt > 0">&nbsp;&nbsp;({{ut.tagsSelectedCnt}})</span>
+            </div>
+            <div ng-if="ut.open" ng-repeat="tag in ut.tags | orderBy: 'name' " class="item item-divider item-icon-left medText {{tag.isSelected ? 'bgRoyal' : 'item-light'}}" ng-click="vm.tagChange(tag, true)">
+                <i ng-show="tag.isSelected" class="icon ion-checkmark-round" style="font-size:1.0em;"></i>
+                {{tag.name}}
+            </div>
+        </div>
+    </div>
+
+    <!--  Groups ------------------------------------->
+    <div>
+        <query-picker query='vm.query' entity-type="11"></query-picker>
+    </div>
+    <!--  People ------------------------------------->
+    <div ng-if="vm.entityType != 4">
+        <query-picker query='vm.query' entity-type="4"></query-picker>
+    </div>
+
+    <!--  Orgs ------------------------------------->
+    <div ng-if="vm.entityType != 9">
+        <query-picker query='vm.query' entity-type="9"></query-picker>
+    </div>
+
+    <!--  Owners ------------------------------------->
+    <div ng-if="vm.entityType == 6">
+        <query-picker query='vm.query' entity-type="14"></query-picker>
+        <query-picker query='vm.query' entity-type="10"></query-picker>
+    </div>
+
+     <!-- Proximity ------------------------------------------------>
+    <div class="item item-icon-left  {{((vm.queryLocationOpen || vm.hasProximity) ? 'item-positive ' : 'bgDark')}}" ng-click="vm.queryLocationOpen = !vm.queryLocationOpen;">
+        <i class="icon {{(vm.queryLocationOpen? 'ion-arrow-down-b' : 'ion-arrow-right-b ')}}" style="font-size:1.25em;"></i>
+        <div class="">Proximity <span class="itemLabel" ng-if="vm.hasProximity">(1)</span></div>
+    </div>
+    <div ng-show="vm.queryLocationOpen">
+        <ion-item class="item item-input ">
+            <div class="itemLabel">Distance</div>
+            <input class="text-right" type="text" ng-model="vm.query.proximity.distance" ng-change="vm.isQueryDirty = true">
+        </ion-item>
+        <ion-item class="item-select  ">
+            <div class="itemLabel">Distance Units</div>
+            <select ng-model="vm.query.proximity.distanceKM" ng-change="vm.isQueryDirty = true">
+                <option value="false">Miles</option>
+                <option value="true">Kilometers</option>
+            </select>
+        </ion-item>
+        <!--  locations -->
+        <!--<div class="button-bar " ng-if="vm.hasField && vm.queryLocationOpen && !vm.queryItemsOpen && !vm.needsResolved">
+            <div class="button button-stable" ng-click="vm.resetLocation()">
+                {{vm.wordFor("Cancel")}}
+            </div>
+            <div class="button ok-confirm" ng-click="vm.addLocationItem()" ng-disabled="!vm.locationItem.value || vm.locationItem.value == '' || !vm.hasField">
+                {{vm.wordFor("Save")}}
+            </div>
+        </div>-->
+        <!-- resolve address -->
+        <div class="button-bar " ng-if="vm.needsResolved && vm.queryLocationOpen">
+            ue
+            <div class="button  button-stable button-icon ion-close-round" ng-click="vm.resetLocation()">
+                {{vm.wordFor("Cancel")}}
+            </div>
+            <div class="button  ok-confirm button-icon ion-location" ng-click="vm.resolveAddress(vm.streetAddress)" ng-disabled="!vm.streetAddress || vm.streetAddress == ''">
+                {{vm.wordFor("Resolve")}}
+            </div>
+        </div>
+        <div class="item item-input item-stacked-label item-icon-right ">
+            <div class="item-label itemLabel">From location</div>
+            <input type="text" ng-model="vm.streetAddress" ng-change="vm.needsResolved = true;"
+                   placeholder="{{vm.onDesktop ? 'Enter just enough address, then click `Resolve` above' : 'Use GPS or enter address, then touch `Resolve` above'}}">
+            <i ng-disabled="vm.onDesktop" class="icon ion-navigate {{vm.onDesktop ? 'placeholder-icon ' : ''}}" ng-click="vm.resolveLocation(true)" style="font-size:1.5em;padding-top:20px;" ng-if="!vm.streetAddress || vm.streetAddress == ''"></i>
+        </div>
+    </div>
+    <!-- QueryItems ------------------------------------------------>
+    <div class="item item-icon-left  {{((vm.queryItemsOpen || vm.query.queryItems.length > 0)? 'item-positive ' : 'bgDark')}}" ng-click="vm.queryItemsOpen = !vm.queryItemsOpen; vm.queryLocationOpen = false;">
+        <i class="icon {{(vm.queryItemsOpen? 'ion-arrow-down-b' : 'ion-arrow-right-b ')}}" style="font-size:1.25em;"></i>
+        <div>Filter by any field <span class="itemLabel" ng-if="vm.query.queryItems.length > 0"> ({{vm.query.queryItems.length}})</span></div>
+    </div>
+    <div class="button-bar" ng-if="vm.hasField && vm.queryItemsOpen && !vm.locationItemsOpen">
+        <div class="button button-stable button-icon ion-close-round" ng-click="vm.resetQueryItem()">
+            {{vm.wordFor("Cancel")}} field
+        </div>
+        <div class="button  ok-confirm button-icon ion-checkmark-round" ng-click="vm.addQueryItem()" ng-disabled="!vm.queryItem.value || vm.queryItem.value == '' || !vm.hasField">
+            {{vm.wordFor("Save")}}
+        </div>
+    </div>
+    <ion-item class="item item-icon-right medText" ng-repeat="qitem in vm.query.queryItems | orderBy: fieldname" ng-show="vm.queryItemsOpen">
+        {{qitem.fieldname}}  {{qitem.operatorname}} <span ng-if="qitem.hasValue">{{qitem.value}}</span>
+        <i class="icon ion-trash-a iconButton" ng-click="vm.removeQueryItem(qitem)"></i>
+       
+    </ion-item>
+    <ion-item class="item-select item-stable " ng-show="vm.queryItemsOpen">
+        <div class="itemLabel">Field</div>
+        <select ng-model="vm.queryItem.field"
+                ng-options="fld as fld.name for fld in vm.fields | orderBy: ['sorter', 'name'] "
+                ng-change="vm.fieldChange()"></select>
+    </ion-item>
+    <ion-item class="item-select  item-stable" ng-show="vm.queryItemsOpen && vm.hasField && vm.queryItem.field != vm.fields[0]">
+        <div class="itemLabel">Compare operator</div>
+        <select ng-model="vm.queryItem.operator"
+                ng-options="op as op.name for op in vm.operators "></select>
+    </ion-item>
+    <ion-item class="item item-input item-stable" ng-show="vm.queryItemsOpen && vm.hasField && vm.queryItem.field != vm.fields[0]">
+        <div class="itemLabel">Value to compare</div>
+        <input class="text-right" type="text" ng-model="vm.queryItem.value" placeholder="Enter a value here ...">
+    </ion-item>
+
+</div>
+
+<!-- Saved Queries ------------------------------------------------>
+<div class="item item-icon-left  item-dark" ng-click="vm.toggler(null, 'queries')">
+    <i class="icon {{(!vm.hideQueries? 'ion-arrow-down-b' : 'ion-arrow-right-b ')}}" style="font-size:1.5em;"></i>
+    Saved Queries
+</div>
+<div ng-if="!vm.hideQueries">
+    <!--<ion-item class="item {{doc.cssClass}} item-icon-right" ng-repeat="doc in vm.savedQueries | orderBy: ['-isNew', '-createdDt'] " >
+        <div>
+            {{doc.name}}
+            <span class="itemLabel positive" ng-if="doc.isNew">&nbsp;&nbsp;New!</span>
+        </div>
+        <i class="icon ion-trash-a icon-accessory" ng-click="vm.deleteSavedQuery($event, doc)"></i>
+    </ion-item>-->
+    <div ng-repeat="doc in vm.savedQueries | orderBy: ['isNew', 'name', '-createdDt'] ">
+        <query-item entity="doc" query-item-type="query" query="vm.query" ng-click="vm.loadSavedQuery(doc)" user-id="vm.appUser.id"></query-item>
+
+    </div>
+ 
+    <div class="item item-stable" ng-if="!vm.savedQueries || (vm.savedQueries && vm.savedQueries.length == 0 ) ">
+        <span class="itemLabel ">No saved queries.</span>
+    </div>
+    <div ng-if="vm.defaultQueryId" class="item text-center button-bar bgAssertiveLight">
+        <div class="button button-clear button-assertive  icon ion-trash-a  "
+             ng-click="vm.deleteDefaultQuery()">
+            Clear Default Query
+        </div>
+    </div>
+</div>

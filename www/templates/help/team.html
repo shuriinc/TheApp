@@ -1,0 +1,49 @@
+<ion-modal-view>
+    <ion-header-bar class="bar-positive">
+        <div class="title"><i class="icon ion-help-circled"></i> Teams</div>
+    </ion-header-bar>
+    <ion-content class="has-header">
+
+        <ion-list>
+
+            <div class="item medText item-text-wrap help-content">
+              <h3>Build out your Team</h3>
+              <span>
+                To add teammates, start typing a teammate’s name into the People tab for your team and find your desired entry listed in the drop-down menu. Make sure that all of your teammates have made Shuri accounts before taking this step.
+
+              </span>
+
+              <h3>Attach a Database</h3>
+              <span>
+To assign this Team to a Database, navigate to the Edit page for a Database, scroll to the bottom of the page and open the Sharing section. Then, select the correct team name from the <em>Editing Team</em> dropdown menu.               </span>
+
+              <!-- <h3></h3>
+              <span>
+              </span> -->
+
+              <!-- <h3></h3>
+              <span>
+              </span> -->
+
+              <!-- <h3></h3>
+              <span>
+              </span> -->
+
+            </div>
+
+        </ion-list>
+    </ion-content>
+    <ion-footer-bar class="bar-dark no-padding footerButton">
+      <div class="button-bar ">
+          <button class="button" ng-if="!vmMaster.showOk" ng-click="vmMaster.closeAllHelp()">
+            Close
+          </button>
+          <button class="button ok-confirm" ng-if="!vmMaster.showOk" ng-click="vmMaster.closeHelp()">
+              Back
+          </button>
+          <button class="button ok-confirm" ng-if="vmMaster.showOk" ng-click="vmMaster.closeHelp()">
+              {{vmMaster.wordFor("OK")}}
+          </button>
+      </div>
+
+    </ion-footer-bar>

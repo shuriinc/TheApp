@@ -1,0 +1,56 @@
+<ion-modal-view>
+    <ion-header-bar class="bar-positive">
+        <div class="title"><i class="icon ion-help-circled"></i> Imports</div>
+    </ion-header-bar>
+    <ion-content class="has-header">
+
+        <ion-list>
+            <div class="item itemDivider">
+                Importing your Twitter contacts
+            </div>
+
+            <div class="item medText item-text-wrap help-content">
+              <span>
+                You might first be asked to log into Twitter if you haven’t done so already.
+                Then, create a Group and choose a Database for the import. Next, you’ll see a list of those that you follow on Twitter.
+                <br /><br />
+                Select individually or toggle at the top of the page to select all, then click <em style="font-style:italic;">Import</em>.
+                Before you know it, you’ll be back on Shuri’s homepage with your contacts stored in your chosen Database and Group.
+                <br /><br />
+                To fill in more information about these contacts, see <em class="link-to-section energized" ng-click="vmMaster.deepModal('entity');">FLESH OUT YOUR DATA.</em>
+              </span>
+
+              <!-- <h3></h3>
+              <span>
+              </span> -->
+
+              <!-- <h3></h3>
+              <span>
+              </span> -->
+
+              <!-- <h3></h3>
+              <span>
+              </span> -->
+
+              <!-- <h3></h3>
+              <span>
+              </span> -->
+
+            </div>
+
+        </ion-list>
+    </ion-content>
+    <ion-footer-bar class="bar-dark no-padding footerButton">
+      <div class="button-bar ">
+          <button class="button" ng-if="!vmMaster.showOk" ng-click="vmMaster.closeAllHelp()">
+            Close
+          </button>
+          <button class="button ok-confirm" ng-if="!vmMaster.showOk" ng-click="vmMaster.closeHelp()">
+              Back
+          </button>
+          <button class="button ok-confirm" ng-if="vmMaster.showOk" ng-click="vmMaster.closeHelp()">
+              {{vmMaster.wordFor("OK")}}
+          </button>
+      </div>
+
+    </ion-footer-bar>

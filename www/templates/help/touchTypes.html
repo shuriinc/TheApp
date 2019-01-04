@@ -1,0 +1,66 @@
+<ion-modal-view>
+    <ion-header-bar class="bar-positive">
+        <div class="title"><i class="icon ion-help-circled"></i> Touch Types</div>
+    </ion-header-bar>
+    <ion-content class="has-header">
+
+        <ion-list>
+
+            <div class="item medText item-text-wrap help-content">
+              <span>
+                A Touch type dictates what kind of interaction you’re tracking and each Touch type has a different set of fields to fit the interaction accordingly.
+                <br /><br />
+                We have created some touch types for you, but if there are interactions you have that don’t fit into any of those categories, you can create your own.
+                <br /><br />
+                Touch types can be anything, whether it’s a coffee date, opportunity, phone call, or any other action that helps you get business done.
+                <ul class="orderedList">
+                  <li>
+                    Create your Touch type title.
+                  </li>
+                  <li>
+                    Choose which one of Shuri’s base Touch types this interaction is most similar to.
+                    (For example, if you’re creating a Happy Hour Touch it’s probably most similar to <em style="font-style:italic;">Event</em>).
+                    This information dictates what fields will display when this Touch type is selected.
+                  </li>
+                </ul>
+                <br />
+                The next time you create a new Touch, that custom Touch type will appear in the <em style="font-style:italic;">Type</em> drop-down menu.
+                After selecting it, the fields on the page will adjust accordingly.
+                <br /><br />
+                <i class="icon ion-information-circled energized"></i> For a shortcut, you can also navigate to a new Touch, and select <em style="font-style:italic;">Add New</em> from the <em style="font-style:italic;">Type</em> drop-down menu to follow these same steps.
+              </span>
+
+              <!-- <h3></h3>
+              <span>
+              </span> -->
+
+              <!-- <h3></h3>
+              <span>
+              </span> -->
+
+              <!-- <h3></h3>
+              <span>
+              </span> -->
+
+              <!-- <h3></h3>
+              <span>
+              </span> -->
+
+            </div>
+
+        </ion-list>
+    </ion-content>
+    <ion-footer-bar class="bar-dark no-padding footerButton">
+      <div class="button-bar ">
+          <button class="button" ng-if="!vmMaster.showOk" ng-click="vmMaster.closeAllHelp()">
+            Close
+          </button>
+          <button class="button ok-confirm" ng-if="!vmMaster.showOk" ng-click="vmMaster.closeHelp()">
+              Back
+          </button>
+          <button class="button ok-confirm" ng-if="vmMaster.showOk" ng-click="vmMaster.closeHelp()">
+              {{vmMaster.wordFor("OK")}}
+          </button>
+      </div>
+
+    </ion-footer-bar>

@@ -1,0 +1,77 @@
+<ion-view ng-controller="TwitterUploadCtrl as vm">
+    <ion-nav-title>
+        {{vm.title}}
+    </ion-nav-title>
+
+    <ion-content class="has-header">
+        <sspinner ng-if="!vm.showList" text='Working...'></sspinner>
+        <ion-list ng-if="vm.showList">
+              <div ng-if="vm.step == 0">
+                  <div class="item item-body medText">
+                    <p><i>Shuri requires authorization from Twitter to pull in your followers. Please follow the link below
+                      to authorize your twitter account with Shuri.
+                    </i></p>
+                    <div class="col text-center">
+                      <button type="button" class="button button-positive item-icon-left ion-social-twitter" ng-click="vm.authenticateTwitter()"> Twitter Sign In</button>
+                    </div>
+                  </div>
+              </div>
+
+              <div ng-if="vm.step == 1">
+                <ion-item class="item item-input item-stacked-label item-icon-right">
+                  <span class="input-label">Group Name</span>
+                  <input type="text" placeholder="Enter group name here" ng-model="vm.groupName" ng-change="vm.newGroupNameChange()">
+                    <div ng-if="vm.groupnameChecked">
+                        <i ng-if="!vm.groupnameOK" class="icon ion-close-circled assertive" style="padding-top:20px;" ></i>
+                        <i ng-if="vm.groupnameOK" class="icon ion-checkmark-circled positive" style="padding-top:20px;"></i>
+                    </div>
+                </ion-item>
+                <ion-item class="item-input  item-stacked-label">
+                    <div class="itemLabel">{{vmMaster.wordFor("Description")}}</div>
+                    <textarea ng-model="vm.description"
+                               placeholder="Optional description and comments here..."
+                              rows="5"></textarea>
+                </ion-item>
+                <ion-item class="item item-input item-select" ng-show="!vm.filename.newDB">
+                  <span class="input-label itemLabel">Choose a Database</span>
+                  <select ng-options="sub.group_Id as sub.name for sub in vm.collections" ng-model="vm.collection"></select>
+                </ion-item>
+              </div>
+
+
+              <div ng-if="vm.step == 2">
+                <div class="item item-input ">
+                  <span class="input-label itemLabel">Select All Contacts</span><br />
+                  <label class="toggle toggle-positive">
+                    <input type="checkbox" ng-click="vm.selectAll()">
+                    <div class="track">
+                      <div class="handle"></div>
+                    </div>
+                  </label>
+                </div>
+                <ul class="list" ng-if="vm.friendsList">
+                  <li class="item item-toggle" ng-repeat="user in vm.friendsList | orderBy: 'user.name'">
+                     {{user.name}}
+                     <label class="toggle toggle-positive">
+                       <input type="checkbox" ng-model="user.isChecked" ng-change="vm.addedAContact()">
+                       <div class="track">
+                         <div class="handle"></div>
+                       </div>
+                     </label>
+                     <div class="smallText">{{user.screen_name}}</div>
+                  </li>
+                </ul>
+              </div>
+
+        </ion-list>
+    </ion-content>
+
+    <ion-footer-bar class="bar-dark" ng-style="vm">
+      <div class="button-bar bar-stable">
+          <button type="button" ng-click="vm.resetForm()" class="button icon ion-close-round button-stable">&nbsp;&nbsp;{{vm.wordFor("Cancel")}}</button>
+          <button type="button" ng-if="vm.step == 1" ng-click="vm.getTwitter()" ng-disabled="!vm.groupName && !vm.groupnameOK" class="button icon ion-checkmark-round ok-confirm">&nbsp;&nbsp;Get Contacts</button>
+          <button type="button" ng-if="vm.step == 2" ng-click="vm.import(vm.friendsList)" ng-disabled="!vm.canSend || vm.disableImport" class="button icon ion-checkmark-round ok-confirm">&nbsp;&nbsp;Import</button>
+      </div>
+    </ion-footer-bar>
+
+</ion-view>

@@ -1,0 +1,32 @@
+﻿<ion-view ng-controller="PersonCtrl as vm">
+    <ion-nav-title>
+        {{vm.title}}
+    </ion-nav-title>
+    <ion-content class="has-header">
+        <ion-list ng-if="vm.showList">
+            <div class="item bgTeamLight row" ng-click="vm.toggleAvatar()">
+                <div class="col text-center padding-vertical">
+                    <div class="h3 teamColor" style="line-height:.5em">{{vm.person.prefix}} {{vm.person.firstname}} {{vm.person.middlename}} {{vm.person.lastname}} {{vm.person.suffix}}</div>
+                    <span ng-if="vm.currentOrg" class="itemLabel medText">{{vm.currentOrg}} {{vm.currentTitle}}</span>
+                </div>
+             </div>
+            <div class="item item-text-wrap text-center itemLabel" ng-if="!vm.person.imageUrl">
+                <img src="https://shuristoragecdn.blob.core.windows.net/public/notavailable.jpg" height="240" />
+                <br />No image provided.
+            </div>
+            <div class="item item-text-wrap text-center " ng-if="vm.person.imageUrl">
+                <img ng-if="vm.person.imageUrl" ng-src="{{vm.person.imageUrl}}" style="max-width: {{vm.maxWidthImage}};max-height: {{vm.maxHeightImage}};" />
+            </div>
+
+
+                <!-- Summary-->
+            <div class="item item-text-wrap" >
+                <span class="itemLabel" ng-if="vm.person.description">Summary</span>
+                <div class="medText item-padding" ng-bind-html="vm.person.description | lineBreaks" ng-if="vm.person.description"></div>
+                <div class="itemLabel" ng-if="!vm.person.description">No summary provided.</div>
+            </div>
+  
+                      <list-footer />
+        </ion-list>
+    </ion-content>
+</ion-view>

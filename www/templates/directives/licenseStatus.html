@@ -1,0 +1,33 @@
+﻿<div ng-if="!alertOnly || alert > 0">
+    <div ng-if="alert > 0" class="button-bar" ng-click="gotoManageSubs()">
+        <div click-once class="button icon ion-checkmark-round ok-confirm"> Upgrade Now</div>
+    </div>
+    <div ng-if="alert == 0" class="item item-divider item-dark" ng-click="toggleDiv()">
+        License: {{licenseName}}
+    </div>
+    <div  ng-if="alert > 0" class="item item-icon-left  {{(!openDiv) ? '  item-dark' : '   item-dark active'}}" ng-click="toggleDiv()">
+        <i ng-if="alert == 1" class="icon  ion-alert energized"></i>
+        <i ng-if="alert == 2" class="icon  ion-alert assertive"></i>
+        License: {{licenseName}}
+        <span class="itemLabel energized" style="padding-left:30px;">updates disabled</span>
+
+    </div>
+    <div ng-show="openDiv"
+         class="item wrapText  text-center itemPadding ">
+        <div class="itemLabel">Available Storage: {{(100-consumed) | number : 1}}% &nbsp; </div>
+
+        <div class="row">
+            <div class="text-center smallText bgEnergized" style="height:20px; width:{{peopleWidth}}px;"></div>
+            <div class="text-center  bgCalm smallText" style="height:20px; width:{{orgsWidth}}px;"></div>
+            <div class="text-center  bgBalanced smallText" style="height:20px; width:{{touchesWidth}}px;"></div>
+            <div class="text-center  bgDark smallText" style="width:{{unusedWidth}}px;"></div>
+        </div>
+        <div class="itemLabel smallText">
+            You currently own <span class="energized">{{appUser.ownedPeople | number}} people</span>, <span class="calm">{{appUser.ownedOrgs | number}} organizations</span>, and <span class="balanced">{{appUser.ownedTouches | number}} touches</span>.
+            <span class="medText">({{totalItems | number}} total of {{allowedItems | number}} allowed)</span>
+        </div>
+    </div>
+    <div ng-if="alert > 0" class="item item-divider item-dark medText wrapText" ng-click="gotoManageSubs()">
+        <div class="energized" ng-bind-html="statusMsg"></div>
+    </div>
+</div>

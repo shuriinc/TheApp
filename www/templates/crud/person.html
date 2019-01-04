@@ -1,0 +1,89 @@
+<ion-view ng-controller="PersonCtrl as vm">
+    <ion-nav-title>
+        {{vm.title}}
+    </ion-nav-title>
+    <!--<ion-header-bar ng-class="'bar-subheader ' + vm.barColor" ng-show="vm.showList">
+    </ion-header-bar>-->
+    <ion-content class="has-header " delegate-handle="theHandle">
+      <ion-refresher pulling-text="Pull for hard refresh" on-refresh="vm.hardRefresh()">
+      </ion-refresher>
+
+      <div ng-if="vm.notFound" class="item item-text-wrap">
+        <div class="itemLabel">{{vm.notFoundMessage}}</div>
+      </div>
+
+      <ion-list ng-show="vm.showList && !vm.notFound">
+        <div class="item no-padding no-border">
+          <entity-cp-doc entity="vm.person" for-update="false" mode="bar" is-dirty="vm.isDirty"></entity-cp-doc>
+        </div>
+        <div class="item {{vm.bgLight}} row item-text-wrap" ng-click="vm.toggleAvatar()">
+          <div class="col text-center padding-vertical">
+            <div class="h3 {{vm.color}}" style="line-height:.6em">{{vm.person.prefix}} {{vm.person.firstname}} {{vm.person.middlename}} {{vm.person.lastname}} {{vm.person.suffix}}</div>
+            <span ng-if="vm.currentOrg" class="itemLabel medText">{{vm.currentOrg}} {{vm.currentTitle}}</span>
+          </div>
+          <div class="col-20" ng-if="vm.person.imageUrl">
+            <img ng-if="vm.person.imageUrl != ''" ng-src="{{vm.person.imageUrl}}" style="float: right;  margin-right: 1em; border-radius: 4px; margin-top: .25em;" height="56" />
+          </div>
+          <div class="col-20" ng-if="!vm.person.imageUrl" title="Add Avatar">
+            <div class="icon ion-person-add iconButton" style="float: right;  margin-right: 1em; border-radius: 4px; margin-top: .25em;font-size:1.5em;">
+            </div>
+          </div>
+        </div>
+
+        <div ng-if="vm.showAvatar"><avatar entity="vm.person" updatable="vm.person.updatable" entity-type="4"></avatar></div>
+
+        <entity-cp-doc entity="vm.person" mode="custom" for-update="vm.person.updatable" manage-updates="true" is-dirty="vm.isDirty"></entity-cp-doc>
+
+        <entity-description entity="vm.person" entity-type="4" for-update="vm.fullControl" manage-updates="true" is-dirty="vm.isDirty"></entity-description>
+
+        <!-- Summary-->
+        <!--<div ng-if="!vm.hideSummary" class="item item-icon-left item-icon-right " style="border-bottom:none;" ng-click="vm.toggleSummary()">
+    <i class="icon ion-arrow-down-b iconButton" style="font-size:1.5em;"></i>
+    <span>Summary</span>
+    <i class="icon ion-edit  iconButton" ng-click="vm.fullscreenSummary($event)" ng-if="vm.fullControl" ></i>
+  </div>
+  <div ng-if="vm.hideSummary" class="item item-icon-left item-icon-right item-stable" ng-click="vm.toggleSummary()">
+    <i class="icon ion-arrow-right-b iconButton" style="font-size:1.5em;"></i>
+    <span>Summary</span>
+    <i class="icon ion-edit iconButton" ng-click="vm.fullscreenSummary($event)" ng-if="vm.fullControl" ></i>
+  </div>
+  <div class="item item-text-wrap" style="{{(!vm.hideSummary) ? 'border-top:none;' : ''}}" ng-if="vm.person.description && !vm.hideSummary">
+    <div class="medText item-padding" ng-bind-html="vm.person.description | lineBreaks" ></div>
+  </div>
+  <div class="item itemPadding text-center" style="{{(!vm.hideSummary) ? 'border-top:none;' : ''}}" ng-if="!vm.person.description && !vm.hideSummary">
+    <div class="itemLabel">[no summary]</div>
+  </div>-->
+
+        <div class="item " ng-if="vm.person.nickname">
+          <span class="itemLabel">{{vm.wordFor("Nickname")}}</span><br />
+          <div>{{vm.person.nickname}}</div>
+        </div>
+        <!--<entity-media app-user="vm.appUser" entity-type="4" entity="vm.person"></entity-media>-->
+
+        <collection-entity entity-type="9" parent-entity-type="4" parent-entity="vm.person" manage-updates="true" is-dirty="vm.isDirty"></collection-entity>
+        <collection-entity entity-type="6" parent-entity-type="4" parent-entity="vm.person" manage-updates="true" is-dirty="vm.isDirty"></collection-entity>
+        <tag-picker parent-entity-type="4" parent-entity="vm.person" manage-updates="true"></tag-picker>
+
+        <media-stream entity-type="4" entity="vm.person" ng-if="vm.appUser.showMedia && vm.twitter2Live" is-entity="true"></media-stream>
+        <media-feed entity-type="4" entity="vm.person" ng-if="vm.appUser.showMedia && !vm.twitter2Live"></media-feed>
+
+        <collection-entity entity-type="11" parent-entity-type="4" parent-entity="vm.person" manage-updates="true" is-dirty="vm.isDirty"></collection-entity>
+        <entity-attachments entity="vm.person" entity-type="4" updatable="vm.person.updatable" add-new="true" manage-updates="true" is-dirty="vm.isDirty"></entity-attachments>
+        <entity-locations entity="vm.person" entity-type="4" is-dirty="vm.isDirty" manage-updates="true"></entity-locations>
+        <entity-reports entity-type="4" entity="vm.person"></entity-reports>
+
+        <owned-item ng-if="!vm.isUser" entity="vm.person" entity-type="4" updatable="false" is-dirty="vm.isDirty"></owned-item>
+
+        <entity-cp-doc entity="vm.person" for-update="false" mode="builtin" is-dirty="vm.isDirty"></entity-cp-doc>
+        <div ng-if="vm.fullControl" class="item text-center">
+          <div class="button button-clear button-outline button-assertive  icon ion-trash-a softer" ng-click="vm.deletePerson(vm.person)">
+            Delete {{vm.person.name}}
+          </div>
+        </div>
+
+        <list-footer />
+
+      </ion-list>
+    </ion-content>
+
+</ion-view>

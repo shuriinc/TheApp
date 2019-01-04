@@ -1,0 +1,73 @@
+<ion-modal-view>
+    <ion-header-bar class="bar-positive">
+        <div class="title"><i class="icon ion-help-circled"></i> Custom Fields</div>
+    </ion-header-bar>
+    <ion-content class="has-header">
+
+        <ion-list>
+
+            <div class="item medText item-text-wrap help-content">
+              <span>
+                Custom field definition : person, org and Touch edit pages list the fields that Shuri offers.
+                Most of these are for storing basic contact information such as: email and phone numbers, etc…
+                But, if you’re tracking a different kind of data, you can customize your own field to display on the EDIT and VIEW pages of a profile.
+                <br /><br />
+                From the new Custom Field page:
+                <ul class="orderedList">
+                  <li>
+                    Create your new field’s name
+                  </li>
+                  <li>
+                    Select whether you’d like for this field to apply to <em style="font-style:italic;">People</em>, <em style="font-style:italic;">Organizations</em>, and/or <em style="font-style:italic;">Touches</em>.
+                  </li>
+                  <li>
+                    Then, specify which type of field you’d like to create.
+                    Shuri offers the capability for text fields or ratings like: 0-100, 5 stars and yes/no/maybe.
+                  </li>
+                  <li>
+                    Lastly, choose if you’d like this field to live only inside of the selected Database or to span all of your Databases, then click <em style="font-style:italic;">Save</em>. (If you want to use this field for contacts in Shuri’s Analyst Relations Database, select for the field to span all Databases)
+
+                  </li>
+                </ul>
+                <br />
+                The next time you navigate to a contact’s EDIT page, your custom field will appear.
+                <br /><br />
+                <img src="https://shuristoragecdn.blob.core.windows.net/public/help-images/newCf.png" alt="New custom field page with options marked" />
+                <br /><br />
+                <img src="https://shuristoragecdn.blob.core.windows.net/public/help-images/cfExample.png" alt="New custom field on an entity" />
+              </span>
+
+              <!-- <h3></h3>
+              <span>
+              </span> -->
+
+              <!-- <h3></h3>
+              <span>
+              </span> -->
+
+              <!-- <h3></h3>
+              <span>
+              </span> -->
+
+              <!-- <h3></h3>
+              <span>
+              </span> -->
+
+            </div>
+
+        </ion-list>
+    </ion-content>
+    <ion-footer-bar class="bar-dark no-padding footerButton">
+      <div class="button-bar ">
+          <button class="button" ng-if="!vmMaster.showOk" ng-click="vmMaster.closeAllHelp()">
+            Close
+          </button>
+          <button class="button ok-confirm" ng-if="!vmMaster.showOk" ng-click="vmMaster.closeHelp()">
+              Back
+          </button>
+          <button class="button ok-confirm" ng-if="vmMaster.showOk" ng-click="vmMaster.closeHelp()">
+              {{vmMaster.wordFor("OK")}}
+          </button>
+      </div>
+
+    </ion-footer-bar>

@@ -1,0 +1,59 @@
+<ion-modal-view>
+    <ion-header-bar class="bar-positive">
+        <div class="title"><i class="icon ion-help-circled"></i> Teams</div>
+    </ion-header-bar>
+    <ion-content class="has-header">
+
+        <ion-list>
+            <div class="item itemDivider">
+                Teams and Databases
+            </div>
+
+            <div class="item medText item-text-wrap help-content">
+              <span>
+                To collaborate with other Shuri users you’ll need to create a shared Database by assigning it an Editing Team. Then, every member of that Team will have access to view and edit its content. You can also share the Database with a Team to get view-only permissions.
+                <br /><br />
+                To start with creating a Team first, simply enter in a name and toggle on for <em style="font-style:italic;">Create a Team Database.</em>
+                <br /><br />
+                This will make a new Database with your Team assigned to it.
+                Teammates will automatically see both the Team and Database on their homepages after logging in, and can start working with them.
+              </span>
+
+              <h3>Build out your Team</h3>
+              <span>
+                To add teammates, click on your Team’s name from the Shuri homepage.
+                Start typing a teammate’s name into the People tab and find your desired entry listed in the drop-down menu.
+                Make sure that all of your teammates have made Shuri accounts before taking this step.
+
+              </span>
+
+              <!-- <h3></h3>
+              <span>
+              </span> -->
+
+              <!-- <h3></h3>
+              <span>
+              </span> -->
+
+              <!-- <h3></h3>
+              <span>
+              </span> -->
+
+            </div>
+
+        </ion-list>
+    </ion-content>
+    <ion-footer-bar class="bar-dark no-padding footerButton">
+      <div class="button-bar ">
+          <button class="button" ng-if="!vmMaster.showOk" ng-click="vmMaster.closeAllHelp()">
+            Close
+          </button>
+          <button class="button ok-confirm" ng-if="!vmMaster.showOk" ng-click="vmMaster.closeHelp()">
+              Back
+          </button>
+          <button class="button ok-confirm" ng-if="vmMaster.showOk" ng-click="vmMaster.closeHelp()">
+              {{vmMaster.wordFor("OK")}}
+          </button>
+      </div>
+
+    </ion-footer-bar>

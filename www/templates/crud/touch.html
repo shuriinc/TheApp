@@ -1,0 +1,235 @@
+<ion-view ng-controller="TouchCtrl as vm">
+
+  <style>
+    ul {
+      list-style-type: disc;
+      margin-left: 12px;
+    }
+
+    ol {
+      list-style-type: decimal;
+      margin-left: 12px;
+    }
+
+    li {
+      margin-left: 22px;
+      margin-bottom: 2px;
+    }
+  </style>
+  <ion-nav-title>
+    {{vm.title}}
+  </ion-nav-title>
+
+  <ion-header-bar class="bar-subheader bar-balanced " ng-if="!vm.fullscreen && vm.showList && !vm.isDeletedTouch" ng-click="vm.edit()">
+      <div class="button button-clear icon ion-edit iconButton" ng-if="vm.touch.updatable"></div>
+      <div ng-if="!vm.touch.isScheduled" class="title medText">{{vm.touchTitle}}</div>
+      <div ng-if="vm.touch.isScheduled" class="title medText"><span style="color:yellow">{{vm.touchTitle}}</span></div>
+      <div class="button button-clear icon ion-ios-copy-outline iconButton" ng-click="vm.openClone($event)" title="Clone this touch"></div>
+  </ion-header-bar>
+  <ion-header-bar class="bar-subheader bar-dark " ng-if="vm.fullscreen && vm.showList && !vm.isDeletedTouch" ng-click="vm.edit()">
+    <div class="button-bar">
+      <div class="button button-clear button-stable icon ion-close-round" ng-click="vm.toggleFullscreen()">
+        OK
+      </div>
+    </div>
+  </ion-header-bar>
+  <ion-content class="has-header has-subheader" delegate-handle="theHandle">
+    <ion-refresher pulling-text="Pull for hard refresh" on-refresh="vm.hardRefresh()">
+    </ion-refresher>
+
+    <div ng-if="vm.notFound" class="item item-text-wrap">
+      <div class="itemLabel">{{vm.notFoundMessage}}</div>
+    </div>
+
+
+    <ion-list ng-show="vm.showList && !vm.notFound && !vm.fullscreen">
+      <div class="item  bgBalancedLight text-center item-text-wrap">
+        <div class="h4 balanced">{{vm.touch.name}}</div>
+      </div>
+
+      <entity-cp-doc entity="vm.touch" mode="custom" for-update="vm.touch.updatable" manage-updates="true" is-dirty="vm.isDirty"></entity-cp-doc>
+
+      <!--<div class="item item-icon-right" ng-if="vm.timerDisplay">
+        <div class="itemLabel ">Timed Duration (hh:mm:ss)</div>
+        <i class="icon" style="font-size: 1em !important;">{{vm.elapsedTime | timerFilter:'ss':'hh:mm:ss':false}}</i>
+      </div>-->
+
+      <div class="item item-input item-stacked-label item-icon-right item-text-wrap" ng-if="vm.calName && vm.preferences.calsync">
+        <span ng-if="vm.calName != 'Calendar'" class="input-label itemLabel">{{vm.itemLabel}}</span><br />
+        <span>
+          {{vm.calName}}
+        </span>&nbsp;
+        <span class="smallText itemLabel" ng-if="vm.calSyncDt">{{vm.calSyncDt}}</span>
+        <div class="icon">
+          <img ng-if="vm.preferences.calsync == 'ios'" src="img/ios.png" height="48" />
+          <img ng-if="vm.preferences.calsync == 'android'" src="img/android.png" height="48" />
+          <img ng-if="vm.preferences.calsync == 'outlook'" src="img/outlook.png" style="padding-top:12px; opacity:.7" />
+        </div>
+      </div>
+
+
+      <!-- DESCRIPTION -------------------------------------------------------------------->
+      <div ng-if="false && (vm.isSocialMedia || vm.isCapturedMedia || vm.usingTemplate)">
+        <!-- label -->
+        <div ng-if="!vm.usingTemplate && vm.touch.description" class="item item-icon-left {{(!vm.hideDetails) ? 'item-light' : 'item-stable' }} " ng-click="vm.toggleDetails()">
+          <i class="icon {{(!vm.hideDetails) ? 'ion-arrow-down-b' : 'ion-arrow-right-b' }} " style="font-size:1.5em;" ng-click="isOpen = !isOpen;"></i>
+          <span class="">{{vm.descLabel}} </span>
+        </div>
+        <div ng-if="vm.usingTemplate" class="item item-icon-right" ng-click="vm.previewTemplate()">
+          <span class="itemLabel">{{vm.descLabel}}</span>
+          <i class="icon ion-eye iconButton"></i>
+        </div>
+        <!-- label end -->
+        <div ng-if="vm.touch.description && !vm.hideDetails">
+          <div ng-if="vm.isCapturedMedia">
+            <ion-item class="itemPadding wrapText">
+
+              <div class="list card" ng-if="vm.isCapturedTweet">
+                <div class="item item-avatar" style="padding-bottom: 0;">
+                  <img ng-src="{{vm.touch.captured.userPic}}">
+                  <div class="row" style="padding: 0;">
+                    <div class="col" style="padding: 0;">
+                      <h2 style="margin-bottom: 0; line-height: 2.0;">{{vm.touch.captured.userName}}</h2>
+                      <a href="https://www.twitter.com/{{vm.touch.captured.userSn}}" target="_blank" style="text-decoration: none;"><p style="color: grey;">@{{vm.touch.captured.userSn}}</p></a>
+                    </div>
+                    <div class="col" style="padding: 0;">
+                      <a href="https://www.twitter.com" target="_blank" class="medText" style="float: right; margin-right: 20px;"><i class="icon ion-social-twitter" style="font-size: 1.5em; color: #1DA1F2; line-height: 1.5em;"></i></a>
+                    </div>
+                  </div>
+                </div>
+                <div class="item item-body">
+                  <div style="width: 100%; text-align: center;">
+                    <img ng-if="vm.touch.captured.mediaUrl" ng-src="{{vm.touch.captured.mediaUrl}}" style="width: 75%;" ng-click="enlargePhoto(vm.touch.captured.mediaUrl);">
+                  </div>
+                  <p style="padding: 0; margin: 0; color: black;" ng-bind-html="vm.touch.captured.text.linkify_tweet()">
+                  </p>
+                </div>
+              </div>
+
+              <div ng-if="vm.isCapturedRSS" class="list card tweetCard">
+                <div class="item item-text-wrap" style="padding-bottom: 0;">
+                  <div class="row">
+                    <div class="col text-center">
+                      <img class="link-to-section" ng-src="{{vm.touch.captured.imageUrl}}" style="max-width: 100px; border-radius: 0;">
+                    </div>
+                  </div>
+                  <div class="row" style="padding: 0;">
+                    <div class="col" style="padding: 0;">
+                      <h2 class="link" style="margin-bottom: 0; line-height: 2.0; text-decoration: underline;" ng-click="vm.browseToUrl(vm.touch.captured.name)">{{vm.touch.captured.title}}</h2>
+                    </div>
+                  </div>
+                </div>
+                <div class="item item-body">
+                  <p style="padding: 0; margin: 0; color: black;">
+                    {{vm.touch.captured.text}}
+                  </p>
+                  <div class="row" style="padding-left: 0; padding-right: 0;">
+                    <div class="row" style="padding-left: 0; padding-right: 0;">
+                      <div class="col medText" style="padding-left: 0; padding-right: 20px;">
+                        {{vm.touch.captured.fmtDate}}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
+            </ion-item>
+          </div>
+          <div ng-if="vm.isSocialMedia">
+            <ion-item class="itemPadding wrapText" ng-if="vm.touch.description">
+              <div class="medText">
+                <span ng-if="vm.isSocialMedia">
+                  <i ng-if="vm.isTwitter" class="ion-social-twitter positive"></i>
+                  <i ng-if="vm.isFacebook" class="ion-social-facebook positive"></i>
+                  <i ng-if="vm.isLinkedin" class="ion-social-linkedin positive"></i>&nbsp;&nbsp;
+                </span>
+                <ng-bind-html ng-bind-html="vm.touch.description.description.linkify_tweet()"></ng-bind-html>
+              </div>
+            </ion-item>
+          </div>
+        </div>
+
+        <div class="item itemPadding text-center" style="{{(!vm.hideDetails) ? 'border-top:none;' : ''}}" ng-if="!vm.touch.description && !vm.hideDetails">
+          <div class="itemLabel">[no {{vm.descLabel.toLowerCase()}}]</div>
+        </div>
+
+      </div>
+
+      <!-- tracked email body - Description --------------------------------------------->
+      <div ng-show="vm.isTrackedEmail && !vm.usingTemplate">
+        <div class="item  item-input item-icon-right bgPositiveLight"
+            ng-click="vm.hideDescriptionHtml = !vm.hideDescriptionHtml" >
+          <div class="input-label itemLabel link">
+            Body
+            <span ng-if="false" style="padding-left:20px;font-size:.7em;">
+              {{ vm.touch.description.toString().length | number}} HTML characters.
+            </span>
+          </div>
+          <div class="icon itemLabel link" ng-if="vm.mayUpdateFS">
+            <div ng-click="vm.previewBody($event)">
+              <i class="ion-eye positive"> </i> <span ng-if="!vm.isNarrow" class="positive" style="font-size:0.5em;vertical-align:middle;padding-right:6px;">Preview</span>
+
+            </div>&nbsp;&nbsp;&nbsp;
+            <div ng-click="vm.toggleFullscreen($event)" >
+              <i class="ion-edit "> </i> <span ng-if="!vm.isNarrow" style="font-size:0.5em;vertical-align:middle;padding-right:6px;">Edit</span>
+            </div>
+
+          </div>
+        </div>
+        <div class="row" ng-if="!vm.hideDescriptionHtml">
+          <div class="col" ng-bind-html="vm.touch.descriptionHtml">
+
+          </div>
+        </div>
+      </div>
+      <!-- Standard Description --------------------------------------------->
+      <div ng-if="!vm.isSocialMedia && !vm.isCapturedMedia && !vm.usingTemplate && !vm.isTrackedEmail ">
+        <entity-description entity="vm.touch" entity-type="6" for-update="vm.touch.updatable" manage-updates="true" is-dirty="vm.isDirty"></entity-description>
+        <!--<div  ng-if="!vm.hideDetails" class="item item-icon-left item-icon-right " style="border-bottom:none;" ng-click="vm.toggleDetails()">
+          <i class="icon ion-arrow-down-b iconButton" style="font-size:1.5em;"></i>
+          <span>{{vm.descLabel}}</span>
+          <i class="icon  ion-edit iconButton" ng-click="vm.fullscreenSummary($event)" ng-if="vm.touch.updatable" ></i>
+        </div>
+        <div   ng-if="vm.hideDetails" class="item item-icon-left item-icon-right item-stable" ng-click="vm.toggleDetails()">
+          <i class="icon ion-arrow-right-b iconButton" style="font-size:1.5em;"></i>
+          <span>{{vm.descLabel}}</span>
+          <i class="icon  ion-edit  iconButton" ng-click="vm.fullscreenSummary($event)" ng-if="vm.touch.updatable"></i>
+        </div>
+        <div class="item item-text-wrap" style="{{(!vm.hideDetails) ? 'border-top:none;' : ''}}" ng-if="vm.touch.description && !vm.hideDetails">
+          <div class="medText item-padding" ng-bind-html="vm.touch.description | lineBreaks"></div>
+        </div>
+        <div class="item itemPadding text-center" style="{{(!vm.hideDetails) ? 'border-top:none;' : ''}}" ng-if="!vm.touch.description && !vm.hideDetails">
+          <div class="itemLabel">[no {{vm.descLabel.toLowerCase()}}]</div>
+        </div>-->
+      </div>
+      <!-- END DESCRIPTION -------------------------------------------------------------------->
+      <tracked-email ng-if="vm.isTrackedEmail && (true || vm.isSent)" touch="vm.touch"></tracked-email>
+      <collection-entity entity-type="4" parent-entity-type="6" parent-entity="vm.touch" manage-updates="true" is-dirty="vm.isDirty"></collection-entity>
+      <collection-entity entity-type="9" parent-entity-type="6" parent-entity="vm.touch" manage-updates="true" is-dirty="vm.isDirty"></collection-entity>
+
+
+      <tag-picker parent-entity-type="6" parent-entity="vm.touch" manage-updates="true"></tag-picker>
+      <collection-entity entity-type="11" parent-entity-type="6" parent-entity="vm.touch" manage-updates="true" is-dirty="vm.isDirty"></collection-entity>
+
+      <entity-attachments entity="vm.touch" entity-type="6" updatable="vm.touch.updatable" add-new="true" manage-updates="true"></entity-attachments>
+
+      <entity-locations entity="vm.touch" is-dirty="vm.isDirty" manage-updates="true" entity-type="6"></entity-locations>
+      <entity-reports entity-type="6" entity="vm.touch"></entity-reports>
+      <owned-item entity="vm.touch" entity-type="6" updatable="false" is-dirty="vm.isDirty"></owned-item>
+
+      <div ng-if="vm.touch.updatable" class="item text-center">
+        <div class="button button-clear button-outline button-assertive  icon ion-trash-a softer" ng-click="vm.delete()">
+          Delete this touch
+        </div>
+      </div>
+
+      <list-footer />
+    </ion-list>
+    <div ng-show="vm.fullscreen">
+      <textarea ui-tinymce="vm.mceOptions" ng-model="vm.touch.description"></textarea>
+    </div>
+
+  </ion-content>
+
+</ion-view>

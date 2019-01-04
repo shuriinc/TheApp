@@ -1,0 +1,123 @@
+<ion-view ng-controller="PersonalityCtrl as vm">
+  <style>
+
+    ul {
+      list-style-type: disc;
+      margin-left: 6px;
+    }
+
+    ol {
+      list-style-type: decimal;
+      margin-left: 6px;
+    }
+
+    li {
+      margin-left: 22px;
+      margin-bottom: 6px;
+    }
+
+  </style>
+
+  <ion-nav-title>
+    Database Personalities
+  </ion-nav-title>
+  <div class="bar bar-subheader bar-dark">
+    <div class="button-bar">
+      <div ng-click="vm.cancel()" class="button button-clear icon ion-checkmark-round ok-confirm"> {{vm.wordFor("OK")}}</div>
+    </div>
+  </div>
+  <ion-content class="has-header has-subheader">
+    <div class="list">
+      <div class="item item-positive text-center">
+        Add personality to: {{vm.dbName}}
+      </div>
+      <div ng-if="!vm.selectedPer || vm.selectedPer.description == ''" class="item bgPositiveLight itemLabel">
+        Personality info here<br />
+        Personality info here<br />
+        Personality info here<br />
+      </div>
+      <div class="item item-input item-select ">
+        <span class="input-label itemLabel">Personality</span>
+        <select ng-options="per as per.name for per in vm.personalities | orderBy: 'name'" ng-model="vm.selectedPer" ng-change="vm.personalityChange(vm.selectedPer)"></select>
+      </div>
+      <div ng-if="vm.selectedPer && vm.selectedPer.description != ''">
+        <!-- Tag Sets ---------------------------------------------------------------------------------->
+        <div class="item itemDivider item-icon-left item-icon-right item-stable">
+          <i ng-click="vm.tagHide = (!vm.tagHide)"
+             class="{{(!vm.tagHide) ? 'icon ion-arrow-down-b' : 'icon ion-arrow-right-b'}}" style="font-size:1.5em;">
+          </i>
+          <b ng-click="vm.tagHide = (!vm.tagHide)">{{vm.wordFor("Tag")}} {{vm.wordFor("Sets")}}</b>
+
+        </div>
+        <div class="item wrapText" ng-if="!vm.tagHide"
+             ng-repeat="ut in vm.usertypesTags | orderBy: 'name'">
+          {{ut.name}}&nbsp;
+          <i ng-if="ut.forPeople" class="icon ion-person energized"></i>
+          <i ng-if="ut.forOrgs" class="icon ion-person-stalker calm"></i>
+          <i ng-if="ut.forTouches" class="icon shuri-touch balanced"></i>
+          <span class="itemLabel">({{ut.tags.length}} {{vm.wordFor("tags")}})</span>
+          <span ng-if="ut.value != ''" class="smallText">
+            <br />{{ut.value}}
+          </span>
+          <ul>
+            <li ng-repeat="tag in ut.tags | orderBy: 'id'">{{tag.name}}</li>
+          </ul>
+        </div>
+        <div class="item itemLabel" ng-if="!vm.tagHide && vm.usertypesTags.length == 0">
+          No tag sets
+        </div>
+
+        <!-- Custom Fields ---------------------------------------------------------------------------------->
+        <div class="item itemDivider item-icon-left  item-icon-right item-stable">
+          <i ng-click="vm.cpHide = (!vm.cpHide)"
+             class="{{(!vm.cpHide) ? 'icon ion-arrow-down-b' : 'icon ion-arrow-right-b'}}" style="font-size:1.5em;">
+          </i>
+          <b ng-click="vm.cpHide = (!vm.cpHide)">{{vm.wordFor("Custom Fields")}}</b>
+        </div>
+        <div class="item no-padding "
+             ng-if="!vm.cpHide"
+             ng-repeat="ut in vm.usertypesCPDocs | orderBy:  'name'">
+          <div class="row">
+            <div class="col">
+              {{ut.name}}
+              <i ng-if="ut.forPeople" class="icon ion-person energized"></i>
+              <i ng-if="ut.forOrgs" class="icon ion-person-stalker calm"></i>
+              <i ng-if="ut.forTouches" class="icon shuri-touch balanced"></i>
+              <i ng-if="ut.forAllDBs" class="icon ion-earth "></i>
+            </div>
+            <div class="col itemLabel text-right">{{ut.friendlyPrim}}</div>
+          </div>
+          <!--<i class="icon ion-chevron-right icon-accessory"></i>-->
+        </div>
+        <div class="item itemLabel" ng-if="!vm.cpHide && vm.usertypesCPDocs.length == 0">
+          No {{vm.wordFor("custom fields")}}
+        </div>
+
+        <!-- Touch Types ---------------------------------------------------------------------------------->
+        <div class="item itemDivider item-icon-left item-icon-right item-stable">
+          <i ng-click="vm.touchHide = (!vm.touchHide)"
+             class="{{(!vm.touchHide) ? 'icon ion-arrow-down-b' : 'icon ion-arrow-right-b'}}" style="font-size:1.5em;">
+          </i>
+          <b ng-click="vm.touchHide = (!vm.touchHide)">{{vm.wordFor("Touch")}} {{vm.wordFor("Types")}}</b>
+        </div>
+        <div class="item itemLabel" ng-if="!vm.touchHide && vm.usertypesTouches.length == 0">
+          No {{vm.wordFor("custom")}} {{vm.wordFor("touch")}} {{vm.wordFor("types")}}
+        </div>
+        <div class="item wrapText"
+             ng-if="!vm.touchHide"
+             ng-repeat="ut in vm.usertypesTouches | orderBy: ['name']">
+          {{ut.name}}
+          <span class="itemLabel">({{ut.primitiveName}})</span>
+          <div ng-if="ut.value && ut.value.trim() != ''" class="smallText">
+            {{ut.value}}
+          </div>
+        </div>
+
+      </div>
+
+
+    </div>
+    <list-footer></list-footer>
+  </ion-content>
+
+</ion-view>

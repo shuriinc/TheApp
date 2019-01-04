@@ -1,0 +1,12 @@
+﻿<div ng-if="reports && reports.length > 0">
+    <div class="item item-icon-left {{(isOpen? 'item-positive' : 'item-stable')}} " ng-click="toggle()">
+        <i class="icon ion-pie-graph {{(isOpen? '' : 'positive')}} " style="font-size:1.5em;"></i>
+        <div>Reports</div>
+    </div>
+    <div ng-show="isOpen">
+        <div ng-repeat="rpt in reports |  orderBy: '-modifiedDt'">
+            <query-item entity="rpt" query-item-type="report" query="query" manage-reporting="true" may-report="true"></query-item>
+        </div>
+        <div class="row  bgPositive " ng-if="reports && reports.length > 10"><div class="col"></div></div>
+    </div>
+</div>

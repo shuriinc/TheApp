@@ -1,0 +1,45 @@
+<ion-view ng-controller="ViewMediaCtrl as vm">
+  <ion-nav-title>
+    {{(vm.viewName)}} Viewer
+  </ion-nav-title>
+ 
+  <ion-content class="has-header">
+    <ion-list>
+      <ion-scroll style="max-height: {{vm.displayHeight}};overflow:hidden;" ng-class="vm.classBackground" delegate-handle="scrollMediaFeed">
+        <!----------------------------------------------------------------------------------------------------------- Twitter -->
+        <div ng-if="vm.viewtab=='tw'">
+          <div ng-repeat="tweet in vm.tweets | orderBy: '-createdDt' ">
+            <tweet-card tweetdoc="tweet"></tweet-card>
+          </div>
+          <div ng-if="!vm.tweets || vm.tweets.length == 0" class="item itemLabel bgPositiveLight text-center">
+            No tweets
+          </div>
+        </div>
+
+        <!----------------------------------------------------------------------------------------------------------- Research -->
+        <div ng-if="vm.viewtab=='rs'">
+          <div ng-repeat="rss in vm.rssPosts | orderBy: '-valueObj.date'">
+            <rss-card rssdoc="rss"></rss-card>
+          </div>
+          <div ng-if="!vm.rssPosts || vm.rssPosts.length == 0" class="item itemLabel bgCalmLight text-center">
+            No research
+          </div>
+        </div>
+
+        <!----------------------------------------------------------------------------------------------------------- ARChat -->
+        <div ng-if="vm.viewtab=='ar'">
+          <div ng-repeat="tweet in vm.artweets | orderBy: '-createdDt' ">
+            <tweet-card tweetdoc="tweet"></tweet-card>
+          </div>
+          <div ng-if="!vm.artweets || vm.artweets.length == 0" class="item itemLabel bgPositiveLight text-center">
+            No AR Chat tweets
+          </div>
+        </div>
+        <ion-infinite-scroll on-infinite="vm.loadMore()" ng-if="vm.hasMoreTw && vm.hasMoreAr &&vm.hasMoreRs" distance="40%">
+        </ion-infinite-scroll>
+
+      </ion-scroll>
+
+    </ion-list>
+  </ion-content>
+</ion-view>

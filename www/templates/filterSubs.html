@@ -1,0 +1,41 @@
+<ion-view ng-controller="FilterSubsCtrl as vm">
+    <ion-nav-title>
+        Filter {{vm.wordFor("Collection")}} 
+    </ion-nav-title>
+    <ion-header-bar class="bar-subheader item-input-inset bar-dark">
+        <div class="button-bar bar-stable">
+            <div ng-click="vm.cancel()" class="button button-clear icon ion-close-round button-stable">{{vm.wordFor("Cancel")}}</div>
+            <div ng-click="vm.save()" ng-disabled="!vm.saveButtonEnabled" class="button button-clear icon ion-checkmark-round ok-confirm">{{vm.wordFor("Save")}}</div>
+        </div>
+    </ion-header-bar>
+    <ion-content class="has-header has-subheader">
+
+        <ion-list>
+            <div class="button-bar button-bar-small bgLight ">
+                <div  class="button button-small button-clear button-positive button-icon  ion-android-checkbox-outline-blank" ng-click="vm.clearAll();">  De-select All</div>
+                <div  class="button button-small button-clear button-positive button-icon  ion-android-checkbox-outline" ng-click="vm.selectAll();"> Select All</div>
+            </div>
+
+            <ion-item ng-repeat="sub in vm.collections | orderBy: ['!isDefault', 'name' ]" class="item item-toggle">
+                {{sub.name}}<span ng-if="sub.isDefault" class="itemLabel positive">&nbsp;&nbsp;Default</span>
+                <label class="toggle toggle-balanced">
+                    <input type="checkbox" ng-model="sub.viewing" ng-change="vm.toggleViewing(sub);" ng-disabled="false && sub.isDefault">
+                    <div class="track">
+                        <div class="handle"></div>
+                    </div>
+                </label>
+            </ion-item>
+            <!--<div class="item">
+                <div class="button-bar bar-light ">
+                    <div ng-if="true" class="button icon ion-funnel assertive" ng-click="vm.resetSubs()"> <span class="assertive"> Clear Filters</span></div>
+                </div>
+            </div>-->
+            <div class="button-bar  stable-bg">
+                <div ng-if="true" class="button button-clear icon ion-information-circled button-positive" ui-sref="home.account({ section: 'dbs'})"> DB Info</div>
+                <div ng-if="true" class="button button-clear icon ion-cash button-dark" ui-sref="home.inappPurchases({ tab: 'Purchases'})"> Subscriptions</div>
+            </div>
+
+        </ion-list>
+    </ion-content>
+
+</ion-view>

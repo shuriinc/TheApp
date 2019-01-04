@@ -1,0 +1,58 @@
+﻿<ion-view ng-controller="PWChangeCtrl as vm">
+    <ion-nav-title>
+        Welcome To Shuri!
+    </ion-nav-title>
+    <div class="bar bar-subheader bar-dark">
+        <div class="button-bar">
+            <div ng-click="vm.save()" click-once ng-disabled="!vm.okToSave" class="button button-clear icon ion-checkmark-round ok-confirm">Continue</div>
+        </div>
+
+    </div>
+    <ion-content class="has-header">
+        <ion-list>
+            <div ng-if="vm.name.trim() == ''">
+                <div class="item item-divider item-positive">
+                    Please tell us your name
+                </div>
+                <div class="item item-input item-stacked-label">
+                    <div class="input-label itemLabel">First Name</div>
+                    <input ng-model="vm.firstname" type="text" style="width:100% !important" autocomplete="off" ng-change="vm.nameChanged()">
+                </div>
+                <div class="item item-input item-stacked-label">
+                    <div class="input-label itemLabel">Last Name</div>
+                    <input ng-model="vm.lastname" type="text" style="width:100% !important" autocomplete="off" ng-change="vm.nameChanged()">
+                </div>
+            </div>
+
+
+
+            <div class="item item-divider item-positive">
+                Please choose a new password
+            </div>
+            <div class="item item-input item-stacked-label {{vm.regPwClasses}}">
+                <div class="input-label itemLabel">New Password</div>
+                <input type="password" ng-model="vm.password" ng-change="vm.pwChanged(true)">
+            </div>
+
+            <div class="item item-input item-stacked-label {{vm.conPwClasses}}">
+                <div class="input-label itemLabel">Re-type New Password</div>
+                <input type="password" ng-model="vm.confirmPassword" ng-change="vm.pwChanged(false)">
+            </div>
+            <div class="item item-divider bgDark wrapText" >
+                <div class="smallText">
+                    Passwords must be at least 6 characters and include a mix of 3 of these: uppercase, lowercase, numeral, and special characters
+                </div>
+            </div>
+
+
+
+
+            <div ng-if="false" class="item item-divider item-dark">
+                Please contact <a href="mailto:support@shuri.com">Support</a> if you have questions or issues.
+            </div>
+
+
+
+        </ion-list>
+    </ion-content>
+</ion-view>

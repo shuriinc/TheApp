@@ -1,0 +1,298 @@
+/**
+ * Custom Styles
+ * --------------------------------------------------
+ */
+
+
+#overflowingContent{
+  width: -webkit-max-content;
+  width: max-content;
+}
+
+.h-scroll{
+  display:block;
+  float:left;
+}
+
+/*  Extended Styles*/
+.accessory {
+    opacity: 0.5;
+}
+
+.itemButton {
+
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+
+}
+
+.itemLabel {
+    font-size: .80em;
+    font-weight: bold;
+    opacity: 0.5;
+}
+
+.rowLabel {
+    font-size: .90em;
+    font-weight: bold;
+    opacity: 0.5 !important;
+}
+
+.itemLabelLinked {
+    font-size: .80em;
+    font-weight: bold;
+    opacity: 0.8;
+    text-decoration: underline;
+    color:blue;
+}
+
+.itemPadding {
+    padding: 8px  !important;
+
+}
+
+.footerButton {
+        height: 36px !important;
+}
+
+.medText {
+    font-size: .90em !important;
+}
+.no-padding {
+    padding: 0px !important;
+}
+.noPaddingTopBottom {
+    padding-top: 0px !important;
+    padding-bottom: 0px !important;
+}
+
+.smallText {
+    font-size: .70em !important;
+}
+
+.textareaPrewrap {
+     white-space: pre-wrap;
+}
+
+.wrapText {
+    white-space: normal !important;
+    line-height: 110%;
+}
+
+/*  Fix for Ionic*/
+.button-bar-small>.button .icon:before, .button-bar-small>.button:before {
+  line-height:20px !important;
+}
+
+
+/* Accordian */
+.list .item.item-accordion {
+  line-height: 38px;
+  padding-top: 0;
+  padding-bottom: 0;
+  transition: 0.09s all linear;
+}
+.list .item.item-accordion.ng-hide {
+  line-height: 0px;
+}
+.list .item.item-accordion.ng-hide-add,
+.list .item.item-accordion.ng-hide-remove {
+  display: block !important;
+}
+
+/* For Google Maps*/
+.scroll {
+    height: 100%;
+}
+
+#map {
+    width: 100%;
+    height: 100%;
+}
+
+
+/* Widget Styling by Entity */
+/*ion positive*/
+.bgPositive {
+ background-color: $bgPositive;
+}
+
+.bgPositiveLight {
+  background-color: $bgPositiveLight;
+}
+
+.bgAssertive {
+ background-color: $bgAssertive;
+}
+.bgAssertiveLight {
+ background-color: $bgAssertiveLight;
+}
+
+
+/*ion balanced*/
+.bgBalanced {
+ background-color: $bgBalanced;
+}
+
+.bgBalancedLight {
+ background-color: $bgBalancedLight;
+}
+.bgBalancedLight .item-content {
+  background-color: $bgBalancedLight;
+}
+
+/*ion calm*/
+.bgCalm {
+ background-color: $bgCalm;
+}
+.bgCalmLight {
+ background-color: $bgCalmLight;
+}
+.bgCalmLight .item-content {
+ background-color: $bgCalmLight;
+}
+
+/*ion dark*/
+.bgDark {
+ background-color: $bgDark;
+}
+.bgDarkLight {
+ background-color: $bgDarkLight;
+}
+/*no ion*/
+.bgLight {
+ background-color: $bgLight;
+}
+.bgLightLight {
+ background-color: $bgLightLight;
+}
+
+/*ion royal*/
+.bgRoyal {
+  background-color: $bgRoyal;
+}
+.bgRoyalLight {
+  background-color: $bgRoyalLight;
+}
+.bgRoyalLight .item-content {
+  background-color: $bgRoyalLight;
+}
+
+/*ion energized*/
+.bgEnergized {
+ background-color: $bgEnergized;
+}
+.bgEnergizedLight {
+ background-color: $bgEnergizedLight;
+}
+.bgEnergizedLight .item-content {
+ background-color: $bgEnergizedLight;
+}
+
+/*touchEdit specific*/
+
+.cursor-fix {
+  cursor: pointer;
+}
+
+.large-delete {
+  font-size: 5em;
+}
+
+.entity-upload, #file-upload, #old-files, #camera-file, #camera-fileorg {
+  display: none;
+}
+
+
+.upload-count {
+  color: green;
+}
+
+.toggle-delete {
+  float: right;
+}
+
+.relativeWrapper{
+  position:relative;
+  z-index:1000;
+}
+
+.attachment{
+position:absolute;
+bottom:0px;
+right:0px;
+height: 30px;
+width:30px;
+font-size: 25px;
+color: #777;
+font-weight: bolder;
+}
+
+
+
+
+
+
+
+.bar.bar-loading {
+  display: block;
+  height: 44px;
+
+  /* starts right below a normal header */
+  top: 44px;
+
+  /* make the text centered vertically and horizontally */
+  text-align: center;
+  padding: 0;
+  line-height: 44px;
+
+  /* transition 'sliding down' (check below)*/
+  -webkit-transition: 200ms all;
+}
+
+
+/*
+ * make the content's top changes animate.
+ * might not always look good, but looks
+ * good when our loader is added & removed
+ */
+ .has-header {
+   -webkit-transition: 200ms top;
+ }
+ .has-header.has-loading {
+   /* 44px (header) + 24px */
+   top: 68px;
+ }
+
+/* make loading bar slide up/down */
+.bar-loading.ng-enter,
+.bar-loading.ng-leave.ng-leave-active {
+  height: 0;
+  border-width: 0px;
+}
+.bar-loading.ng-enter.ng-enter-active,
+.bar-loading.ng-leave {
+  height: 44px;
+  border-width: 1px;
+}
+.bar-loading.ng-enter span,
+.bar-loading.ng-leave.ng-leave-active span{
+  opacity: 0;
+}
+.bar-loading.ng-enter.ng-enter-active span,
+.bar-loading.ng-leave span{
+  opacity: 0;
+}
+
+/* emailEntity */
+.email-data {
+  display: inline-block;
+}
+
+.email-data p {
+  text-align: center;
+}
+
+.email-data:not(:first-of-type) {
+  margin-left: 50px;
+}

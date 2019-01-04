@@ -1,0 +1,32 @@
+﻿<ion-side-menus id="sidemenu" ng-controller="MasterModalCtrl as vmMaster" ng-class="vmMaster.cssClass">
+    <style ng-if="vmMaster.isWide">
+        .buttonPaddingMaster {
+            padding-left: 12px !important;
+            padding-right: 12px !important;
+        }
+    </style>
+    <style ng-if="vmMaster.isMedium">
+        .buttonPaddingMaster {
+            padding-left: 8px !important;
+            padding-right: 8px !important;
+        }
+    </style>
+    <style ng-if="vmMaster.isSmall">
+        .buttonPaddingMaster {
+            padding-left: 4px !important;
+            padding-right: 4px !important;
+        }
+    </style>
+   <ion-side-menu-content>
+        <ion-nav-bar class="bar-dark">
+            <ion-nav-buttons side="left">
+                <div class="button button-icon  button-small button-clear  ion-close-circled buttonPaddingMaster"
+                        ng-click="vmMaster.goBack()"></div>
+            </ion-nav-buttons>
+        </ion-nav-bar>
+        <ion-nav-view name="mainContent" animation="slide-left-right"></ion-nav-view>
+    </ion-side-menu-content>
+    <ion-side-menu side="left">
+    </ion-side-menu>
+
+</ion-side-menus>

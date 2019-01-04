@@ -1,0 +1,40 @@
+﻿<ion-view ng-controller="Report1Ctrl as vm">
+    <ion-nav-title>{{vm.reportTitle}}</ion-nav-title>
+    <ion-content class="has-header">
+        <ion-list>
+            <div class="item item-positive item-icon-right">
+                <div class="rptHeader">{{vm.reportTitle}}</div>
+                <div class="icon itemLabel" style="font-size:1em;">Total {{vm.data.length | number}}&nbsp;</div>
+          </div>
+            <div ng-repeat="owner in vm.owners | orderBy: vm.orderer">
+                <!-- Header ---------->
+                <div class="item item-stable item-icon-left item-icon-right" ng-click="owner.isOpen = !owner.isOpen">
+                    <i class="icon iconButton {{(owner.isOpen) ? 'ion-arrow-down-b' : 'ion-arrow-right-b'}} " style="font-size:1em;"></i>
+                  <div class="rptHeader1">{{owner.name}}</div>
+                    <div class="icon itemLabel" style="font-size:1em;">{{owner.entities.length}}&nbsp;</div>
+             </div>
+                <!--<div class="item bgPositive">
+                    <div class="button-bar">
+                        <div class="button button-clear">Sort </div>
+                    </div>
+                </div>-->
+                <!-- Touches -------------------->
+                <div ng-if="owner.isOpen">
+                    <!--  Basic -->
+                    <div class="row medText {{(($index % 2 == 1) ? 'bgPositiveLight' : '')}}" ng-repeat="entity in owner.entities">
+                        <div class="col-20">
+                            {{entity.dateStart | date}}
+                        </div>
+                        <div class="col-20">
+                            {{entity.typename}}
+                        </div>
+                        <div class="col-60">
+                            {{entity.name}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <list-footer></list-footer>
+        </ion-list>
+    </ion-content>
+</ion-view>

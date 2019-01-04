@@ -1,0 +1,69 @@
+<ion-side-menus id="sidemenu" ng-controller="MasterCtrl as vmMaster" ng-class="vmMaster.cssClass">
+    <style ng-if="vmMaster.isWide">
+        .buttonPaddingMaster {
+            padding-left: 12px !important;
+            padding-right: 12px !important;
+        }
+    </style>
+    <style ng-if="vmMaster.isMedium">
+        .buttonPaddingMaster {
+            padding-left: 8px !important;
+            padding-right: 8px !important;
+        }
+    </style>
+    <style ng-if="vmMaster.isSmall">
+        .buttonPaddingMaster {
+            padding-left: 4px !important;
+            padding-right: 4px !important;
+        }
+    </style>
+    <ion-side-menu-content ng-cloak>
+        <ion-nav-bar class="bar-dark" ng-show="!vmMaster.hideTitle">
+            <ion-nav-back-button ng-show="vmMaster.showBackbutton" class="buttonPaddingMaster">
+            </ion-nav-back-button>
+            <ion-nav-buttons side="left" ng-show="!vmMaster.refreshing">
+                <!--<div class="button button-icon  button-small button-clear ion-navicon buttonPaddingMaster"
+                     ng-click="vmMaster.showActionMenu()"
+                     ng-show="vmMaster.showMenu"></div>-->
+                <div class="button button-icon  button-small button-clear ion-home buttonPaddingMaster" style="color:#4B8FFF !important;"
+                     ng-click="vmMaster.goHome()"
+                     ng-show="vmMaster.showHome"></div>
+                <div class="button button-icon  button-small button-clear ion-help "
+                        ng-click="vmMaster.help()"
+                        ng-show="vmMaster.showHelp"></div>
+                <div class="button  button-icon  button-small button-clear buttonPaddingMaster {{vm.expandIcon}}"
+                        ng-class="{'ion-arrow-expand': vmMaster.onDesktop && !vmMaster.expandUI, 'ion-ipad': vmMaster.onDesktop && vmMaster.expandUI};"
+                        ng-click="vmMaster.toggleZoom()"
+                        ng-show="vmMaster.onDesktop && vmMaster.showZoom"></div>
+
+            </ion-nav-buttons>
+            <ion-nav-buttons side="right" ng-show="!vmMaster.refreshing">
+                <div class="button button-icon  button-small button-clear ion-android-options buttonPaddingMaster {{vmMaster.isFiltered ? 'button-energized' : ''}}"
+                        ng-show="vmMaster.showFilter"
+                         ui-sref="home.filtersubs"></div>
+                <div class="button button-icon  button-small button-clear  shuri-touch-add button-balanced buttonPaddingMaster"
+                        ng-click="vmMaster.addNewItem('Touch')"
+                        ng-show="vmMaster.showAddTouch"></div>
+                <!--<div class="button button-icon  button-small button-clear  ion-home button PaddingMaster" ui-sref="home.main"
+                        ng-show="vmMaster.showHome"></div>-->
+            </ion-nav-buttons>
+        </ion-nav-bar>
+        <ion-nav-view name="mainContent" animation="slide-left-right"></ion-nav-view>
+    </ion-side-menu-content>
+    <ion-side-menu side="left">
+        <!--<div ng-include="'templates/moreMenu.html'"></div>-->
+    </ion-side-menu>
+
+    <ion-footer-bar class="no-padding hide-on-keyboard-open" ng-if="vmMaster.showTabs">
+        <div class="bar  bar-dark">
+            <div class="button-bar">
+                <i ui-sref="home.queryPeople" class="button button-clear button-energized button-icon ion-person" title="Find and report on People"></i>
+                <i ui-sref="home.queryOrgs" class="button button-clear button-calm button-icon ion-person-stalker" title="Find and report on Organizations"></i>
+                <i ui-sref="home.queryTouches" class="button button-clear button-balanced icon shuri-touch" title="Find and report on Touches"></i>
+                <i ui-sref="home.queryTags" class="button button-clear button-royal button-icon ion-pound " title="Find and manage Tags"></i>
+                <i ng-click="vmMaster.showActionMenu()" class="button button-clear button-stable button-icon ion-navicon-round" title="Account, settings, more..." style="color:#4B8FFF !important;"></i>
+            </div>
+        </div>
+    </ion-footer-bar>
+
+</ion-side-menus>

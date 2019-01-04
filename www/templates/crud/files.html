@@ -1,0 +1,36 @@
+﻿<ion-view ng-controller="FilesCtrl as vm">
+    <ion-nav-title>
+        My Files
+    </ion-nav-title>
+    <div ng-if="vm.showList" class="bar bar-subheader bar-dark">
+        <div class="button-bar">
+            <div class="button {{vm.sortDateCls}}" ng-click="vm.setOrder('date')">Sort by Date</div>
+            <div class="button {{vm.sortNameCls}}" ng-click="vm.setOrder('name')">Sort by Name</div>
+
+        </div>
+    </div>
+
+
+    <ion-content class="has-header has-subheader">
+        <sspinner ng-if="!vm.showList" text='{{vm.wordFor("Working...")}}'></sspinner>
+        <ion-list ng-if="vm.showList">
+            <ion-item class="item item-icon-left item-icon-right medText " ng-repeat="doc in vm.files | filter: {changeType: '!2'}" ng-click="vm.openFile(doc.value)">
+                <i class="icon {{doc.icon}}" style="font-size:1.5em;"></i>
+                {{doc.name}}<br />
+                <span class="smallText">Created {{doc.createdDt | date : 'medium' }}</span>
+                <i class="icon ion-close-round assertive" style="font-size:1.5em;" ng-click="vm.deleteFile($event, doc)"></i>
+ 
+
+            </ion-item>
+
+            <list-footer></list-footer>
+
+
+        </ion-list>
+        <ion-infinite-scroll on-infinite="vm.loadMore()" ng-if="vm.hasMore" distance="20%">
+        </ion-infinite-scroll>
+
+    </ion-content>
+
+
+</ion-view>

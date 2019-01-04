@@ -1,0 +1,40 @@
+<ion-view ng-controller="ChangeOwnerCtrl as vm">
+    <ion-nav-title>
+        Change Owner
+    </ion-nav-title>
+    <ion-header-bar ng-class="'bar-subheader ' + vm.itemClass" ng-click="vm.cancel();">
+        <div class="button button-clear iconButton"> <span class="itemLabel">Cancel</span></div>
+        <div class="title">{{vm.objEntity.name}}</div>
+   </ion-header-bar>
+
+    <ion-content class="has-header has-subheader">
+        <ion-list>
+            <div class="item item-stable itemLabel item-text-wrap text-center">
+                You own this item and will be transferring that ownership to another person.  That other person can be anyone on any of your teams.  You may lose access to this item as a result of this transfer.
+            </div>
+            <div class="item item-input-inset">
+                <label class="item-input-wrapper">
+                    <i class="icon ion-search placeholder-icon"></i>
+                    <input autocomplete="off" ng-model="vm.searchString" type="search" placeholder="{{vm.placeholderSearch}}" onmouseup="this.select();"
+                           ng-focus="vm.resetHideResults()" ng-blur="vm.hideResults()" ng-keyup="vm.keyPressedAdd($event, this)" >
+                </label>
+            </div>
+
+            <!-- Search results-->
+            <div class="card" ng-if="vm.searchResults && vm.showSearchResults ">
+                <div class="item itemLabel item-stable" ng-if="vm.searching">{{vm.wordFor("Searching")}}...</div>
+                <div class="item itemLabel item-stable text-center" ng-if="!vm.searching && (!vm.searchResults || vm.searchResults.length == 0) && (vm.searchString.length != 1)"><span class="assertive">No one found</span></div>
+                <div ng-repeat="result in vm.searchResults " ng-show="!vm.searching" ng-click="vm.selectAddResult(result)">
+                    <div class="item item-avatar-left bgTeamLight">
+                        <img ng-if="result.imageUrlThumb && result.imageUrlThumb.toLowerCase().indexOf('https') >= 0" ng-src="{{result.imageUrlThumb}}" />
+
+                        {{result.name}}
+                    </div>
+                </div>
+            </div>
+
+
+            <list-footer></list-footer>
+        </ion-list>
+    </ion-content>
+</ion-view>

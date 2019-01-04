@@ -1,0 +1,24 @@
+﻿<ion-modal-view>
+    <ion-header-bar class="bar-dark">
+        <h1 class="title">Location</h1>
+    </ion-header-bar>
+    <div class="bar bar-subheader bar-dark">
+        <div class="button-bar ">
+            <div class="button button-clear button-light" ng-click="vm.closeModal()">{{vm.wordFor("Cancel")}}</div>
+            <a class="button button-clear ok-confirm" ng-click="vm.saveLocation()" ng-disabled="!vm.resolved">{{vm.wordFor("OK")}}</a>
+        </div>
+    </div>
+     <ion-content  class="has-header has-subheader">
+            <label class="item item-input item-stacked-label">
+                <span class="input-label itemLabel">{{vm.wordFor("Enter address")}}</span>
+                <textarea ng-model="loc.address" rows="5"></textarea>
+            </label>
+            <div class="text-center" ng-if="loc.address">
+                <br />
+                <div class="button ok-confirm" ng-click="vm.getAddress(loc.address)">Resolve</div>
+            </div>
+            <div class="card" ng-if="vm.hasmap" style="height:400px;">
+                <span name="map-canvas" id="mapcanvas" data-tap-disabled="true"></span>
+            </div>
+        </ion-content>
+</ion-modal-view>

@@ -1,0 +1,21 @@
+<ion-item ng-if="entity && entity.changeType != 2 && !showCheckbox" class="item {{(hasAvatar) ? 'item-avatar-left' : ''}} item-icon-right {{entity.backgroundColor}}">
+  <img ng-if="entity.imageUrlThumb && entity.imageUrlThumb.toLowerCase().indexOf('https') >= 0" ng-src="{{entity.imageUrlThumb}}" />
+  <div ng-class="cssClass" class="{{(entity.isFuture ? 'balanced' : '')}}">
+    {{entity.line1}}  <span class="itemLabel" ng-if="entity.isNew">&nbsp;&nbsp;New!</span>
+    <span ng-if="entity.line2" class="itemLabel"><br />{{(entity.line2 == ' Tags') ? 'Loose Tags' : entity.line2}}</span>
+    <span ng-if="entity.line3" class="itemLabel"><br />{{entity.line3}}</span>
+  </div>
+
+  <i ng-if="!hideAction" class="icon ion-navicon-round iconButton" ng-click="showEntityAction($event, entity, entityType)"></i>
+  <i ng-if="hideAction && isLoc" class="icon ion-location iconButton"></i>
+
+</ion-item>
+<ion-item ng-if="entity && entity.changeType != 2 && showCheckbox" class="item item-icon-left {{entity.backgroundColor}}">
+  <i class="icon ion-android-checkbox-outline-blank" ng-if="!entity.selected"></i>
+  <i class="icon ion-android-checkbox-outline" ng-if="entity.selected"></i>
+  <div ng-class="cssClass">
+    {{entity.line1}} <span class="itemLabel" ng-if="entity.isNew">&nbsp;&nbsp;New!</span>
+    <span ng-if="entity.line2" class="itemLabel"><br />{{(entity.line2 == ' Tags') ? 'Loose Tags' : entity.line2}}</span>
+    <span ng-if="entity.line3" class="itemLabel"><br />{{entity.line3}}</span>
+  </div>
+</ion-item>

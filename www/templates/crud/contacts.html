@@ -1,0 +1,85 @@
+<ion-view ng-controller="ContactsCtrl as vm">
+    <ion-nav-title>
+        {{vm.title}}
+    </ion-nav-title>
+    <ion-header-bar  class="bar bar-subheader bar-dark">
+        <div class="button-bar bar-stable">
+            <div ng-click="vm.cancel()" click-once class="button button-clear icon ion-close-round ">&nbsp;&nbsp;Cancel</div>
+            <div ng-click="vm.save()" click-once class="button button-clear icon ok-confirm  ion-checkmark-round ">&nbsp;&nbsp;{{vm.wordFor("Save")}}</div>
+        </div>
+    </ion-header-bar>
+
+    <ion-content class="has-header">
+        <ion-alpha-scroll ng-model="vm.contacts1" key="name.familyName" subheader="false">
+            {{item.name.formatted}}
+        </ion-alpha-scroll>
+
+        <ion-list ng-if="false && vm.showList">
+            <ion-item ng-click="vm.hideContacts = !vm.hideContacts" class="item item-icon-left item-icon-right teamColor">
+                <i class="icon {{(!vm.hideContacts) ? 'ion-arrow-down-b' : 'ion-arrow-right-b' }} " style="font-size:1.5em;"></i>
+                <div>
+                    {{vm.contactsHeader}}
+                </div>
+                <i ng-if="!vm.hideContacts" class="icon {{(!vm.allCheck) ? 'ion-android-checkbox-outline' : 'ion-android-checkbox-outline-blank' }} " style="font-size:1em;padding:12px;" ng-click="vm.toggleCheck($event)"> All</i>
+           </ion-item>
+            <div  ng-repeat="contact in vm.contacts | orderBy: ['name.familyName', 'name.givenName']">
+                <div class="item item-icon-left" ng-click="contact.isSynced = !contact.isSynced">
+                    <i class="icon {{contact.isSynced ? 'ion-android-checkbox-outline' : 'ion-android-checkbox-outline-blank'}}"></i>
+                    {{contact.name.formatted}}
+                </div>
+             </div>
+
+            <div ng-if="false">
+                <button ng-click="vm.getContactList()" class="button icon ion-close-round button-balanced">&nbsp;&nbsp;Get Contacts</button>
+
+                <div ng-if="vm.step == 1">
+                    <ion-item class="item item-input item-stacked-label item-icon-right">
+                        <span class="input-label">Group Name</span>
+                        <input type="text" placeholder="Enter group name here" ng-model="vm.groupName" ng-change="vm.newGroupNameChange()">
+                        <div ng-if="vm.groupnameChecked">
+                            <i ng-if="!vm.groupnameOK" class="icon ion-close-circled assertive" style="padding-top:20px;"></i>
+                            <i ng-if="vm.groupnameOK" class="icon ion-checkmark-circled positive" style="padding-top:20px;"></i>
+                        </div>
+                    </ion-item>
+                    <ion-item class="item-input  item-stacked-label">
+                        <div class="itemLabel">{{vmMaster.wordFor("Description")}}</div>
+                        <textarea ng-model="vm.description"
+                                  placeholder="Optional description and comments here..."
+                                  rows="5"></textarea>
+                    </ion-item>
+                    <ion-item class="item item-input item-select">
+                        <span class="input-label itemLabel">Choose a Database</span>
+                        <select ng-options="sub.group_Id as sub.name for sub in vm.collections" ng-model="vm.collection"></select>
+                    </ion-item>
+                </div>
+                <div ng-if="vm.step == 2">
+                    <div class="item item-input ">
+                        <span class="input-label itemLabel">Select All Contacts</span><br />
+                        <label class="toggle toggle-positive">
+                            <input type="checkbox" ng-model="contact.isChecked" ng-click="vm.selectAll()">
+                            <div class="track">
+                                <div class="handle"></div>
+                            </div>
+                        </label>
+                    </div>
+                    <ul class="list">
+                        <li class="item item-toggle" ng-repeat="contact in vm.contacts | orderBy: 'name.formatted'">
+                            {{contact.name.formatted}}
+                            <label class="toggle toggle-positive">
+                                <input type="checkbox" ng-model="contact.isChecked" ng-change="vm.addedAContact()">
+                                <div class="track">
+                                    <div class="handle"></div>
+                                </div>
+                            </label>
+                            <div ng-repeat="number in contact.phoneNumbers track by $index" ng-if="$index < 1"><i class="ion-ios-telephone"></i>&nbsp;{{number.value}}</div>
+                            <div ng-repeat="email in contact.emails track by $index" ng-if="$index < 1"><i class="ion-ios-email"></i>&nbsp;{{email.value}}</div>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+         </ion-list>
+    </ion-content>
+
+
+</ion-view>

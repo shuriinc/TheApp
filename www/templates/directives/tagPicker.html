@@ -1,0 +1,161 @@
+<style>
+    .subbutton{
+        border: 1px solid #808080;
+        border-radius: 6px;
+        margin: 1px;
+        padding: 2px;
+    }
+</style>
+<!--  Header -->
+<div ng-if="!hideHeader && !isInEdit" class="item item-icon-left item-icon-right  {{(isOpen? 'item-royal' : 'bgRoyalLight')}} dividerBarTouch" ng-click="toggle(true)">
+    <i class="icon ion-pound" style="font-size:1.5em;"></i>    
+    <div ng-if="entityCount == 1">1 Tag</div>
+        <div ng-if="entityCount != 1">{{entityCount | number}} Tags</div>
+    <!--<i ng-if="isOpen && pickMode != 'checkboxes'" ng-click="switchMode($event, 'checkboxes')" class="icon ion-android-checkbox-outline placeholder-icon" style="font-size:1.25em"> <span style="font-size:.9em">Pick</span></i>
+    <i ng-if="isOpen && pickMode == 'checkboxes'" ng-click="switchMode($event, 'search')" class="icon ion-search placeholder-icon" style="font-size:1.25em"> <span style="font-size:.9em">Search</span> </i>-->
+</div>
+<div class="item dividerBar item-royal  "
+      ng-if="hideHeader || isInEdit" >
+    Tags
+</div>
+
+
+<div ng-if="isOpen && !isDatabase">
+    <div class="item item-royal no-padding" ng-if="!hideHeader">
+        <div class="button-bar">
+            <div ng-if="pickMode == 'add'" class="button button-clear button-small button-icon ion-plus-round"> Add</div>
+            <div ng-if="pickMode != 'add'" class="button button-clear button-small button-light button-icon  ion-plus-round" ng-click="switchMode('add')"> Add</div>
+            <div ng-if="pickMode == 'checkboxes'" class="button button-clear button-small  button-icon ion-android-checkbox-outline"> Pick</div>
+            <div ng-if="pickMode != 'checkboxes'" class="button button-clear button-small button-light icon ion-android-checkbox-outline" ng-click="switchMode('checkboxes')"> Pick</div>
+            <div ng-if="pickMode == 'search' && showSearch" class="button button-clear button-small button-icon ion-search"> Search</div>
+            <div ng-if="pickMode != 'search' && showSearch" class="button button-clear button-small button-light button-icon ion-search" ng-click="switchMode('search')"> Search</div>
+        </div>
+    </div>
+    <div ng-if="pickMode != 'checkboxes'">
+        <div class="item item-input-inset bgRoyal" ng-show="!hideSearch">
+            <div class="item-input-wrapper">
+                <i ng-class="{{(pickMode == 'add') ? 'ion-plus-round' : 'ion-search'}}" class="icon placeholder-icon"></i>
+                <input id="inputSearch{{parentEntity.id}}" autocomplete="off"
+                       ng-model="searcher.addString" type="search"
+                       placeholder="{{(pickMode == 'search') ? 'Search the list' : 'Add New / Existing Tags'}}"
+                       onmouseup="this.select();" ng-focus="resetHideResults()" ng-blur="hideResults()" ng-keyup="keyPressedAdd($event, this)">
+                <i ng-click="resetSearch()" class="icon ion-close-round placeholder-icon"></i>
+            </div>
+            <div style="padding-left:8px;" ng-if="pickMode == 'add' && !hideAddNew ">
+                <div ng-disabled="searcher.addString.length == 0" class="button button-small button-dark " ng-click="addFromSearchBar()"><span class="h5 buttonTextRoyal">{{wordFor("Add")}} <span ng-if="!isNarrow">{{wordFor("New")}} </span></span></div>
+            </div>
+        </div>
+        <!-- Search Results-------------------------->
+        <div ng-if="showSearchResults" ng-class="(pickMode == 'add')? 'card' : ''">
+            <div class="item item-divider bgRoyal itemLabel text-center " ng-if="searching">
+                {{wordFor("Searching")}}...
+            </div>
+            <div class="item item-divider bgRoyal itemLabel text-center item-text-wrap" ng-if="!searching && (entities.length == 0 || (!entities && isAdminPage))">
+                <span ng-if="searcher.addString">{{searcher.addString}} not found. </span>
+                <span ng-if="!searcher.addString">Ready to search. </span>
+                <span ng-if="pickMode == 'add' && !hideAddNew">Click 'Add<span ng-if="!isNarrow"> {{wordFor("New")}}</span>' to create a tag named <span class="h5 positive" >{{searcher.addString}}</span> </span>
+            </div>
+            <div ng-repeat="enty in entities  | orderBy: ['sorter', 'name']">
+                <item-entity entity="enty" entity-type="5" hide-action="pickMode=='add'" manage-updates="manageUpdates" parent-entity-type="parentEntityType" parent-entity="parentEntity" ng-click="itemSelected(enty)"></item-entity>
+            </div>
+        </div>
+
+        <!-- Item List -------------------------->
+        <div ng-if="!showSearchResults">
+            <ion-list>
+                <div ng-if="parentEntity.tags.length > 0">
+                    <div ng-repeat="tag in parentEntity.tags | filter:  {changeType: '!2'}  | orderBy: ['name']">
+                        <ion-item class="item item-icon-right bgRoyalLight" ng-click="tagClicked(tag)">
+                            {{tag.name}}  <span class="itemLabel" ng-if="tag.isNew">&nbsp;&nbsp;New!</span>
+                            <span ng-if="parentEntityType != 8" class="itemLabel"><br />{{(tag.typename == ' Tags') ? 'Loose Tags' : tag.typename}}</span>
+                            <span ng-if="parentEntityType == 8" class="itemLabel"><br />{{tag.description}}</span>
+
+                            <i ng-if="tag.updatable || tag.removable" class="icon ion-navicon-round iconButton" ng-click="showEntityAction($event, tag)"></i>
+                        </ion-item>
+                    </div>
+                    <div ng-if="entityCount > 10" class="row bgRoyal "><div class="col"></div></div>
+
+                </div>
+                <div ng-if="parentEntity.tags.length == 0">
+                    <div class="item item-divider bgRoyalLight itemLabel text-center">
+                        No tags
+                    </div>
+
+                </div>
+            </ion-list>
+        </div>
+    </div>
+    <div ng-if="pickMode == 'checkboxes'">
+
+        <div ng-repeat="ut in usertypes | orderBy: 'name' ">
+            <div class="item bgRoyal itemPadding">
+                <span class="royal">{{(ut.name == ' Tags') ? 'Loose Tags' : ut.name}}</span>
+            </div>
+            <div ng-repeat="tag in ut.tags | orderBy: 'name' " 
+                 class="item item-icon-left  {{tag.isSelected ? 'bgRoyalLight' : ''}}" 
+                 ng-click="tagChange(tag)">
+                <i  class="icon  {{tag.isSelected ? 'ion-android-checkbox-outline' : 'ion-android-checkbox-outline-blank'}}" style="font-size:1.5em;"></i>
+                {{tag.name}}
+            </div>
+        </div>
+
+        <div ng-if="fixedTags.length > 0">
+
+            <div class="item bgRoyal item-icon-left " ng-click="toggleFixedHide()">
+                <i ng-class="(!fixedHide) ? 'icon ion-arrow-down-b' : 'icon ion-arrow-right-b '"></i>
+
+                <span class="royal">{{fixedTags.length}} Addional Tags*</span>
+
+            </div>
+            <div ng-if="!fixedHide" ng-repeat="tag in fixedTags  | orderBy: ['name']" class="item bgRoyalLight" ng-click="tagClicked(tag)">
+                {{tag.name}} {{parentEntityType}}
+                <span class="itemLabel"><br />{{(tag.typename == ' Tags') ? 'Loose Tags' : tag.typename}}</span>
+
+            </div>
+            <div class="row bgRoyalLight">
+                <div class="col text-center itemLabel">
+                    * assigned by owner(s)
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<div ng-if="isOpen && isDatabase">
+    <ion-list>
+        <div ng-repeat="ut in parentEntity.usertypes | orderBy: 'name' "
+             ng-if="parentEntity.usertypes.length > 0">
+            <div class="item bgRoyal item-icon-right" ng-click="ut.hide = !ut.hide">
+                <div class="royal">
+                    {{(ut.name == ' Tags') ? 'Loose Tags' : ut.name}} 
+                    
+                    <!--<i ng-if="ut.forPeople" class="icon ion-person energized"></i>
+                    <i ng-if="ut.forOrgs" class="icon ion-person-stalker calm"></i>
+                    <i ng-if="ut.forTouches" class="icon shuri-touch balanced"></i>-->
+
+                </div>
+
+                <i class="icon {{(ut.updatable) ? 'ion-edit ' : 'ion-information-circled'}} iconButton" 
+                   ng-click="editUT($event, ut)"
+                   style="font-size:1.5em; padding-left:12px; padding-right:12px;"></i>
+            </div>
+            <div ng-if="!ut.hide"
+                 ng-repeat="tag in ut.tags | orderBy: 'name' "
+                 class="item item-icon-right bgRoyalLight"
+                 ng-click="tagClicked(tag)">
+                {{tag.name}}
+                <i ng-if="ut.updatable" class="icon ion-navicon-round iconButton" ng-click="showEntityAction($event, tag)"></i>
+            </div>
+        </div>
+        <div ng-if="parentEntity.usertypes.length == 0">
+            <div class="item item-divider bgRoyalLight itemLabel text-center">
+                No tags
+            </div>
+
+        </div>
+    </ion-list>
+
+</div>

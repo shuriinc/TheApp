@@ -1,0 +1,83 @@
+﻿<ion-modal-view>
+    <ion-header-bar class="bar-dark">
+        <div class="title">Importing...</div>
+        <div class="button button-icon ion-arrow-right-a icon-right" ng-click="vm.closeARModal()"><span class="medText" ng-if="!vm.isNarrow">Continue &nbsp;</span></div>
+    </ion-header-bar>
+    <ion-header-bar class="bar-subheader bar-dark">
+        <div class="title">Analyst Relations DB Match</div>
+    </ion-header-bar>
+    <ion-content class="has-header has-subheader">
+        <div class="list">
+            <div class="item  item-positive text-center item-text-wrap medText">
+                <span ng-show="vm.importGroup.people.length">
+                    Discovered {{vm.importGroup.people.length | number}} people in the spreadsheet.  Matched {{vm.resolvedARPeople | number}} to the Analyst Relations DB.
+                    <span ng-show="vm.allOrgs.length"><br /></span>
+                </span>
+                <span ng-show="vm.allOrgs.length">Discovered {{vm.allOrgs.length | number}} organizations in the spreadsheet.  Matched {{vm.resolvedAROrgs | number}} to the Analyst Relations DB.</span>
+            </div>
+
+            <div ng-if="vm.importGroup.people.length">
+                <div class="item item-dark item-icon-left" ng-click="vm.hideUnknown = !vm.hideUnknown">
+                    <i ng-class="(!vm.hideUnknown) ? 'icon ion-arrow-down-b' : 'icon ion-arrow-right-b'"></i>
+                    {{(vm.importGroup.people.length - vm.resolvedARPeople) | number}} Unknown People
+                </div>
+                <div ng-if="!vm.hideUnknown">
+                    <div class="item itemPadding bgDark item-text-wrap text-center">
+                        <span class="light {{vm.isNarrow ? 'smallText' : 'medText'}}">These people will be created new in <span class="positive">{{vm.collectionName}}</span> database.  If there are analysts in this list, match them to the Analyst Relations DB now to avoid duplicates.</span></div>
+
+                    <div ng-repeat="per in vm.importGroup.people | filter: {id: vm.guidEmpty} | orderBy: ['lastname', 'firstname', 'name']">
+                        <div class="item item-stable  item-icon-right" ng-click="vm.openLookupModal(per, 4)" title="Click to match.">
+                            {{per.name}}
+                            <i class="icon ion-trash-a iconButton " ng-click="vm.removePerson($event, per)"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="item item-energized item-icon-left" ng-click="vm.showKnown = !vm.showKnown">
+                    <i ng-class="(vm.showKnown) ? 'icon ion-arrow-down-b' : 'icon ion-arrow-right-b'"></i>
+                    {{ vm.resolvedARPeople | number}} People matched to AR DB
+                </div>
+                <div ng-if="vm.showKnown">
+                    <div class="item bgEnergized itemPadding  text-center item-text-wrap item-borderless"><div class="itemLabel">These analysts were found in the Analyst Relations database.</div> </div>
+                    <div ng-repeat="per in vm.importGroup.people | hasId | orderBy: ['lastname', 'firstname', 'name']">
+                        <item-entity entity="per" entity-type="4" hide-action="true" manage-updates="false" parent-entity-type="11" parent-entity="vm.importGroup" ></item-entity>
+                    </div>
+                    <div class="item bgEnergized">bgEnergized</div>
+                    <div class="item bgEnergizedLight">bgEnergizedLight</div>
+                </div>
+
+            </div>
+
+
+            <div ng-if="vm.allOrgs.length">
+                <div class="item item-dark item-icon-left" ng-click="vm.hideUnknownOrg = !vm.hideUnknownOrg">
+                    <i ng-class="(!vm.hideUnknownOrg) ? 'icon ion-arrow-down-b' : 'icon ion-arrow-right-b'"></i>
+                    {{(vm.allOrgs.length - vm.resolvedAROrgs) | number}} Unknown Organizations
+                </div>
+
+                <div ng-if="!vm.hideUnknownOrg">
+                    <div class="item itemPadding bgDark item-text-wrap">
+                        <span class="light itemLabel">These organizations will be created new in <span class="h5">{{vm.collectionName}}</span> database.  If there are analyst firms in this list, match them to the Analyst Relations DB now to avoid duplicates.</span></div>
+                    <div ng-repeat="org in vm.allOrgs | filter: {id: vm.guidEmpty} | orderBy: 'name'">
+                        <div class="item item-stable item-icon-right" ng-click="vm.openLookupModal(org, 9)" title="Click to match.">
+                            {{org.name}}
+                            <i class="icon ion-trash-a iconButton " ng-click="vm.removeOrg($event, org)"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="item item-calm item-icon-left" ng-click="vm.showKnownOrg = !vm.showKnownOrg">
+                    <i ng-class="(vm.showKnownOrg) ? 'icon ion-arrow-down-b' : 'icon ion-arrow-right-b'"></i>
+                    {{ vm.resolvedAROrgs | number}} Organizations matched to AR DB
+                </div>
+                <div ng-if="vm.showKnownOrg">
+                    <div class="item itemPadding  bgCalm text-center item-text-wrap"><span class="itemLabel">These firms were found in the Analyst Relations database.</span> </div>
+                    <div ng-repeat="org in vm.importGroup.groups | hasId | orderBy: 'name'">
+                        <item-entity ng-if="org.grpType == '3'" entity="org" entity-type="9" hide-action="true" manage-updates="false" parent-entity-type="11" parent-entity="vm.importGroup"></item-entity>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </ion-content>
+</ion-modal-view>

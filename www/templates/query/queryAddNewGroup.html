@@ -1,0 +1,10 @@
+﻿<div>
+    {{vm.wordFor("Group")}} name
+    <div class="item-input bgPositive" style="white-space: nowrap !important">
+        <input type='text' ng-model='vm.groupName' ng-change="vm.groupNameChange()" />
+        <span ng-show='vm.showGroupNameOK'>
+            <i ng-show="!vm.groupnameOK" class="icon ion-close-circled assertive" style="padding-top:20px;"></i>
+            <i ng-show="vm.groupnameOK" class="icon ion-checkmark-circled balanced" style="padding-top:20px;"></i>
+        </span>
+    </div>
+</div>

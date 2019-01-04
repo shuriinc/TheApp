@@ -1,0 +1,64 @@
+<!-- NOTE: Copy and Paste me for great success! -->
+<ion-modal-view>
+    <ion-header-bar class="bar-positive">
+        <div class="title"><i class="icon ion-help-circled"></i> Tag Sets</div>
+    </ion-header-bar>
+    <ion-content class="has-header">
+
+        <ion-list>
+
+            <div class="item medText item-text-wrap help-content">
+              <span>
+                Tags offer labels as a way to track trends and categories across many items and then quickly find what you’re looking for in queries.
+                To learn more about tags, see <em class="link-to-section energized" ng-click="vmMaster.deepModal('query');">TAGS & QUERYING.</em>
+                <br /><br />
+                To manually create a new tag set:
+                <ul class="orderedList">
+                  <li>
+                    Click the plus sign next to <em style="font-style:italic;">Tag Sets</em> on the Customize page.
+                  </li>
+                  <li>
+                    Create the name of your tag set, which acts as the umbrella set your tags will live under.
+                  </li>
+                  <li>
+                    Then, create your tags in the <em style="font-style:italic;">Add tags</em> field and click <em style="font-style:italic;">Add New.</em>
+                  </li>
+                </ul>
+                <br />
+                The next time you navigate to the appropriate contacts, you’ll be able to add these tags to their profiles by typing into the tags tab and selecting from the drop-down menu below.
+              </span>
+
+              <!-- <h3></h3>
+              <span>
+              </span> -->
+
+              <!-- <h3></h3>
+              <span>
+              </span> -->
+
+              <!-- <h3></h3>
+              <span>
+              </span> -->
+
+              <!-- <h3></h3>
+              <span>
+              </span> -->
+
+            </div>
+
+        </ion-list>
+    </ion-content>
+    <ion-footer-bar class="bar-dark no-padding footerButton">
+      <div class="button-bar ">
+          <button class="button" ng-if="!vmMaster.showOk" ng-click="vmMaster.closeAllHelp()">
+            Close
+          </button>
+          <button class="button ok-confirm" ng-if="!vmMaster.showOk" ng-click="vmMaster.closeHelp()">
+              Back
+          </button>
+          <button class="button ok-confirm" ng-if="vmMaster.showOk" ng-click="vmMaster.closeHelp()">
+              {{vmMaster.wordFor("OK")}}
+          </button>
+      </div>
+
+    </ion-footer-bar>

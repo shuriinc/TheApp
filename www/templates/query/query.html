@@ -1,0 +1,135 @@
+﻿<ion-view ng-controller="QueryCtrl as vm">
+    <ion-nav-title >
+        {{vm.entityWord}}
+    </ion-nav-title>
+    <!--<style>
+        /* Style tweaks for cleaner UI */
+        #mybar > .button { font-size: 14px;  min-height:32px !important; padding: 0px !important; }
+        #mybar > .button .icon,
+        #mybar > .button .icon:before, #mybar > .button.icon:before, #mybar > .button.icon-left:before, #mybar > .button.icon-right:before{ font-size: 24px; margin-top: 0px; }
+        #mybar > .button:first-child { border-radius: 4px 0px 0px 4px; }
+        #mybar > .button:last-child { border-radius: 0px 4px 4px 0px; }
+    </style>-->
+    <!--<ion-footer-bar ng-if="!vm.showNavTabs" class="subfooter bar bar-dark"  ng-click="vm.showSummary = !vm.showSummary;">
+        <div class="item item-dark item-icon-right item-text-wrap " style="width:100% !important;">
+            <div class="medText">Results: {{vm.totalCount | number}} {{vm.entityWord}}</div>
+            <div class="smallText itemLabel" ng-if="vm.showSummary">
+                <div ng-bind-html="vm.querySummary" style="line-height:110%;"></div>
+                <div ng-if="(!vm.querySummary || vm.querySummary == '') && (vm.queryResults && vm.queryResults.length > 0)">All {{vm.entityWord}}</div>
+
+                <div ng-if="vm.isDefaultQuery" class="{{vm.foregroundColorbright}}">Default Query</div>
+
+            </div>
+            <i class="icon ion-navicon-round icon-accessory" ng-click="vm.openShare($event)" title="Action Menu" style="font-size: 2em;"></i>
+        </div>
+    </ion-footer-bar>-->
+
+    <div class="bar bar-subheader bar-dark" style="height: {{(vm.showSummary ? '140' : '100')}}px !important; white-space: normal !important;">
+            <div ng-if="vm.actionBarIndex < 3">
+                <div class="button-bar ">
+                    <div class="button button-clear icon ion-android-list button-{{vm.foregroundColor}}" ng-click="vm.setActionBar(1)"> <span class="stable">List</span> </div>
+                    <div class="button button-clear icon  ion-funnel  button-{{vm.foregroundColor}} " ng-click="vm.setActionBar(3)"> <span class="stable">Query</span>  </div>
+                    <div class="button button-clear icon ion-pie-graph  button-{{vm.foregroundColor}}" ng-click="vm.setActionBar(2)"> <span class="stable">Reports</span></div>
+                </div>
+            </div>
+            <div ng-if="vm.actionBarIndex == 3">
+                <div ng-if="!vm.hasField && !vm.needsResolved">
+                    <div class="button-bar">
+                        <div class="button button-clear icon ion-android-list button-{{vm.foregroundColor}}" ng-click="vm.closeQueryItems(false)"> List</div>
+                        <div class="button  button-clear button-assertive icon ion-minus-circled" ng-click="vm.share('clearquery'); " ng-if="vm.isQueryDirty || (vm.isDefaultQuery || vm.querySummary != '')"> Clear</div>
+                        <div class="button  button-clear ok-confirm icon ion-refresh" ng-click="vm.closeQueryItems(true)"> Refresh</div>
+                        <div class="button button-clear icon ion-pie-graph  button-{{vm.foregroundColor}}" ng-click="vm.setActionBar(2)"> <span class="stable">Reports</span></div>
+                    </div>
+                </div>
+
+            </div>
+        <div class="item item-dark item-icon-right item-text-wrap " style="width:100% !important;margin-top:4px;"
+             ng-click="vm.showSummary = !vm.showSummary;">
+            <div class="medText">Results: {{vm.totalCount | number}} {{vm.entityWord}}</div>
+            <div class="smallText itemLabel" ng-if="vm.showSummary">
+                <div ng-bind-html="vm.querySummary" style="line-height:110%;"></div>
+                <div ng-if="(!vm.querySummary || vm.querySummary == '')">All {{vm.entityWord}}</div>
+                <div ng-if="vm.isDefaultQuery" class="{{vm.foregroundColorbright}}">Default Query</div>
+            </div>
+            <i class="icon ion-navicon-round icon-accessory" ng-click="vm.openShare($event)" title="Action Menu" style="font-size: 2em;"></i>
+        </div>
+
+    </div>
+<div ng-if="vm.showContent">
+    <ion-content class="has-header has-subheader" style="margin-top:{{(vm.showSummary ? '90' : '50')}}px;">
+        <ion-refresher pulling-text="Pull for hard refresh" on-refresh="vm.pullToRefresh()" ng-if="vm.actionBarIndex == 1">
+        </ion-refresher>
+            <ion-list>
+                <div>{{vm.getForceQueryRefresh()}}</div>
+                <!-- Query summary-->
+                <!-- List -------------------------------------------------------------------->
+                <div ng-if="vm.actionBarIndex == 1">
+                    <div ng-repeat="queryResult in vm.queryResults | orderBy: ['sorter', 'sortname']">
+                        <item-entity entity="queryResult" entity-type="vm.entityType" entity-count="0" parent-entity-type="-1" parent-entity="vm.query" show-checkbox="vm.showCBs" manage-updates="true" ng-click="vm.goto(queryResult)"></item-entity>
+                    </div>
+                    <div class="item {{vm.backgroundColorLight}}" ng-if="vm.queryResults && vm.queryResults.length == 0 && !vm.isOverLimit">
+                        <span class="itemLabel ">No results found.</span>
+                    </div>
+                 </div>
+ 
+                <!-- report -------------------------------------------------------------------->
+                <div ng-if="vm.actionBarIndex == 2">
+                    <div ng-include="'templates/query/templates.html'"></div>
+                </div>
+                
+                <!-- Query  Filters --------------------------------------------------------->
+                <div ng-show="vm.actionBarIndex == 3">
+                    <div ng-include="'templates/query/queryFilters.html'"></div>
+                </div>
+                <ion-infinite-scroll on-infinite="vm.loadMore(true)" distance="25%" ng-if="vm.hasMore && vm.actionBarIndex == 1">
+                </ion-infinite-scroll>
+                <list-footer></list-footer>
+            </ion-list>
+    </ion-content>
+        <div ng-include="'templates/tabs.html'"></div>
+
+    <!--<ion-footer-bar ng-if="!vm.showNavTabs" class="subfooter bar bar-dark" style="height: {{vm.showSummary ? '180' : '120'}}px !important; white-space: normal !important;" ng-click="vm.showSummary = !vm.showSummary;">
+        <div class="item item-dark item-icon-right item-text-wrap " style="width:100% !important;">
+            <div class="medText" >Results: {{vm.totalCount | number}} {{vm.entityWord}}</div>
+            <div class="smallText itemLabel" ng-if="vm.showSummary">
+                <div ng-bind-html="vm.querySummary" style="line-height:110%;"></div>
+                <div ng-if="(!vm.querySummary || vm.querySummary == '') && (vm.queryResults && vm.queryResults.length > 0)">All {{vm.entityWord}}</div>
+                
+                <div ng-if="vm.isDefaultQuery" class="{{vm.foregroundColorbright}}">Default Query</div>
+
+            </div>
+            <i class="icon ion-navicon-round icon-accessory" ng-click="vm.openShare($event)" title="Action Menu" style="font-size: 2em;"></i>
+        </div>
+    </ion-footer-bar>
+
+    <ion-footer-bar ng-if="vm.showNavTabs" class="bar bar-dark">
+        <ion-tabs class="tabs-dark tabs-icon-top">
+            <ion-tab icon-on="homeColor ion-home" icon-off="homeColor ion-home" ui-sref="home.main" title="Home"></ion-tab>
+            <ion-tab icon-on="energized ion-person " icon-off="energized ion-person" ui-sref="home.queryPeople" title="People"></ion-tab>
+            <ion-tab icon-on="calm ion-person-stalker" icon-off="calm ion-person-stalker" ui-sref="home.queryOrgs" title="Orgs"></ion-tab>
+            <ion-tab icon-on="balanced shuri-touch" icon-off="balanced shuri-touch" ui-sref="home.queryTouches" title="Touches"></ion-tab>
+            <ion-tab icon-on="royal ion-pound " icon-off="royal ion-pound" ui-sref="home.queryTags" title="Tags"></ion-tab>
+        </ion-tabs>
+    </ion-footer-bar>-->
+    <input type="file" accept="{{vm.acceptRptTemplate}}"
+           id="{{vm.uploadID}}"
+           class="entity-upload"
+           onchange="angular.element(this).scope().$parent.vm.saveFiles(this.files)" />
+    <input type="file" accept="{{vm.acceptRptTemplate}}"
+           id="reportReplacer"
+           class="entity-upload"
+           onchange="angular.element(this).scope().$parent.vm.replaceTemplate(this); " />
+
+</div>
+
+    <script id="existingGroupQuery.html" type="text/ng-template">
+        <div class="itemLabel">Choose a {{vm.wordFor("Group")}} </div>
+        <br />
+        <div class="item item-select">
+            <select ng-options="grp as grp.name for grp in vm.privateGroups" ng-model="vm.selectedPrivateGroup" ng-change="vm.selectedPrivateGroupChanged()"></select>
+            <br />
+        </div>
+    </script>
+
+ 
+</ion-view>

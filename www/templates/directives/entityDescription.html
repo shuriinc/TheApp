@@ -1,0 +1,93 @@
+
+<div ng-show="!entity.hideDesc">
+  <div class="item  item-icon-left {{(forUpdate) ? 'item-icon-right' : ''}} " style="border-bottom:0px; padding-bottom:0px;" ng-click="toggleOpenTA()">
+    <i class="icon ion-arrow-down-b iconButton" style="font-size:1.5em;"></i>
+    <div class="input-label itemLabel"
+         
+         style="white-space:nowrap;">{{entity.descLabel}}</div>
+
+    <i ng-if="forUpdate && !hideEdit" class="icon {{(mayUpdate) ? 'ion-arrow-expand' : 'ion-edit'}} iconButton" ng-click="openmodalFS($event)" title="Edit"></i>
+  </div>
+   <div class="item medText item-text-wrap" ng-if="!mayUpdate" style="border-top:0px;padding-top:0px;">
+    <div ng-bind-html="entity.description | lineBreaks"> </div>
+    <!--<div ng-if="!entity.description" class="itemLabel">(no description) </div>-->
+  </div>
+
+
+  <div ng-show="mayUpdate && !isHtml" style="border-top:0px;" class="item item-input item-stacked-label ">
+    <textarea style="height:{{entity.taHeight}};" class="autogrow medText" id="{{entity.descriptionId}}"
+              ng-model="entity.description"
+              ng-keyup="inputChanged()"
+              ng-blur="updateDesc()"></textarea>
+  </div>
+
+</div>
+
+<div ng-show="entity.hideDesc" class="item item-icon-left" ng-click="toggleOpenTA()">
+  <i class="icon ion-arrow-right-b iconButton" style="font-size:1.5em;"></i>
+  <span class="input-label {{(isCustom) ? customCSSLabel : 'itemLabel' }}">
+    {{entity.descLabel}}
+    <span class="smallText dark">&nbsp;&nbsp;{{entity.description}}</span>
+  </span>
+
+</div>
+
+
+<script id="entityDescFS.html" type="text/ng-template">
+  <ion-modal-view style="height:100%; width:100%; top:0; left:0;position:absolute;">
+    <ion-header-bar class="bar-header bar-dark ">
+      <div class="button-bar">
+        <div class="button button-clear button-stable icon ion-close-round" ng-click="closeFullscreen()">
+          Close
+        </div>
+      </div>
+    </ion-header-bar>
+    <ion-content class="has-header" style="position:absolute;">
+      <ion-list>
+        <div class="item item-input item-stacked-label ">
+          <div class="input-label itemLabel">
+            {{entity.descLabel}}
+            <span ng-show="showSpaceMessage" class="assertive ">
+              &nbsp;&nbsp;
+              space bar scrolls to end
+            </span>
+          </div>
+          <textarea id="taDescriptionFS" style="height:{{descHeight}};width:100%;"
+                    ng-blur="blurItem()"
+                    ng-model="entity.description"
+                    ng-keyup="inputChanged()"></textarea>
+        </div>
+      </ion-list>
+    </ion-content>
+
+  </ion-modal-view>
+</script>
+<script id="entityDescDesktop.html" type="text/ng-template">
+  <ion-modal-view style="display: inline-block; position: fixed; top: 0; bottom: 0; left: 0; right: 0; width: 720px; height: 99%; margin: auto; margin-top: 4px; border-radius: 8px; border: 2px solid #444; overflow: hidden;">
+    <ion-header-bar class="bar-header bar-dark ">
+      <div class="button-bar">
+        <div class="button button-clear button-stable icon ion-close-round" ng-click="closeFullscreen()">
+          Close
+        </div>
+      </div>
+    </ion-header-bar>
+    <ion-content class="has-header" style="position:absolute;">
+      <ion-list>
+        <div class="item item-input item-stacked-label ">
+          <div class="input-label itemLabel">
+            {{entity.descLabel}}
+            <span ng-show="showSpaceMessage" class="assertive ">
+              &nbsp;&nbsp;
+              space bar scrolls to end
+            </span>
+          </div>
+          <textarea id="taDescriptionFS" style="height:{{descHeight}};width:100%;"
+                    ng-blur="blurItem()"
+                    ng-model="entity.description"
+                    ng-keyup="inputChanged()"></textarea>
+        </div>
+      </ion-list>
+    </ion-content>
+
+  </ion-modal-view>
+</script>

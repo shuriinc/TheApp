@@ -1,0 +1,39 @@
+﻿<ion-view ng-controller="SearchCtrl as vm" title="Shuri Search">
+    <ion-nav-title>
+       Search
+    </ion-nav-title>
+    <!-- Search bar-->
+    <ion-header-bar class="bar-subheader bar-dark item-input-inset">
+        <label class="item-input-wrapper">
+            <i class="icon ion-search placeholder-icon"></i>
+            <input autocomplete="off" ng-model="vm.searchString" type="search" placeholder="{{vm.placeholderSearch}}" onmouseup="this.select();"
+                   ng-focus="vm.resetHideResults()" ng-blur="vm.hideResults()" ng-keyup="vm.keyPressedAdd($event, this)"
+                   title="Search people, orgs, touches, and/or tags.">
+        </label>
+        <div class="button button-clear icon ion-close-circled button-assertive"
+             ng-click="vm.searchString = ''; vm.keyPressedAdd($event, this);"
+             title="Close search"
+             ng-if="vm.searchString != ''"></div>
+    </ion-header-bar>
+
+    <ion-content class="has-header">
+        <ion-list>
+                <!-- Search results-->
+                <div ng-if="vm.showResults ">
+                    <div class="item itemLabel item-stable" ng-if="vm.searching">{{vm.wordFor("Searching")}}...</div>
+                    <div class="item itemLabel item-stable text-center" ng-if="!vm.searching && (!vm.searchResults || vm.searchResults.length == 0) && (vm.searchString.length != 1)"><span class="assertive">{{vm.wordFor("No results found")}}</span></div>
+                    <!--<div class="item itemLabel item-stable text-center" ng-if="!vm.searching && (vm.searchString.length == 1)"><span class="">2 letters begins search</span></div>-->
+                    <div ng-repeat="result in vm.searchResults " ng-show="!vm.searching">
+                        <item-entity entity="result" entity-type="-1" entity-count="0" parent-entity-type="-1" parent-entity="vm.group" ng-click="vm.selectAddResult(result)" manage-updates="true"></item-entity>
+                    </div>
+                </div>
+            <div class="item itemLabel bgDarkLight text-center" ng-if="!vm.showResults ">
+                Find anything - start typing above
+            </div>
+
+            <list-footer />
+
+        </ion-list>
+    </ion-content>
+</ion-view>
+

@@ -1,0 +1,117 @@
+<ion-modal-view>
+    <ion-header-bar class="bar-positive">
+        <div class="title"><i class="icon ion-help-circled"></i> Touches</div>
+    </ion-header-bar>
+    <ion-content class="has-header">
+
+        <ion-list>
+          <div class="item itemDivider">
+              Track Interactions with Touches
+          </div>
+
+          <div class="item medText item-text-wrap help-content">
+            <span>
+              Touches can be created for future or past events.
+            </span>
+
+            <h3>Here’s how it works:</h3>
+            <span>
+              <ul class="orderedList">
+                <li>
+                  Add the People and Organizations that you’ve had an interaction with to the Touch.
+                  Next time you navigate to those contacts’ profile pages, the Touch will appear in their Touches tab.
+                </li>
+                <li>
+                  Attach any files to the Touch that you want to store in conjunction with the interaction.
+                </li>
+                <li>
+                  Share your Touches with teammates or the public by placing them in a shared or published Database.
+                </li>
+                <li>
+                  Easily search for relevant Touches after labeling them with tags. (see <em class="link-to-section energized" ng-click="vmMaster.deepModal('query');">TAGS & QUERYING</em>).
+                </li>
+                <li>
+                  Report on your Touches in Excel with Shuri’s reporting feature (see REPORTING WITH SHURI)
+                </li>
+              </ul>
+              Touches are customizable and you can track and record any kind of interaction that you’ve had with your contacts (see <em class="link-to-section energized" ng-click="vmMaster.deepModal('touchTypes');">TOUCH TYPES</em>).
+            </span>
+
+            <!-- Email Tracked -->
+              <span>
+                Shuri’s Email – Tracked Touch offers you the ability to craft and send emails.
+                You can send these to your contacts from any Database that you either own or subscribe to.
+                <br /><br />
+                Shuri also gives you the confidence to move forward with metrics like:
+                confirmation of the send, a detailed reporting of who opened your email and which of those readers clicked on any embedded links.
+                <ul class="orderedList">
+                  <li>
+                    Once you’ve selected the Email - Tracked Touch type, your Touch page will display like a new email.
+                  </li>
+                  <li>
+                    Craft your email template using Shuri’s email editor. Here you have the option to embed links, personalize with name replacement tokens like %firstname%, add images, and change your font and formatting.
+                    <ul class="orderedList" style="list-style-type: circle;">
+                      <li>You also have the option to upload your own html email template file by clicking the plus sign next to <em>Tracked Email Templates</em>.
+                      </li>
+                    </ul>
+                  <li>
+                    Click on the <em style="font-style:italic;">Person</em> or <em style="font-style:italic;">Organizations</em> tab and start searching for those you’d like to email.
+                    Selecting people or organizations from the drop-down menu will automatically add them as recipients, once the Touch is saved.
+                  </li>
+                  <li>
+                    Next, choose to send the email instantly or schedule for a future date and time.
+                    <br /><br />
+                  </li>
+                  <img src="https://shuristoragecdn.blob.core.windows.net/public/help-images/emailTracked01.png" alt="Example tracked email touch" />
+                  <br /><br />
+                  <li>
+                    Any attachments added to this Touch will display as attachments for the email’s recipients.
+                  </li>
+                  <br /><br />
+                  <img src="https://shuristoragecdn.blob.core.windows.net/public/help-images/emailTracked02.png" alt="Example tracked email touch with people and organizations" />
+                  <br /><br />
+                  <li>
+                    After your email has been sent, the Email Tracking tab on the Touch offers reporting on deliveries, opens and links clicked.
+                  </li>
+                  <img src="https://shuristoragecdn.blob.core.windows.net/public/help-images/emailTracked03.png" alt="Example tracked email details page" />
+                </ul>
+
+              </span>
+
+              <h3>Use Your Emails to Create Touches</h3>
+              <span>
+                When sending emails from outside of Shuri that you’d like to document in a Touch,
+                simply include cc@shuri.com in your email recipients.
+                <br /><br />
+                Include this address in the, "To" field, "cc," or "bcc." Once the email is sent,
+                a Touch will automatically appear in your Default Database with all of the relevant info.
+                <br /><br />
+                Sending the email to any of your Shuri contacts or other Shuri users will add their profiles to the Touch, as well.
+                Attachments included in the email will be accessible in the Touch.
+                <br /><br />
+                When any of your email’s recipients reply, including cc@shuri.com in their recipients, the reply will be added to the original Touch created, so that all communication on one email chain can be tracked inside of one Touch.
+                <br /><br />
+                Note: any recipients included in your bcc field will not be added to the Touch. Due to the nature of how blind copy works, Shuri will be unable to identify who those contacts are.
+                <br /><br />
+              </span>
+
+
+            </div>
+
+
+        </ion-list>
+    </ion-content>
+    <ion-footer-bar class="bar-dark no-padding footerButton">
+      <div class="button-bar ">
+          <button class="button" ng-if="!vmMaster.showOk" ng-click="vmMaster.closeAllHelp()">
+            Close
+          </button>
+          <button class="button ok-confirm" ng-if="!vmMaster.showOk" ng-click="vmMaster.closeHelp()">
+              Back
+          </button>
+          <button class="button ok-confirm" ng-if="vmMaster.showOk" ng-click="vmMaster.closeHelp()">
+              {{vmMaster.wordFor("OK")}}
+          </button>
+      </div>
+
+    </ion-footer-bar>

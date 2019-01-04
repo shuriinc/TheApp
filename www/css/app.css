@@ -1,0 +1,4 @@
+body:before {
+  white-space: pre;
+  font-family: monospace;
+  content: "Error: File to import not found or unreadable: ../lib/ionic/scss/ionic.\A         on line 24 of scss/ionic.app.scss\A \A 19: $ionicons-font-path: \"../lib/ionic/fonts\" !default;\A 20: \A 21: $positive:                        #057b6c !default;\A 22: \A 23: // Include all of Ionic\A 24: @import \"../lib/ionic/scss/ionic\";\A 25: // @import \"/www/lib/ionic/scss/ionic\";"; }

@@ -1,0 +1,523 @@
+<ion-view ng-controller="TouchEditCtrl as vm">
+  <style>
+    ul {
+      list-style-type: disc;
+      margin-left: 12px;
+    }
+
+    ol {
+      list-style-type: decimal;
+      margin-left: 12px;
+    }
+
+    li {
+      margin-bottom: 4px;
+    }
+  </style>
+
+  <input ng-if="vm.isTrackedEmail" class="entity-upload" type="file" id="body-upload" accept=".html,.htm" upload-body="files">
+
+  <ion-nav-title ng-show="vm.touch">
+    {{(vm.fullscreen) ? 'HTML Editor' : (vm.isNew ? vm.wordFor("Add New") + ' Touch' : vm.title)}}
+  </ion-nav-title>
+  <ion-header-bar class="bar-subheader item-input-inset bar-dark" ng-show="vm.touch">
+    <div class="button-bar" ng-if="!vm.fullscreen">
+      <div ng-click="vm.cancel()" class="button button-clear button-stable icon ion-close-round">&nbsp;&nbsp;{{vm.wordFor("Cancel")}}</div>
+      <div ng-if="vm.isTrackedEmail" ng-click="vm.save('test')" click-once class="button button-clear icon ion-email button-energized">&nbsp;&nbsp;{{vm.wordFor("Test")}}</div>
+      <div ng-if="vm.isSchedulable && !vm.touch.isScheduled  && !vm.isSent" ng-click="vm.save('sendNow')" click-once class="button button-clear icon ion-email button-assertive">&nbsp;&nbsp;Send Now</div>
+      <div ng-click="vm.save()" click-once class="button button-clear icon ion-checkmark-round ok-confirm" ng-disabled="vm.saving">&nbsp;&nbsp;{{vm.wordFor("Save")}}</div>
+    </div>
+    <div class="button-bar" ng-if="vm.fullscreen">
+      <div class="button button-clear button-stable icon ion-close-round" ng-click="vm.toggleFullscreen()">
+        OK
+      </div>
+    </div>
+  </ion-header-bar>
+  <ion-content class="has-header" delegate-handle="theHandle">
+    <!--<div class="button-bar" ng-if="vm.touch && vm.isTimed">
+        <div class="button button-energized icon ion-ios-rewind" ng-if="vm.elapsedTime > 0"
+                ng-click="vm.resetTimer()"></div>
+        <div class="button icon {{vm.isRecording ? 'button-assertive ion-ios-pause' : 'ok-confirm ion-ios-play' }}"
+                ng-click="vm.toggleTimer()"></div>
+        <div class="button button-light {{vm.isRecording ? 'button-outline button-assertive' : '' }}">{{vm.elapsedTime | timerFilter:'ss':'hh:mm:ss':false}}</div>
+    </div>-->
+
+    <ion-list ng-show="vm.touch && !vm.fullscreen">
+      <div class="item bgDark light text-center " ng-if="vm.sentLabel">
+        {{vm.sentLabel}}
+      </div>
+
+
+      <div class="item item-input item-select ">
+        <div class="input-label">
+          <span class="input-label itemLabel">Touch {{vm.wordFor("Type")}}</span>
+        </div>
+        <select ng-options="ut.id as ut.name for ut in vm.utsTouch | filter: {changeType: '!2'} | orderBy: 'name'"
+                ng-model="vm.touch.userType_Id" ng-change="vm.typeChanged(true); "
+                ng-disabled="vm.isSent">
+          <option value="">{{vm.newUt}}</option>
+        </select>
+      </div>
+      <div class="item item-input item-stacked-label ">
+        <span class="input-label itemLabel">{{vm.nameLabel}}</span>
+        <input type="text" id="txtName" ng-model="vm.touch.name" ng-change="vm.touchChanged();" maxlength="140">
+      </div>
+
+      <!--   Tracked Email ------------------->
+      <div ng-if="vm.isTrackedEmail">
+        <div class="item item-input item-stacked-label">
+          <span class="input-label itemLabel">From</span>
+          <input type="text" ng-model="vm.touch.from" ng-change="vm.touchChanged();" maxlength="140">
+        </div>
+        <div class="item item-input item-stacked-label">
+          <span class="input-label itemLabel">Reply-To Address</span>
+          <input type="text" ng-model="vm.touch.replyTo" ng-change="vm.touchChanged();" maxlength="140">
+        </div>
+
+      </div>
+
+      <!--  Date Section  ----------------------------------------->
+      <div ng-if="!vm.isTimed">
+        <!-- Scheduled touches -->
+        <div ng-if="!vm.isSchedulable">
+          <div class="item item-input">
+            <span class="input-label itemLabel" ng-click="vm.getDateStart()">Start </span>
+            <i class="icon ion-android-calendar" ng-click="vm.getDateStart()"></i>&nbsp;
+            <input type="date" ng-model="vm.jsDateStart" ng-change="vm.touchChanged(); vm.adjustEndDate()" ng-focus="vm.dateStartFocus()" />
+            <input type="time" ng-model="vm.jsDateStart" ng-if="!vm.allDayOn && !vm.preferences.omittime" ng-change="vm.touchChanged();" />
+
+          </div>
+          <div class="item item-input" ng-if="!vm.preferences.omitend">
+            <span class="input-label itemLabel">End</span>
+            <i class="icon ion-android-calendar" ng-click="vm.getDateEnd()"></i>&nbsp;
+            <input type="date" ng-model="vm.jsDateEnd" ng-change="vm.touchChanged();" />
+            <input type="time" ng-model="vm.jsDateEnd" ng-if="!vm.allDayOn && !vm.preferences.omittime" ng-change="vm.touchChanged();" />
+          </div>
+        </div>
+
+
+        <div ng-if="vm.isSchedulable && !vm.isSent">
+          <div class="item item-toggle">
+            <span class="input-label itemLabel">Scheduled</span>
+
+            <label class="toggle toggle-balanced">
+              <input type="checkbox" ng-model="vm.isScheduled" ng-change="vm.isScheduledChanged(vm.isScheduled);" ng-disabled="vm.isSent">
+              <div class="track">
+                <div class="handle"></div>
+              </div>
+            </label>
+          </div>
+
+          <div class="item item-input " ng-if="vm.touch.isScheduled" ng-disabled="vm.isSent">
+            <span class="input-label itemLabel">Send at</span><br />
+            <input type="date" ng-model="vm.jsDateSchedule" ng-change="vm.touchChanged();" />
+            <input type="time" ng-model="vm.jsDateSchedule" ng-change="vm.touchChanged();" />
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Calendar Sync-->
+      <div ng-if="!vm.isTrackedEmail">
+        <div class="item item-input item-select" ng-if="vm.preferences.calsync && !vm.isSynced">
+          <span class="input-label itemLabel">Calendar
+          </span>
+          <select ng-options="cal as cal.name for cal in vm.calendars | orderBy: 'name'" class="col col-80 text-center" ng-model="vm.calendar" ng-change="vm.calsyncChanged()" ></select>
+        </div>
+        <div class="item item-icon-right" ng-if="vm.preferences.calsync && vm.isSynced">
+          <div>
+            <span class="input-label itemLabel">Synced to </span>
+            {{vm.syncedToName}}
+          </div>
+          <div class="icon ion-close-round iconButton" style="font-size:1em;" ng-click="vm.unsync()">Unsync</div>
+        </div>
+      </div>
+
+      <entity-cp-doc entity="vm.touch" for-update="true" mode="custom" is-dirty="vm.isDirty"></entity-cp-doc>
+
+      <!-- Descriptions --------------------------------------------------------------->
+      <div id="descriptions">
+        <!-- Tracked Email & templates---->
+        <div ng-show="vm.isTrackedEmail">
+          <div ng-if="!vm.usingTemplate" class="item  item-input item-icon-right bgPositiveLight"
+             ng-click="vm.hideDescriptionHtml = !vm.hideDescriptionHtml"  >
+            <div class="input-label itemLabel link">
+              Body
+             </div>
+            <div class="icon itemLabel link" ng-if="vm.mayUpdateFS">
+              <div ng-click="vm.openTrackedEmailPicker($event)">
+                <i class="ion-ios-copy balanced"> </i> <span ng-if="!vm.isNarrow" class="balanced" style="font-size:0.5em;vertical-align:middle;padding-right:6px;">Copy</span>
+
+              </div>&nbsp;&nbsp;&nbsp;
+              <div ng-click="vm.previewBody($event)">
+                <i class="ion-eye positive"> </i> <span ng-if="!vm.isNarrow" class="positive" style="font-size:0.5em;vertical-align:middle;padding-right:6px;">Preview</span>
+
+              </div>&nbsp;&nbsp;&nbsp;
+              <div ng-click="vm.toggleFullscreen($event)">
+                <i class="ion-edit "> </i> <span ng-if="!vm.isNarrow" style="font-size:0.5em;vertical-align:middle;padding-right:6px;">Edit</span>
+              </div>
+
+            </div>
+          </div>
+          <div class="row" ng-if="!vm.hideDescriptionHtml && vm.touch.descriptionHtml">
+            <div class="col" ng-bind-html="vm.touch.descriptionHtml">
+            </div>
+          </div>
+
+
+
+          <!--<ion-item class="item item-toggle item-text-wrap ">
+    <span class="itemLabel">Body: use template</span>
+    <label class="toggle toggle-balanced">
+      <input type="checkbox" ng-model="vm.usingTemplate" >
+      <div class="track">
+        <div class="handle"></div>
+      </div>
+    </label>
+  </ion-item>
+
+  <div ng-if="!vm.usingTemplate" class="item no-padding">
+    <div class="button-bar" ng-click="vm.usingTemplate = !vm.usingTemplate">
+      <div class="button button-clear button-positive" ng-if="!vm.usingTemplate">HTML Body</div>
+      <div class="button button-clear" ng-if="vm.usingTemplate">Use HTML Body</div>
+      <div class="button button-clear" ng-if="!vm.usingTemplate">Use Template</div>
+      <div class="button button-clear button-positive" ng-if="vm.usingTemplate">Template</div>
+    </div>
+  </div>
+
+  <div ng-show="!vm.hideEditor && !vm.usingTemplate" class="item item-text-wrap" style="border-top:0px;padding-top:0px;">
+    <div ng-bind-html="vm.touch.descriptionHtml"></div>
+    <div class="itemLabel">{{vm.touch.descriptionHtml}}</div>
+  </div>-->
+          <!--<div class="item item-icon-left item-icon-right bgPositiveLight" ng-click="vm.showTemplates = !vm.showTemplates;">
+    <i class="icon   {{(vm.showTemplates? 'ion-arrow-down-b' : 'ion-arrow-right-b ')}}" style="font-size:1.5em;"></i>
+    <div ng-if="!vm.usingTemplate || vm.showTemplates"><span ng-if="vm.templates.length > 0">{{vm.templates.length}} </span>Email Templates</div>
+    <div ng-if="vm.usingTemplate && !vm.showTemplates">{{vm.descLabel}}</div>
+    <div class="icon   iconButton ">
+      <div class="ion-plus-round" ng-click="vm.browseForTemplate($event)" style="font-size:1em;"></div>
+    </div>
+  </div>
+
+  <div ng-show="vm.showTemplates"
+       ng-repeat="doc in vm.templates | orderBy: ['isBody', '-createdDt']">
+    <div ng-if="!doc.isBody" class="item item-icon-left item-icon-right bgPositiveLight"
+         ng-click="vm.showTemplateAction($event, doc)">
+      <i class="icon" style="font-size:1.5em;"></i>
+      <div>{{doc.name}} <span class="itemLabel" ng-if="doc.isNew">&nbsp;&nbsp;New!</span></div>
+      <i class="icon ion-navicon-round iconButton"></i>
+    </div>
+    <div ng-if="doc.isBody" class="item item-icon-left item-icon-right bgPositive" ng-click="vm.previewTemplate(doc)">
+      <i class="icon ion-eye" style="font-size:1.5em;"></i>
+      <div class="">{{doc.name}} <span class="itemLabel" ng-if="doc.isNew">&nbsp;&nbsp;New!</span></div>
+      <i class="icon ion-navicon-round iconButton" ng-click="vm.showTemplateAction($event, doc)"></i>
+    </div>
+
+  </div>
+  <div ng-if="vm.templates.length === 0 " class="item bgPositiveLight itemLabel text-center">
+    No templates.
+  </div>-->
+
+        </div>
+
+        <!-- Captured Tweet -->
+        <div ng-if="vm.isCapturedTweet" class="item ">
+          <div class="list card">
+            <div class="item item-avatar" style="padding-bottom: 0;">
+              <img ng-src="{{vm.touch.captured.userPic}}">
+              <div class="row" style="padding: 0;">
+                <div class="col" style="padding: 0;">
+                  <h2 style="margin-bottom: 0; line-height: 2.0;">{{vm.touch.captured.userName}}</h2>
+                  <a href="https://www.twitter.com/{{vm.touch.captured.userSn}}" target="_blank" style="text-decoration: none;"><p style="color: grey;">@{{vm.touch.captured.userSn}}</p></a>
+                </div>
+                <div class="col" style="padding: 0;">
+                  <a href="https://www.twitter.com" target="_blank" class="medText" style="float: right; margin-right: 20px;"><i class="icon ion-social-twitter" style="font-size: 1.5em; color: #1DA1F2; line-height: 1.5em;"></i></a>
+                </div>
+              </div>
+            </div>
+            <div class="item item-body">
+              <div style="width: 100%; text-align: center;">
+                <img ng-if="vm.touch.captured.mediaUrl" ng-src="{{vm.touch.captured.mediaUrl}}" style="width: 75%;" ng-click="enlargePhoto(vm.touch.captured.mediaUrl);">
+              </div>
+              <p style="padding: 0; margin: 0; color: black;" ng-bind-html="vm.touch.captured.text.linkify_tweet()">
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Captured Research -->
+        <div ng-if="vm.isCapturedRSS" class="item">
+          <div class="list card tweetCard">
+            <div class="item item-text-wrap" style="padding-bottom: 0;">
+              <div class="row">
+                <div class="col text-center">
+                  <img class="link-to-section" ng-src="{{vm.touch.captured.imageUrl}}" style="max-width: 100px; border-radius: 0;">
+                </div>
+              </div>
+              <div class="row" style="padding: 0;">
+                <div class="col" style="padding: 0;">
+                  <h2 class="link" style="margin-bottom: 0; line-height: 2.0; text-decoration: underline;" ng-click="vm.browseToUrl(vm.touch.captured.name)">{{vm.touch.captured.title}}</h2>
+                </div>
+              </div>
+            </div>
+            <div class="item item-body">
+              <p style="padding: 0; margin: 0; color: black;">
+                {{vm.touch.captured.text}}
+              </p>
+              <div class="row" style="padding-left: 0; padding-right: 0;">
+                <div class="row" style="padding-left: 0; padding-right: 0;">
+                  <div class="col medText" style="padding-left: 0; padding-right: 20px;">
+                    {{vm.touch.captured.fmtDate}}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Social Media -->
+        <div ng-if="vm.isSocialMedia">
+          <div ng-if="true" class="button-bar">
+            <div ng-disabled="!vm.newTouch" ng-class="!vm.addTwitter ? 'button button-stable' : vm.touch.description.length > 140 ? 'button button-assertive' : 'button button-positive'" ng-click="vm.selectMedia('twitter')"> Twitter <span ng-if="vm.twitterAuthenticated" style="font-size: 1em;" class="ion-checkmark-circled balanced"></span></div>
+            <div ng-disabled="!vm.newTouch" style="border-radius: 0px; border-left: 1px solid black;" ng-class="!vm.addLinkedin ? 'button button-stable' : 'button button-positive'" ng-click="vm.selectMedia('linkedin')"> LinkedIn <span ng-if="vm.linkedinAuthenticated" style="font-size: 1em;" class="ion-checkmark-circled balanced"></span></div>
+          </div>
+
+          <ion-item ng-if="vm.linkedinAs.state" class="item item-input item-select">
+            <span class="input-label itemLabel"><i class="ion-social-linkedin positive"></i> Post As:</span>
+            <select ng-options="comp as comp.name for comp in vm.linkedinAs.options" ng-model="vm.linkedinAs.selected"></select>
+          </ion-item>
+
+          <div ng-if="vm.socialMediaAuthenticated" class="item item-input item-stacked-label">
+            <div class="input-label itemLabel">
+              Post Message:
+              <i ng-if="vm.addTwitter" class="ion-social-twitter positive"></i> <i ng-if="vm.addFacebook" class="ion-social-facebook positive"></i> <i ng-if="vm.addLinkedin" class="ion-social-linkedin positive"></i><span>
+                ({{vm.touch.description.description ? vm.touch.description.description.length : vm.touch.description.length}} characters used)
+              </span>
+            </div>
+            <i class="itemLabel link-to-section icon" ng-class="{'ion-arrow-expand': !vm.fullscreen, 'ion-arrow-shrink': vm.fullscreen};" ng-click="vm.togglefullscreen('socialMediaFS')" ng-if="vm.onDesktop" style="float: right;font-size: 1.3em; margin-right: 10px;"></i>
+            <div class="relativeWrapper">
+              <textarea ng-if="vm.newTouch" class="medText" ng-model="vm.touch.description" rows="6" ng-change="vm.touchChanged();"></textarea>
+              <textarea ng-disabled="!vm.newTouch" ng-if="!vm.newTouch" class="medText" ng-model="vm.touch.description.description" rows="6" ng-change="vm.touchChanged();" maxlength="4000"></textarea>
+              00
+            </div>
+          </div>
+          <div class="item item-body medText" ng-if="vm.isSocialMedia && !vm.socialMediaAuthenticated">
+            <p>
+              <i>
+                Social Media posts require you to be authenticated. Please select one of the social media options above and sign in to create a social media post.
+              </i>
+            </p>
+          </div>
+        </div>
+
+        <!--  Default  -->
+        <div ng-if="!vm.isSocialMedia && !vm.isTrackedEmail && !vm.isCapturedTweet  && !vm.isCapturedRSS">
+          <entity-description entity="vm.touch" entity-type="6" for-update="true" manage-updates="false" is-dirty="vm.isDirty"></entity-description>
+
+          <!--<div class="item item-input item-stacked-label item-icon-right">
+        <div class="input-label itemLabel">
+          {{vm.descLabel}}
+        </div>
+        <i class="icon ion-arrow-expand iconButton" ng-click="vm.goFullscreen()"></i>
+
+        <textarea id="textareaReg" class="medText" ng-model="vm.touch.description" rows="{{vm.textareaRows}}" ng-change="vm.touchChanged();"></textarea>
+      </div>-->
+        </div>
+      </div>
+      <!--END---     Descriptions --------------------------------------------------------------->
+
+      <collection-entity entity-type="4" parent-entity-type="6" parent-entity="vm.touch" manage-updates="false" is-dirty="vm.isDirty"></collection-entity>
+      <collection-entity entity-type="9" parent-entity-type="6" parent-entity="vm.touch" manage-updates="false" is-dirty="vm.isDirty"></collection-entity>
+      <tag-picker parent-entity-type="6" parent-entity="vm.touch" manage-updates="false" is-dirty="vm.isDirty"></tag-picker>
+      <collection-entity entity-type="11" parent-entity-type="6" parent-entity="vm.touch" manage-updates="false" is-dirty="vm.isDirty"></collection-entity>
+
+      <entity-attachments entity="vm.touch" entity-type="6" updatable="true" add-new="true" manage-updates="false" is-dirty="vm.isDirty"></entity-attachments>
+
+      <entity-locations entity="vm.touch" entity-type="6" is-dirty="vm.isDirty" manage-updates="false"></entity-locations>
+
+      <owned-item entity="vm.touch" entity-type="6" updatable="true" is-dirty="vm.isDirty"></owned-item>
+
+      <div class="row" style="padding-top:30px;">
+        <div class="{{((!vm.touch.updatable || vm.isNew)) ? 'col' : 'col-50'}} text-center ">
+          <div class="button button-clear button-outline button-dark icon ion-gear-b softer"
+               style="width:154px;"
+               ng-click="vm.openSettings()">
+            Preferences
+          </div>
+        </div>
+        <div class="col-50 text-center" ng-show="vm.touch.updatable && !vm.isNew">
+          <div class="button button-clear button-outline button-assertive  icon ion-trash-a softer"
+               style="width:154px;"
+               ng-click="vm.delete()">
+            Delete
+          </div>
+        </div>
+      </div>
+
+      <list-footer>
+      </list-footer>
+
+    </ion-list>
+
+    <div ng-show="vm.fullscreen" >
+      <textarea ui-tinymce="vm.mceOptions" ng-model="vm.touch.description"></textarea>
+    </div>
+  
+  </ion-content>
+ 
+
+
+  <script id="modalHelpViewer.html" type="text/ng-template">
+    <ion-modal-view>
+      <ion-header-bar class="bar-dark">
+        <div class="title">Email Tracking Guide</div>
+      </ion-header-bar>
+
+      <ion-content>
+        <ion-item class="itemPadding wrapText text-center">
+          <img ng-src="http://shuristoragecdn.blob.core.windows.net/public/email-tracking-help/people-orgs.png" resize-img /> <br /> <br />
+          <ion-list class="text-center">
+            Every person and organization attached to the touch will recieve an email from you. <br /><br />
+          </ion-list>
+        </ion-item>
+        <ion-item class="itemPadding wrapText text-center">
+          <img ng-src="http://shuristoragecdn.blob.core.windows.net/public/email-tracking-help/tokens.png" resize-img /> <br /> <br />
+          <ion-list class="text-center">
+            Each email sent will have tokens such as %firstname% replaced with the recievers actual first name. <br /><br />
+            * In the case of organizations, any occurance of the %firstname% token followed by the %lastname% token will be reaplaced by the organizations name.
+          </ion-list>
+        </ion-item>
+        <ion-item class="itemPadding wrapText text-center">
+          <img ng-src="http://shuristoragecdn.blob.core.windows.net/public/email-tracking-help/sample-email.png" width="100%" /> <br /> <br />
+          <ion-list class="text-center">
+            Example email in users inbox
+          </ion-list>
+        </ion-item>
+      </ion-content>
+      <ion-footer-bar class="bar-dark no-padding footerButton">
+        <div class="button-bar ">
+          <div class="button ok-confirm" ng-click="vm.closeModal()">
+            {{vm.wordFor("OK")}}
+          </div>
+        </div>
+
+      </ion-footer-bar>
+    </ion-modal-view>
+
+  </script>
+
+  <script id="addTouchType.html" type="text/ng-template">
+    <ion-modal-view>
+      <ion-header-bar class="bar-dark">
+        <h1 class="title">{{vm.wordFor("New")}} {{vm.wordFor("Touch")}} {{vm.wordFor("Usertype")}}</h1>
+      </ion-header-bar>
+      <ion-header-bar class="bar-subheader bar-dark">
+        <div class="button-bar ">
+          <div ng-click="vm.closeModalT(true)" class="button button-clear icon ion-close-round button-stable">&nbsp;&nbsp;{{vm.wordFor("Cancel")}}</div>
+          <div ng-click="vm.savetouchUT()" ng-disabled="!vm.savetouchUTEnabled" class="button button-clear icon ion-checkmark-round ok-confirm">&nbsp;&nbsp;{{vm.wordFor("Save")}}</div>
+        </div>
+      </ion-header-bar>
+      <ion-content class="has-header has-subheader">
+        <div class="card">
+          <ion-item class="item item-input item-stacked-label">
+            <span class="input-label itemLabel">{{vm.wordFor("Name")}}</span>
+            <input type="text" ng-model="vm.touchUT.name" placeholder="Something short, but descriptive here..." ng-change="vm.modalTChanged()">
+          </ion-item>
+          <ion-item class="item item-input item-select">
+            <div class="input-label">
+              <div class="itemLabel">Base Type</div><span class="smallText">(most similar to)</span>
+            </div>
+            <select ng-options="primitive.primitive as primitive.name for primitive in vm.utsTouch | filter: {ownedBy_Id: vm.guidEmpty} | orderBy: 'name'" ng-model="vm.touchUT.primitive"></select>
+          </ion-item>
+
+          <ion-item class="item-input  item-stacked-label">
+            <div class="itemLabel">{{vm.wordFor("Description")}}</div>
+            <textarea type="text" rows="3" ng-model="vm.touchUT.value" placeholder="Optional description and comments here..."></textarea>
+          </ion-item>
+        </div>
+      </ion-content>
+      <ion-footer-bar class="bar-dark no-padding footerButton">
+
+      </ion-footer-bar>
+    </ion-modal-view>
+
+  </script>
+
+  <script id="nameTemplate.html" type="text/ng-template">
+    <div>
+      <div class="itemLabel">New Template Name</div>
+      <input type="text" ng-model="vm.newTemplateName" placeholder="Something short, but descriptive" />
+    </div>
+  </script>
+
+  <script id="enlargePhoto.html" type="text/ng-template">
+    <ion-modal-view>
+      <ion-header-bar>
+        <h1 class="title" ng-click="vm.cancelEnlargeModal()">Close Image<span style="float: right;">X</span></h1>
+      </ion-header-bar>
+      <ion-content>
+        <div>
+          <img ng-src="{{vm.enlargedImageUrl}}" style="width: 100%;">
+        </div>
+      </ion-content>
+    </ion-modal-view>
+  </script>
+
+  <script id="trackedEmailPicker.html" type="text/ng-template">
+    <ion-modal-view>
+      <ion-header-bar class="bar-dark">
+        <div class="button-bar">
+          <div class="button button-clear button-stable icon ion-close-round"
+               ng-click="vm.closeTrackedEmailPicker(false)">&nbsp;&nbsp;{{vm.wordFor("Cancel")}}</div>
+        </div>
+      </ion-header-bar>
+      <ion-content>
+        <div ng-repeat="enty in vm.previousTracked | orderBy: ['-createdDt']">
+          <div class="item item-icon-left {{(enty.isOpen) ? 'item-balanced' : 'bgBalancedLight'}}" ng-click="enty.isOpen = !enty.isOpen;">
+            <i class="icon {{(enty.isOpen? 'ion-arrow-down-b' : 'ion-arrow-right-b ')}}" style="font-size:1.5em;"></i>
+            <div>{{enty.name}}</div>
+
+          </div>
+          <div ng-if="enty.isOpen" class="button-bar bgDarkLight">
+            <div class="button button-clear button-balanced icon ion-ios-copy-outline"
+                 ng-click="vm.closeTrackedEmailPicker(enty)">&nbsp;&nbsp;Copy This</div>
+          </div>
+          <div ng-if="enty.isOpen" class="item">
+            <div style="font-family: Tahoma, Verdana, Segoe, sans-serif; font-size: 14px; margin:12px; isolation: isolate;"
+                 ng-bind-html="enty.descriptionHtml"></div>
+          </div>
+        </div>
+      </ion-content>
+    </ion-modal-view>
+  </script>
+
+
+  <script id="editTemplate.html" type="text/ng-template">
+    <ion-modal-view>
+      <ion-header-bar class="bar-header bar-dark">
+        <div class="title">Edit Email Template</div>
+      </ion-header-bar>
+      <ion-header-bar class="bar-subheader bar-dark '">
+        <div class="button-bar">
+          <div class="button button-clear button-stable icon ion-close-round" ng-click="vm.closeTemplate()">
+            {{vm.wordFor("Cancel")}}
+          </div>
+          <div class="button button-clear ok-confirm icon ion-checkmark-round" ng-click="vm.saveTemplate()">
+            {{vm.wordFor("Save")}}
+          </div>
+        </div>
+      </ion-header-bar>
+      <ion-content class="has-header has-subheader">
+        <ion-list>
+          <div class="item item-input item-stacked-label">
+            <span class="input-label itemLabel">Name</span>
+            <textarea class="medText" ng-model="vm.templateToEdit.name" rows="6"></textarea>
+
+          </div>
+          <owned-item entity="vm.templateToEdit" entity-type="1" updatable="true" is-dirty="false"></owned-item>
+        </ion-list>
+      </ion-content>
+    </ion-modal-view>
+
+  </script>
+
+</ion-view>

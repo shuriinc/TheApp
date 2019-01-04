@@ -1,0 +1,55 @@
+<div class="{{headerClasses}}" ng-click="toggleOpen()">
+    <i class="{{headerIconClasses}}" style="font-size:1.25em;"></i>
+    <div >
+            {{entitiesWord}}
+        <span class="itemLabel" ng-if="entities.length > 0">&nbsp;&nbsp;({{entities.length}})</span>
+
+    </div>
+</div>
+
+<div ng-if="!hideHeader && isInEdit" class="item item-icon-left {{itemColor}} dividerBar">
+    <i class="icon {{iconClasses}}" style="font-size:1.5em;"></i>
+    <div>
+        {{entityHeader}}
+    </div>
+</div>
+
+<div ng-show="isOpen">
+
+    <!-- Search bar-->
+    <div class="item item-input-inset {{backgroundColor}}">
+        <label class="item-input-wrapper">
+            <i class="icon ion-plus-round placeholder-icon"></i>
+            <input name="inputAdd" autocomplete="off" ng-model="addString" type="search" style="width:100% !important"
+                   placeholder="Filter by {{entityWord.toLowerCase()}}" onmouseup="this.select();" ng-focus="resetHideResults()" ng-blur="hideResults()" ng-keyup="keyPressedAdd($event, this)">
+        </label>
+    </div>
+
+    <!-- Search results-->
+    <div ng-if="showResults">
+        <div class="card">
+            <div class="item" ng-show="searching">{{wordFor("Searching")}}...</div>
+            <div class="item" ng-show="!searching && (!results || results.length == 0)">{{wordFor("No results found")}}</div>
+            <div ng-repeat="result in results">
+                <div class="item item-avatar-left {{result.cssClass}}" ng-click="selectAddResult(result)">
+                    <img ng-if="result.imageUrlThumb && result.imageUrlThumb.toLowerCase().indexOf('https') >= 0" ng-src="{{result.imageUrlThumb}}" />
+                    <div>{{result.name}} </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--  the list  -->
+    <ion-list ng-show="!showResults">
+        <div class="item item-avatar-left item-icon-right {{entity.cssClass}}" ng-repeat="entity in entities | orderBy: 'name'">
+            <img ng-if="entity.imageUrlThumb && entity.imageUrlThumb.toLowerCase().indexOf('https') >= 0" ng-src="{{entity.imageUrlThumb}}" />
+            <div>{{entity.name}}</div>
+            <i class="icon iconButton ion-trash-a" style="font-size:1.5em; padding-left:20px;" ng-click="removeEntity($event, entity)"></i>
+        </div>
+        <div class="item {{bgLight}} itemLabel" ng-if="entities.length === 0">
+            <div>No {{entitiesWord}}</div>
+        </div>
+    </ion-list>
+</div>
+
+

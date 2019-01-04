@@ -1,0 +1,11 @@
+﻿<style>
+      .popup{
+        width: 400px !important;
+      }
+</style>
+<div >
+    <div class="item itemLabel">Choose a Group</div>
+    <div class="item item-select">
+        <select ng-options="grp as grp.name for grp in vm.privateGroups" ng-model="vm.selectedPrivateGroup" ></select>
+    </div>
+</div>

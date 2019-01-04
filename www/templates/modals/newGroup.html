@@ -1,0 +1,72 @@
+<ion-view  ng-controller="NewGroupCtrl as vm">
+    <ion-nav-title>
+        {{vm.title}}
+    </ion-nav-title>
+
+    <div class="bar bar-subheader bar-dark">
+        <div class="button-bar ">
+            <a class="button button-clear ok-confirm icon ion-checkmark-round" ng-click="vm.addGroup()">
+                {{vm.wordFor("Add")}}
+                {{vm.grpWord}}
+            </a>
+            <div class="button button-clear icon ion-help"
+                    ng-click="vm.helpModal(vm.grpWord + '_deep')"
+                    ng-if="true || vm.showHelp"> Help</div>
+
+        </div>
+
+    </div>
+    <ion-content class="has-header has-subheader">
+
+        <ion-list>
+            <div class="item item-input  item-stacked-label item-icon-right">
+                <span class="input-label itemLabel">{{vm.wordFor("Name")}}</span>
+                <input type="text" ng-model="vm.newGroup.name" ng-change="vm.newGroupNameChange()" placeholder="Please enter a unique name">
+                <div ng-if="vm.groupnameChecked">
+                    <i ng-if="!vm.groupnameOK" class="icon ion-close-circled assertive" style="padding-top:20px;"></i>
+                    <i ng-if="vm.groupnameOK" class="icon ion-checkmark-circled positive" style="padding-top:20px;"></i>
+                </div>
+            </div>
+
+
+            <ion-item class="item-input  item-stacked-label">
+                <div class="itemLabel">{{vm.wordFor("Description")}}</div>
+                <textarea ng-model="vm.newGroup.description"
+                          placeholder="Optional: description / comments"
+                          rows="5"></textarea>
+
+            </ion-item>
+            <ion-item ng-if="vm.newGroup.grpType == 2" class="item item-toggle wrapText">
+                <span class="itemLabel">
+                    Add me ({{vm.appUser.name}}) to team
+                </span>
+                <label class="toggle toggle-balanced">
+                    <input type="checkbox" ng-model="vm.newGroup.addUser">
+                    <div class="track">
+                        <div class="handle"></div>
+                    </div>
+                </label>
+            </ion-item>
+            <ion-item ng-if="vm.newGroup.grpType == 2" class="item item-toggle wrapText">
+                <span class="itemLabel">
+                    Create a Team {{vm.wordFor("Collection")}}
+                    <span class="smallText"><br />Team members will be co-owners, able to add and see anything</span>
+                </span>
+                <label class="toggle toggle-balanced">
+                    <input type="checkbox" ng-model="vm.newGroup.createCollection">
+                    <div class="track">
+                        <div class="handle"></div>
+                    </div>
+                </label>
+            </ion-item>
+
+
+
+             <owned-item entity="vm.newGroup" entity-type="vm.entityType" updatable="true"  is-dirty="vm.isDirty"></owned-item>
+
+
+
+        </ion-list>
+    </ion-content>
+</ion-view>
+

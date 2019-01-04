@@ -1,0 +1,30 @@
+﻿
+<ion-modal-view>
+    <div class="bar bar-dark">
+        <div class="title">{{entity.name}}</div>
+    </div>
+    <div class="bar bar-subheader bar-dark">
+        <div class="button-bar">
+            <div type="button" class="button button-clear icon ion-close-round" ng-click="closeChooseGroupModal(false)">
+                Cancel
+            </div>
+            <div type="button" class="button button-clear ok-confirm icon ion-checkmark-round" ng-click="closeChooseGroupModal(true)" >
+                OK
+            </div>
+        </div>
+    </div>
+    <ion-content class="has-header has-subheader">
+        <div class="item itemDivider groupColor">
+            Add To Group
+        </div>
+        <ion-item class="item item-input item-select">
+            <div class="input-label">
+                <div class="itemLabel">Choose Group</div>
+            </div>
+            <select ng-options="grp as grp.name for grp in privateGroups | filter: {name: '!Favorites'} | orderBy: 'name'" ng-model="selectedPrivateGroup" ng-change="selectedPrivateGroupChanged(selectedPrivateGroup)"></select>
+        </ion-item>
+
+
+    </ion-content>
+</ion-modal-view>
+

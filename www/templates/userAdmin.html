@@ -1,0 +1,240 @@
+﻿<ion-view ng-controller="UserAdminCtrl as vm">
+    <ion-nav-title>
+        User Admin
+    </ion-nav-title>
+<ion-content class="has-header">
+        <ion-list ng-if="vm.showList">
+
+            <div ng-if="!vm.authorized" class="item item-assertive">Unauthorized</div>
+            <div ng-if="vm.authorized">
+                <div class="item bgEnergizedLight row" ng-click="vm.showAvatar = !vm.showAvatar">
+                    <div class="col text-center padding-vertical">
+                        <div class="h3 energized" style="line-height:.5em">{{vm.theUser.prefix}} {{vm.theUser.firstname}} {{vm.theUser.middlename}} {{vm.theUser.lastname}} {{vm.theUser.suffix}}</div>
+                    </div>
+                    <div class="col-20" ng-if="vm.theUser.imageUrlThumb">
+                        <img ng-if="vm.theUser.imageUrlThumb != ''" ng-src="{{vm.theUser.imageUrlThumb}}" style="float: right;  margin-right: 1em; border-radius: 4px; margin-top: .25em;" height="56" />
+
+                    </div>
+                </div>
+                <div ng-if="vm.showAvatar"><avatar entity="vm.person" updatable="vm.person.updatable" entity-type="4"></avatar></div>
+
+
+                <ion-item class="item item-icon-left item-icon-right item-balanced" ng-click="vm.showUsage = !vm.showUsage">
+                    <i class="icon {{(vm.showUsage) ? 'ion-arrow-down-b' : 'ion-arrow-right-b' }} " style="font-size:1.5em;"></i>
+                  <div>Usage</div>
+                    <div class="icon itemLabel" style="font-size:1em;">{{vm.lastHit}}</div>
+                </ion-item>
+                <ion-scroll  ng-if="vm.showUsage" style="height:352px;">
+                    <div ng-repeat="usg in vm.theUser.usage  | orderBy: '-usageDate'">
+                        <div class="item bgBalancedLight2 medText noPaddingTopBottom">
+                            <div class="medText">{{usg.name}}</div>
+                        </div>
+                    </div>
+                </ion-scroll>
+                
+                
+                <!-- Databases ------------------------------------------------->
+                <ion-item ng-click="vm.openDBs = ! vm.openDBs" class="item item-icon-left item-icon-right {{(!vm.openDBs) ? ' item-positive ' : ' item-positive active '}}">
+                    <i class="icon {{(vm.openDBs) ? 'ion-arrow-down-b' : 'ion-arrow-right-b' }} " style="font-size:1.5em;"></i>
+                    <div>
+                        {{vm.wordFor("Collections")}}
+                    </div>
+                    <div class="icon itemLabel" style="font-size:1em;">Total: {{vm.theUser.subscriptions.length}}</div>
+           </ion-item>
+
+                <div ng-if="vm.openDBs">
+                    <ion-item class="item item-divider item-dark item-icon-right" ng-click="vm.addSubscription()">
+                        <span>{{vm.subsPaid.length}} Paid Subscriptions</span>
+                        <i class="icon ion-plus-round iconButton" style="font-size:1.5em;"></i>
+                    </ion-item>
+                    <div ng-repeat="sub in vm.subsPaid | orderBy: 'name'">
+                        <div class="item bgPositiveLight medText" ng-click="vm.editSubscription(sub)">
+                            <div class="row">
+                                <div class="col">{{sub.name}}</div>
+                                <div class="col-33 text-right">{{sub.subEndDt}}</div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <ion-item class="item item-divider item-dark">
+                        {{vm.subsOwned.length}} Owned Databases
+                    </ion-item>
+                    <div ng-repeat="sub in vm.subsOwned  | orderBy: 'name'">
+                        <div class="item item-divider item-stable medText">
+                            {{sub.name}}
+                        </div>
+                    </div>
+
+                    <ion-item class="item item-divider item-dark">
+                        {{vm.subsView.length}} View-only Database Subscriptions
+                    </ion-item>
+                    <div ng-repeat="sub in vm.subsView  | orderBy: 'name'">
+                        <div class="item  item-divider item-stable  medText">
+                            <div class="col">{{sub.name}}</div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <ion-item class="item  item-icon-left item-dark" ng-click="vm.showLoginInfo = !vm.showLoginInfo">
+                    <i class="icon {{(vm.showLoginInfo) ? 'ion-arrow-down-b' : 'ion-arrow-right-b' }} " style="font-size:1.5em;"></i>
+                    Login  Info
+                </ion-item>
+                <div ng-if="vm.showLoginInfo">
+                    <div class="item item-input item-stacked-label">
+                        <span class="input-label itemLabel">Login Username</span><br />
+                        {{vm.theUser.username}} &nbsp;&nbsp; <span ng-if="false" class="smallText positive" ng-click="vm.changePassword(); ">Change password</span>
+                    </div>
+                    <div class="item item-input item-stacked-label item-icon-right">
+                        <span class="input-label itemLabel">Primary Email</span><br />
+                        {{vm.theUser.emailAddress}} 
+                        <div class="icon">
+                            <a href="mailto:{{vm.theUser.emailAddress}}" class="ion-email positive" ></a>
+                        </div>
+                    </div>
+                    <!--<license-status></license-status>-->
+                </div>
+
+                <!-- Preferences ----------------------------------------------------->
+                <!--<ion-item class="item item-divider item item-dark">
+                    Preferences
+                </ion-item>
+                <ion-item class="item item-toggle">
+                    Send cc@shuri confirmation emails
+                    <label class="toggle toggle-balanced">
+                        <input type="checkbox" ng-model="vm.preferences.ccconfirm" ng-change="vm.setPref('ccconfirm', vm.preferences.ccconfirm);">
+                        <div class="track">
+                            <div class="handle"></div>
+                        </div>
+                    </label>
+                </ion-item>
+                <ion-item class="item item-toggle">
+                    Add people's orgs automatically to touches
+                    <label class="toggle toggle-balanced">
+                        <input type="checkbox" ng-model="vm.preferences.autoaddorg" ng-change="vm.setPref('autoaddorg', vm.preferences.autoaddorg);">
+                        <div class="track">
+                            <div class="handle"></div>
+                        </div>
+                    </label>
+                </ion-item>-->
+                <!--<owned-item entity="vm.theUser" entity-type="4" updatable="false"></owned-item>-->
+
+                <div class="item text-center item-stable button-bar">
+                    <div class="button button-clear button-royal  icon ion-network"
+                         ng-click="vm.mergeUser()">
+                        Merge
+                    </div>
+                    <div class="button button-clear button-assertive  icon ion-trash-a "
+                         ng-click="vm.deleteUser()">
+                        Delete
+                    </div>
+                </div>
+
+            </div>
+
+            <list-footer></list-footer>
+        </ion-list>
+    </ion-content>
+
+    <script id="userAdminSubEdit.html" type="text/ng-template">
+        <ion-modal-view>
+            <ion-header-bar class="bar-dark">
+                <div class="title">Manage Subscription</div>
+            </ion-header-bar>
+            <ion-header-bar class="bar-subheader bar-dark">
+                <div class="button-bar ">
+                    <div class="button button-clear icon ion-close-round " ng-click="vm.closeModalSubEdit(false)">
+                        Cancel
+                    </div>
+                    <div class="button button-clear ok-confirm icon ion-checkmark-round" ng-click="vm.closeModalSubEdit(true)">
+                        OK
+                    </div>
+                </div>
+            </ion-header-bar>
+
+            <ion-content class="has-header has-subheader">
+                <div class="list">
+                    <div class="item  item-positive">{{vm.subname}}</div>
+                    <div class="item item-input ">
+                        <span class="input-label itemLabel">Start</span><br />
+                        <input type="date" ng-model="vm.jsStartDt" />
+                    </div>
+                    <div class="item item-input ">
+                        <span class="input-label itemLabel">End</span><br />
+                        <input type="date" ng-model="vm.jsEndDt" />
+                    </div>
+                    <div class="item item-input item-stacked-label">
+                        <label class="input-label itemLabel">Payment type</label>
+                        <input type="text" ng-model="vm.subToEdit.paymentTypename" />
+                    </div>
+                    <div class="item item-input item-stacked-label">
+                        <label class="input-label itemLabel">Receipt</label>
+                        <input type="text" ng-model="vm.subToEdit.receipt" />
+                    </div>
+                    <div class="item item-input item-stacked-label">
+                        <label class="input-label itemLabel">Signature</label>
+                        <input type="text" ng-model="vm.subToEdit.signature" />
+                    </div>
+                    <div class="item item-input item-stacked-label">
+                        <label class="input-label itemLabel">Transaction Id</label>
+                        <input type="text" ng-model="vm.subToEdit.transactionId" />
+                    </div>
+                    <div class="item text-center item-stable button-bar">
+                        <div class="button button-clear button-assertive  icon ion-trash-a "
+                             ng-click="vm.deleteSub()">
+                            Delete
+                        </div>
+                    </div>
+
+
+                 </div>
+            </ion-content>
+        </ion-modal-view>
+    </script>
+
+    <script id="userAdminSubAdd.html" type="text/ng-template">
+        <ion-modal-view>
+            <ion-header-bar class="bar-dark">
+                <div class="title">Add Subscription</div>
+            </ion-header-bar>
+            <ion-header-bar class="bar-subheader bar-dark">
+                <div class="button-bar ">
+                    <div class="button button-clear icon ion-close-round " ng-click="vm.closeModalSubAdd(false)">
+                        Cancel
+                    </div>
+                    <div class="button button-clear ok-confirm icon ion-checkmark-round" ng-click="vm.closeModalSubAdd(true)" ng-disabled="!vm.enableSubAdd">
+                        OK
+                    </div>
+                </div>
+            </ion-header-bar>
+
+            <ion-content class="has-header has-subheader">
+                <div class="list">
+                    <div class="item  item-energized">{{vm.theUser.name}}</div>
+                    <div class="item item-input ">
+                        <span class="input-label itemLabel">Start</span><br />
+                        <input type="date" ng-model="vm.jsStartDt" />
+                    </div>
+                    <div class="item item-input ">
+                        <span class="input-label itemLabel">End</span><br />
+                        <input type="date" ng-model="vm.jsEndDt" />
+                    </div>
+                    <div class="card" >
+                        <div class="item item-divider item-positive itemLabel">Choose one</div>
+                        <div class="item item-icon-left item-icon-right {{(sub.isSubscriber ? 'bgPositive' : 'bgPositiveLight')}}" ng-click="vm.selectSubAdd(sub)" ng-repeat="sub in vm.allSubs  | orderBy: 'name'">
+                            <i class="icon ion-checkmark-round" ng-if="sub.isSelected"></i>
+                           <div class="medText">{{sub.name}}
+                            <br /><span class="itemLabel" ng-if="sub.familyId">Family: {{sub.familyId}}</span>
+                            </div>
+                            <div class="icon itemLabel" style="font-size:1em">{{(sub.value ? sub.value : "free")}}</div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </ion-content>
+        </ion-modal-view>
+    </script>
+
+</ion-view>

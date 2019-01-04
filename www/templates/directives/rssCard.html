@@ -1,0 +1,45 @@
+<div class="card">
+  <div class="item item-avatar item-text-wrap">
+    <img ng-src="{{rssdoc.org.imageUrl}}" ng-click="viewEntity()" class="link" title="View Profile">
+    <h3 class="link" ng-click="goToRss()" title="View original">{{rssdoc.valueObj.title}}</h3>
+  </div>
+  <div ng-if="rssdoc.description">
+    <div class="item item-text-wrap medText">
+      <span ng-bind-html="rssdoc.description">
+        &nbsp;&nbsp;
+      </span>
+      <span ng-if="rssdoc.isLong" ng-click="toggleDesc()">
+        &nbsp;&nbsp;
+        <span ng-if="rssdoc.showAll">
+          <span class="fakeLink medText">less</span>
+          <i class="icon ion-arrow-up-b"></i>
+        </span>
+
+        <span ng-if="!rssdoc.showAll">
+          <span class="fakeLink medText">more</span>
+          <i class="icon ion-arrow-down-b"></i>
+
+        </span>
+      </span>
+    </div>
+
+  </div>
+  <div class="item item-borderless  item-icon-left" style="padding-top:0px;">
+    <div class="icon shuri-touch-add  iconButton" ng-if="twitter3Live" title="Save as Touch" ng-click="addTouch()" style="font-size:1.5em; padding-bottom:6px; ">
+    </div>
+    <div class="text-right smallText" style="padding-right:12px;">
+      {{rssdoc.valueObj.fmtDate}}
+
+    </div>
+  </div>
+  <div ng-if="rssdoc.people && rssdoc.people.length > 0" class="item itemPadding item-borderless item-text-wrap">
+    <div class="itemLabel">Author(s) </div>
+    <span class="smallText " ng-repeat="per in rssdoc.people | orderBy: 'sortname' "> <span class="{{(per.id === entityId) ? '' : 'hoverLink bgEnergizedLight'}} " ui-sref="home.person({personId: '{{per.id}}', open: 'media'})">{{per.name}}</span> </span>
+
+  </div>
+  <div ng-if="rssdoc.tags && rssdoc.tags.length > 0" class="item itemPadding item-borderless item-text-wrap">
+    <div class="itemLabel">Tags </div>
+    <span class="smallText " ng-repeat="tag in rssdoc.tags | orderBy: 'name' "> <span class="{{(tag.id === entityId) ? '' : 'hoverLink bgRoyalLight'}} " ui-sref="home.tag({tagId: '{{tag.id}}', open: 'media'})">{{tag.name}}</span> </span>
+
+  </div>
+</div>

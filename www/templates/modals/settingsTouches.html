@@ -1,0 +1,55 @@
+﻿<ion-modal-view>
+    <ion-header-bar class="bar bar-header bar-dark">
+        <div class="title">Preferences: Touches</div>
+    </ion-header-bar>
+
+    <ion-header-bar class="bar bar-subheader bar-dark '">
+        <div class="button-bar">
+            <div class="button button-small button-clear ok-confirm icon ion-checkmark-round" ng-click="vm.closeSettings()">
+                {{vm.wordFor("Close")}}
+            </div>
+         </div>
+    </ion-header-bar>
+    <ion-content class="has-header has-subheader">
+        <ion-list>
+            <ion-item class="item item-toggle item-text-wrap">
+                <span class="itemLabel">Add me automatically</span>
+                <label class="toggle toggle-balanced">
+                    <input type="checkbox" ng-model="vm.preferences.addmetouch" ng-change="vm.setPref('addmetouch', vm.preferences.addmetouch);">
+                    <div class="track">
+                        <div class="handle"></div>
+                    </div>
+                </label>
+            </ion-item>
+            <ion-item class="item item-toggle item-text-wrap">
+                <span class="itemLabel">Add orgs automatically when adding people</span>
+                <label class="toggle toggle-balanced">
+                    <input type="checkbox" ng-model="vm.preferences.autoaddorg" ng-change="vm.setPref('autoaddorg', vm.preferences.autoaddorg);">
+                    <div class="track">
+                        <div class="handle"></div>
+                    </div>
+                </label>
+            </ion-item>
+
+            <ion-item class="item item-toggle item-text-wrap">
+                <span class="itemLabel">Do not display time </span>
+                <label class="toggle toggle-balanced">
+                    <input type="checkbox" ng-model="vm.preferences.omittime" ng-change="vm.setPref('omittime', vm.preferences.omittime);">
+                    <div class="track">
+                        <div class="handle"></div>
+                    </div>
+                </label>
+            </ion-item>
+            <ion-item class="item item-toggle item-text-wrap">
+                <span class="itemLabel">Do not display end date</span>
+                <label class="toggle toggle-balanced">
+                    <input type="checkbox" ng-model="vm.preferences.omitend" ng-change="vm.setPref('omitend', vm.preferences.omitend);">
+                    <div class="track">
+                        <div class="handle"></div>
+                    </div>
+                </label>
+            </ion-item>
+            <list-footer></list-footer>
+        </ion-list>
+    </ion-content>
+</ion-modal-view>

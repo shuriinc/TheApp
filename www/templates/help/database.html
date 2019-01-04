@@ -1,0 +1,70 @@
+<!-- NOTE: Copy and Paste me for great success! -->
+<ion-modal-view>
+    <ion-header-bar class="bar-positive">
+        <div class="title"><i class="icon ion-help-circled"></i> Databases</div>
+    </ion-header-bar>
+    <ion-content class="has-header">
+
+        <ion-list>
+            <div class="item itemDivider">
+                Customizing in Shuri
+            </div>
+
+            <div class="item medText item-text-wrap help-content">
+              <h3>Track your own data with Custom Fields, Tags and Touch Types</h3>
+              <span>
+                The best way to keep your contacts organized is with custom fields, tags and Touch types.
+                <br /><br />
+                To access these features, click on <em style="font-style:italic;">Customize</em> from a Database’s edit page.
+                <br />
+              </span>
+
+              <h3>What are they?</h3>
+              <ul class="orderedList">
+                <li>
+                  Custom fields: person, org and Touch edit pages list the fields that Shuri offers.
+                  Most of these are for storing basic contact information such as: email and phone numbers, etc…
+                  But, if you’re tracking a different kind of data, you can customize your own field to display on the EDIT and VIEW pages of a profile.
+                </li>
+                <li>
+                    Tags: are like labels that offer a way to track trends and categories across many items and then quickly find what you’re looking for in queries.
+                    To learn more about tags, see <em class="link-to-section energized" ng-click="vmMaster.deepModal('query');">TAGS & QUERYING.</em>
+                </li>
+                <li>
+                  Touch type:  dictates what kind of interaction you’re tracking and each Touch type has a different set of fields to fit the interaction accordingly.
+                </li>
+              </ul>
+              <span>
+                For more info, see <em class="link-to-section energized" ng-click="vmMaster.deepModal('custom');">CUSTOM FIELDS</em>, <em class="link-to-section energized" ng-click="vmMaster.deepModal('tagset');">TAG SETS</em>, or <em class="link-to-section energized" ng-click="vmMaster.deepModal('touchTypes');">TOUCH TYPES</em>
+              </span>
+
+              <!-- <h3></h3>
+              <span>
+              </span> -->
+
+              <!-- <h3></h3>
+              <span>
+              </span> -->
+
+              <!-- <h3></h3>
+              <span>
+              </span> -->
+
+            </div>
+
+        </ion-list>
+    </ion-content>
+    <ion-footer-bar class="bar-dark no-padding footerButton">
+      <div class="button-bar ">
+          <button class="button" ng-if="!vmMaster.showOk" ng-click="vmMaster.closeAllHelp()">
+            Close
+          </button>
+          <button class="button ok-confirm" ng-if="!vmMaster.showOk" ng-click="vmMaster.closeHelp()">
+              Back
+          </button>
+          <button class="button ok-confirm" ng-if="vmMaster.showOk" ng-click="vmMaster.closeHelp()">
+              {{vmMaster.wordFor("OK")}}
+          </button>
+      </div>
+
+    </ion-footer-bar>

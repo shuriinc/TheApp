@@ -1,0 +1,12 @@
+﻿<ion-item class="item item-icon-left item-icon-right item-text-wrap {{itemClass}}" ng-if="entity.changeType != 2"  ng-click="itemClicked($event)">
+    <i  class="icon {{entity.icon}}" style="font-size:1.5em;"  ></i>
+    <div class="{{textClass}}">
+        {{entity.line1}} <span class="itemLabel" ng-if="entity.isNew">&nbsp;&nbsp;New!</span>
+        <span ng-if="entity.line2" class="itemLabel" ng-bind-html="entity.line2"></span>
+    </div>
+
+    <i ng-if="!entity.hideAction && queryItemType != 'export'" class="icon ion-navicon-round iconButton" ng-click="showEntityAction($event)" style="padding-left:10px; padding-right:6px;"></i>
+    <i ng-if="!entity.hideAction && queryItemType == 'export'" class="icon ion-trash-a iconButton" ng-click="deleteEntity($event)"></i>
+    <!--<ion-delete-button class="icon assertive  ion-minus-circled" ng-click="deleteEntity($event)"></ion-delete-button>-->
+
+</ion-item>

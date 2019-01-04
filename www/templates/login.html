@@ -1,0 +1,336 @@
+<ion-view ng-controller="LoginCtrl as vm" class="{{(vm.onDesktop)? 'on-desktop':'' }}">
+  <style>
+
+    ul {
+      list-style-type: disc;
+      margin-left: 6px;
+    }
+
+    ol {
+      list-style-type: decimal;
+      margin-left: 6px;
+    }
+
+    li {
+      margin-left: 22px;
+      margin-bottom: 6px;
+    }
+
+    .bold1 {
+      font-weight: bold;
+    }
+
+    .loginButton {
+      width: 300px;
+    }
+  </style>
+  <ion-header-bar class="bar-header bar-dark">
+    <div class="button icon ion-arrow-left-a button-stable button-clear" ng-if="vm.showRegister" ng-click="vm.showSection('login')"> <span class="bold1">Login</span></div>
+    <h1 class="title" ng-click="vm.showDS = !vm.showDS">Welcome to Shuri</h1>
+  </ion-header-bar>
+  <ion-content class="has-header">
+    <sspinner ng-if="vm.showSpinner" text='{{vm.wordFor("Working...")}}'></sspinner>
+    <div ng-show="!vm.showSpinner">
+      <div class="card" ng-show="vm.showLogin">
+        <div ng-class="vm.cardHeaderClasses">
+          {{vm.wordFor("Login")}}
+        </div>
+        <div class="item item-input ">
+          <input type="email" placeholder="Username" ng-model="vm.user.username" ng-keyup="vm.usernameChange($event, vm.user.username)" autocorrect="off" autocapitalize="off" spellcheck="false">
+        </div>
+        <div class="item item-input ">
+          <input type="password" placeholder="Password" ng-model="vm.user.password" ng-enter="vm.login()" autocorrect="off" autocapitalize="off" spellcheck="false">
+        </div>
+        <div class="item item-toggle " ng-show="!vm.showPWReset">
+          Remember Me
+          <label class="toggle toggle-balanced">
+            <input type="checkbox" ng-model="vm.user.rememberMe">
+            <div class="track">
+              <div class="handle"></div>
+            </div>
+          </label>
+        </div>
+        <div class="item wrapText smallText ">
+          <div style="text-align:center">
+            <a href="#" ng-click="vm.requestReset()">Reset My Password</a>
+          </div>
+        </div>
+        <div class="item item-divider text-center" ng-show="!vm.showPWReset">
+          <div class="button button-positive  loginButton {{(vm.user.password && vm.user.username) ? 'active' : ''}}" ng-click="vm.login()">
+            Login
+          </div>
+        </div>
+      </div>
+      <div class="card" ng-show="vm.showPWReset">
+        <div ng-class="vm.cardHeaderClasses">
+          {{vm.wordFor("Reset Password")}}
+        </div>
+        <div class="item item-input ">
+          <input type="email" placeholder="Username" ng-model="vm.resetpw.username" autocorrect="off" autocapitalize="off" spellcheck="false">
+        </div>
+        <div class="item item-input ">
+          <input type="password" placeholder="New password" ng-model="vm.resetpw.newPassword" autocorrect="off" autocapitalize="off" spellcheck="false">
+        </div>
+        <div class="item item-input ">
+          <input type="password" placeholder="Confirm Password" ng-model="vm.resetpw.confirmPassword" autocorrect="off" autocapitalize="off" spellcheck="false">
+        </div>
+        <div class="item item-input ">
+          <input type="text" placeholder="Email Validation" ng-model="vm.resetpw.token" autocorrect="off" autocapitalize="off" spellcheck="false">
+        </div>
+        <div class="item item-divider text-center">
+          <div class="button button-positive loginButton" ng-click="vm.resetPW()">
+            Reset Password
+          </div>
+        </div>
+      </div>
+
+      <!-- New User Registration --------------------------------------------------------------------------------->
+      <div class="list" ng-show="vm.showRegister" id="regTop">
+        <div class="card">
+          <div class="item item-divider ok-confirm">
+            {{vm.wordFor("Sign Up")}}
+          </div>
+          <div class="item item-input ">
+            <input type="text" placeholder="First Name" ng-model="vm.reg.firstname" autocorrect="off" spellcheck="false" autocomplete="false" >
+          </div>
+          <div class="item item-input ">
+            <input type="text" placeholder="Last name" ng-model="vm.reg.lastname" autocorrect="off" spellcheck="false" autocomplete="false" >
+          </div>
+          <div class="item item-input item-icon-right">
+            <input type="text" placeholder="Email - your username" ng-model="vm.reg.username" ng-change="vm.checkUsername()"  autocomplete="false" autocorrect="off" autocapitalize="off" spellcheck="false">
+            <div ng-if="vm.usernameChecked">
+              <i ng-if="!vm.usernameOK" class="icon ion-close-circled assertive"></i>
+              <i ng-if="vm.usernameOK" class="icon ion-checkmark-circled positive"></i>
+            </div>
+          </div>
+          <div class="item item-input">
+            <div class="{{vm.regPwClasses}}">
+              <input type="password" placeholder="Password" autocorrect="off" autocapitalize="off" spellcheck="false" autocomplete="false"
+                     ng-model="vm.reg.password"
+                     ng-change="vm.pwChange()"
+                     ng-focus="vm.pwFocus()"
+                     ng-blur="vm.pwBlur()">
+            </div>
+          </div>
+          <div class="item item-divider bgDark wrapText" ng-if="vm.showPWHelp">
+            <div class="smallText">
+              At least 6 characters and include a mix of 3 of these:<br /> uppercase, lowercase, numeral, and special characters
+            </div>
+          </div>
+          <div class="item medText  item-icon-left  item-icon-right" ng-click="vm.toggle('newSite')">
+            <i class="icon ion-android-checkbox-outline{{(vm.newSite) ? '' : '-blank'}}"></i>
+            <i class="icon ion-information-circled iconButton" ng-click="vm.goto($event,'site')"></i>
+            Provision a new site for me and my team
+          </div>
+
+          <div class="item item-input  item-icon-right " ng-if="vm.newSite">
+            <input type="text" placeholder="New site name here" ng-model="vm.reg.sitename" ng-change="vm.checkSitename()" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" style="padding-left:36px;">
+            <div ng-if="vm.sitenameChecked">
+              <i ng-if="!vm.sitenameOK" class="icon ion-close-circled assertive"></i>
+              <i ng-if="vm.sitenameOK" class="icon ion-checkmark-circled positive"></i>
+            </div>
+          </div>
+
+          <div class="item medText  item-icon-left  item-icon-right" ng-click="vm.toggle('freeTrial')">
+            <i class="icon ion-android-checkbox-outline{{(vm.reg.freeTrial) ? '' : '-blank'}}"></i>
+            <i class="icon ion-information-circled iconButton" ng-click="vm.goto($event,'ardb')"></i>
+            Include 1 month free Analyst Relations DB*
+          </div>
+
+          <div class="item  medText item-icon-left item-icon-right" ng-click="vm.toggle('agreed')">
+            <i class="icon ion-android-checkbox-outline{{(vm.reg.userAgreed) ? '' : '-blank'}}"></i>
+
+            I agree to Terms and Conditions
+            <i class="icon ion-android-open iconButton" ng-click="vm.goto($event, 'terms')"></i>
+          </div>
+
+          <div class="item item-divider  text-center">
+            <div class="button ok-confirm loginButton" ng-click="vm.register()"
+                 ng-disabled="!vm.usernameOK || !vm.reg.firstname || !vm.reg.lastname || !vm.reg.password || !vm.reg.userAgreed">
+              {{vm.wordFor("Sign Up")}}
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- Nav buttons --------------------------------------------------------------------------------->
+      <div class="text-center">
+        <div class="button ok-confirm loginButton" style="margin-top:30px;" ng-click="vm.showSection('register')" ng-if="vm.showLogin"><span class="light"> {{vm.strings.signUpNew}}</span></div>
+        <div class="button button-assertive loginButton" style="margin-top:30px;" ng-click="vm.showSection('login')" ng-if="vm.showPWReset"><span class="light">  Cancel Reset</span></div>
+        <!--<div class="button button-positive loginButton" ng-click="vm.showSection('login')" ng-if="vm.showRegister"><span class="light">  {{vm.strings.loginRet}}</span></div>-->
+      </div>
+
+      <!-- API Chooser -------------------------------------------------------->
+      <div class="card" ng-if="vm.showDS">
+        <div ng-class="vm.cardHeaderClasses">
+          <div class="">API - Data source</div>
+        </div>
+        <div class="item item-input item-select">
+          <div class="input-label itemLabel">
+            Choose one
+          </div>
+          <select ng-model="vm.dsSelected"
+                  ng-options="source as source.name for source in vm.dataSources"
+                  ng-change="vm.dsChange()"></select>
+        </div>
+      </div>
+
+      <!-- INFO Section -------------------------------------------------------->
+      <div ng-show="vm.showRegister">
+        <div class="text-center h4" id="regInfo">Registration Information</div>
+        <div class="card">
+          <div class="item item-divider no-padding">
+            <div class="button-bar bgPositive">
+              <div ng-if="vm.regTab == 'privacy'" class="button button-positive {{(vm.isNarrow) ? 'smallText' : '' }}">Privacy</div>
+              <div ng-if="vm.regTab != 'privacy'" class="button button-positive {{(vm.isNarrow) ? 'smallText' : '' }} button-outline" ng-click="vm.regTab='privacy'">Privacy</div>
+              <div ng-if="vm.regTab == 'faqs'" class="button button-positive {{(vm.isNarrow) ? 'smallText' : '' }}">FAQs</div>
+              <div ng-if="vm.regTab != 'faqs'" class="button button-positive {{(vm.isNarrow) ? 'smallText' : '' }} button-outline" ng-click="vm.regTab='faqs'">FAQs</div>
+              <div ng-if="vm.regTab == 'site'" class="button button-positive {{(vm.isNarrow) ? 'smallText' : '' }}">Site</div>
+              <div ng-if="vm.regTab != 'site'" class="button button-positive {{(vm.isNarrow) ? 'smallText' : '' }} button-outline" ng-click="vm.regTab='site'">Site</div>
+              <div ng-if="vm.regTab == 'ardb'" class="button button-positive {{(vm.isNarrow) ? 'smallText' : '' }}">Free AR</div>
+              <div ng-if="vm.regTab != 'ardb'" class="button button-positive {{(vm.isNarrow) ? 'smallText' : '' }} button-outline" ng-click="vm.regTab='ardb'">*Free AR</div>
+              <!--<div ng-if="vm.regTab == 'terms'" class="button button-positive {{(vm.isNarrow) ? 'smallText' : '' }}">Terms</div>
+              <div ng-if="vm.regTab != 'terms'" class="button button-positive {{(vm.isNarrow) ? 'smallText' : '' }} button-outline" ng-click="vm.regTab='terms'">Terms</div>-->
+            </div>
+          </div>
+          <!--  PRIVACY -->
+          <div ng-if="vm.regTab == 'privacy'">
+            <div class="item medText item-text-wrap bgPositiveLight">
+              <ul>
+                <li><span class="bold1">Your privacy is safe.</span>  None of your data is ever shared by us to anyone for any reason.  We don't aggregate it.  We don't sell it. Period.</li>
+                <li><span class="bold1">Your email address is safe.</span>  We will never give your email address to anyone else for any reason.  We won't spam you, but we will send you account security notices and very occasional updates.  You may opt-out at anytime.</li>
+                <li><span class="bold1">Your information is safe.</span>  Every bit of your data is encrypted as it goes between your device and our servers, which are secure in the Microsoft Cloud.  The databases that house your data are behind an additional firewall.  None of your data is ever shared by us to anyone for any reason.</li>
+                <li><span class="bold1">Your team is safe.</span>  Everyone's login is secure and certain.  Requiring complex passwords, we employ the strongest industry-standard authenication and do not accept 3rd-party logins.  Your password is "salted," then encrypted, meaning that no one is physically able to see it.  Ever.</li>
+                <li><span class="bold1">Your profile is safe.</span>  While anyone can see your name,  they cannot see your email address or anything else about you.  You may choose to share a public avatar and summary.  </li>
+              </ul>
+            </div>
+            <div class="item item-divider item-positive text-center">
+              Your Security And Privacy Is Important
+            </div>
+          </div>
+
+          <!--  TERMS -->
+          <div ng-if="vm.regTab == 'terms'">
+            <div class="item medText item-text-wrap bgPositiveLight">
+              <ol>
+                <li><span class="bold1">You agree to be fair.</span>  You won't give anyone any of the data in any of the databases you subscribe to from Shuri, Inc.   You won't resell or otherwise profit from the things we offer for sale.</li>
+                <li><span class="bold1">We agree to be fair.</span>  Every bit of your data is encrypted as it goes between your device and our server with fully hardened security.  None of your data is ever shared by us to anyone for any reason.</li>
+                <li><span class="bold1">These are binding.</span>  There are more Terms and Conditions.  By checking the "I Agree" box and registering, you are agreeing to <a href="https://www.shuri.com/terms" target="_blank">these full set of terms and conditions</a>.</li>
+              </ol>
+            </div>
+            <div class=" item  item-divider item-positive text-center">
+              Terms &amp; Conditions
+            </div>
+          </div>
+
+          <!--  FAQs -->
+          <div ng-if="vm.regTab == 'faqs'">
+            <div class="item medText item-text-wrap bgPositiveLight">
+              <ol>
+                <li><span class="bold1">Yes it really is free!</span> Shuri is free to download, free to use, and free for your storage of up-to 303 items. Forever.  Upon adding that 304th item (person/organization/touch) we'll ask a small storage fee*</li>
+                <li>
+                  <span class="bold1">Yes, Shuri has enterprise-grade security.</span>  Your security and privacy is critical.  Every data request between you and the Shuri API is encrypted and authenticated.
+                  <a href="" ng-click="vm.regTab='privacy';">more about security and privacy</a>
+                </li>
+                <li><span class="bold1">If your team already exists...</span>  Register now. Your site administrator can easily add you once you’ve created an account and logged in.  </li>
+                <li>
+                  <span class="bold1">If you are the 1st one here from your team...</span>  Check the box:   "Provision My Site."   Give it a name and we'll take care of the rest.
+                  <a href="" ng-click="vm.regTab='site';">more about sites</a>
+                </li>
+              </ol>
+              <div class=" smallText  " style="padding-left:40px;">
+                * Pro storage is $10/month/10,000 items.  Pro storage is included with a purchased subscription to any of Shuri’s Databases.
+              </div>
+            </div>
+            <div class="item item-divider item-positive text-center">
+              Frequently Asked Questions
+            </div>
+          </div>
+
+
+          <!--  Site -->
+          <div ng-if="vm.regTab == 'site'">
+            <div class="item medText item-text-wrap bgPositiveLight">
+              <ul>
+                <li><span class="bold1">If you are the 1st one here from your team...</span>  Check the box:  "Provision My Site." You'll be the Site Administrator for your site's Team and Database.  Once logged in, you’ll be able to invite the rest of your team. </li>
+                <li><span class="bold1">The Site Administrator</span> has the ultimate control over who gets added. We make it very easy:  you'll be able to provision new users and invite them via email using our Team Quickstart feature. </li>
+                <li><span class="bold1">The Site Team</span> contains all the users in your work group. That could be your team or entire organization.  Or anyone who needs to see what's going on.  You can create smaller teams later for further privacy and organization.</li>
+                <li><span class="bold1">The Site Database</span>  stores the Team's shared People, Organizations, and Touches. Enabling collaboration across your team.  Add additional databases as needed for more focused sharing with smaller teams.   You can create as many databases as needed; which you can easily filter in or out.   All "in" databases are fused together by Shuri to appear as the one and only.  </li>
+              </ul>
+            </div>
+            <div class="item item-divider item-positive text-center">
+              Provision Your Own Site Instantly
+            </div>
+          </div>
+
+          <!--  ARDB -->
+          <div ng-if="vm.regTab == 'ardb'">
+            <div class="item medText item-text-wrap bgPositiveLight">
+              <h3>Get the Analyst Relations database free for a whole month.</h3><br />
+              <ul>
+                <li>All 7500+ analysts, 300+ firms intelligently tagged by coverage, industry, and geography. </li>
+                <li>
+                  No obligation, no credit card required.   Just check the box.
+                </li>
+                <li>
+                  Subscribe within the free month for uninterrupted service.
+                </li>
+                <li>
+                  Subscription:   $999.99 annual;  $99.99 month-to-month
+                </li>
+              </ul>
+              <br />&nbsp;
+            </div>
+            <div class="item item-divider item-positive text-center">
+              Free Trial:  Analyst Relations DB
+            </div>
+          </div>
+        </div>
+        <br /><br /><div class="text-center">
+          <div class="fakeLink" ng-click="vm.goto($event,'top')">Back to Top</div>
+        </div>
+      </div>
+      </div>
+      <list-footer></list-footer>
+  </ion-content>
+
+  <script id="userAgreeModal.html" type="text/ng-template">
+    <ion-modal-view>
+      <div class="bar bar-header bar-dark">
+        <h1 class="title">Shuri User Agreement</h1>
+      </div>
+      <div class="bar bar-subheader bar-energized text-center">
+        <div class="{{vm.agreeButtonCls}}" ng-click="vm.iAgree()"> I agree</div>
+        <!--<h2 class="title">I Agree</h2>
+        <label class="toggle toggle-balanced">
+            <input type="checkbox" ng-model="vm.reg.userAgreed">
+            <div class="track">
+                <div class="handle"></div>
+            </div>
+        </label>-->
+      </div>
+      <ion-content class="has-header has-subheader">
+        <div class="item item-divider smallText">
+          <div style="text-align:center; color:#ca1a1a"><b>Please read and choose "I AGREE" to become a permitted user</b></div>
+        </div>
+        <div class="list list-inset">
+          <ion-checkbox class="item-checkbox-right item-stable medText checkbox-balanced" ng-model="vm.reg.sendAgreement">Email me a copy of this agreement</ion-checkbox>
+          <div class="item item-text-wrap">
+            <div ng-include="'templates/useragreement.html'"></div>
+          </div>
+        </div>
+      </ion-content>
+      <ion-footer-bar class="bar-dark footerButton">
+        <div class="button-bar ">
+          <div class="button button-stable" ng-click="vm.closeModal()">
+            {{vm.wordFor("Cancel")}}
+          </div>
+          <div class="button ok-confirm" ng-click="vm.continue()" ng-disabled="!vm.reg.userAgreed">
+            {{vm.wordFor("Continue")}}
+          </div>
+        </div>
+      </ion-footer-bar>
+    </ion-modal-view>
+  </script>
+</ion-view>

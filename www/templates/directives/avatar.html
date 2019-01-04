@@ -1,0 +1,13 @@
+  <div class="item item-dark no-padding" ng-if="updatable">
+      <div class="button-bar">
+          <div class="button button-clear button-energized icon ion-camera " ng-if="!noPhotoCapability" ng-click="takePhoto()"> Take photo</div>
+          <div class="button button-clear button-energized icon ion-folder" ng-click="browseFile()"> Browse for file</div>
+          <div class="button button-clear button-assertive icon ion-close-round" ng-if="entity.imageUrl" ng-click="removeAvatar()"> Remove avatar</div>
+      </div>
+  </div>
+    <div ng-if="entity.imageUrl" class="item item-stable text-center"  >
+      <img  ng-src="{{entity.imageUrl}}" style="max-width: 95%; max-height: 75%; margin:auto; " />
+  </div>
+    <div  ng-if="!entity.imageUrl" class="item item-stable itemLabel text-center">(no image)</div>
+<input ng-if="entityType == 4" type="file" id="camera-file" accept="image/png,image/jpeg,image/gif,image/jpg" upload-files="files">
+<input ng-if="entityType == 9" type="file" id="camera-fileorg" accept="image/png,image/jpeg,image/gif,image/jpg" upload-files="files">

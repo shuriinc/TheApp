@@ -1,0 +1,115 @@
+﻿<ion-view ng-controller="QuickStartCtrl as vm">
+    <style>
+        ul {
+            list-style-type: disc;
+            margin-left: 18px;
+        }
+
+        ol {
+            list-style-type: decimal;
+            margin-left: 12px;
+        }
+
+        li {
+            margin-bottom: 4px;
+        }
+    </style>
+    <ion-nav-title>
+        {{vm.title}}
+    </ion-nav-title>
+    <ion-header-bar class="bar-subheader item-input-inset bar-dark" >
+        <div class="button-bar">
+            <div ng-click="vm.save()"  
+                 ng-disabled="!vm.teamname || !vm.emails || vm.emails.indexOf('@') < 1 "
+                 class="button button-clear  icon ion-checkmark-round ok-confirm">Send Invites</div>
+        </div>
+    </ion-header-bar>
+
+    <ion-content class="has-header has-subheader">
+        <ion-list>
+            <div ng-if="!vm.newTeam" class="item item-divider teamColor">
+                <div >Team:  {{vm.teamname}}</div>
+
+            </div>
+            <div ng-if="vm.newTeam" class="item item-input item-stacked-label item-icon-right">
+                <div class="input-label itemLabel">New Team Name</div>
+                <input ng-model="vm.teamname" type="text" style="width:100% !important" autocomplete="off" ng-change="vm.nameChange()"
+                       placeholder="">
+                <div ng-if="vm.nameChecked">
+                    <i ng-if="!vm.nameOK" class="icon ion-close-circled assertive" style="padding-top:20px;"></i>
+                    <i ng-if="vm.nameOK" class="icon ion-checkmark-circled positive" style="padding-top:20px;"></i>
+                </div>
+            </div>
+
+            <div class="item item-input ">
+                <textarea class="medText" ng-model="vm.emails" rows="16" maxlength="4000" placeholder="Enter your team's email addresses (comma-separated)"></textarea>
+            </div>
+            <div class="item item-icon-left "
+                 ng-if="vm.teamDBs.length == 1"
+                 ng-click="vm.setDefaultDB = !vm.setDefaultDB">
+                <i class="icon ion-android-checkbox-outline-blank" ng-if="!vm.setDefaultDB"></i>
+                <i class="icon ion-android-checkbox-outline" ng-if="vm.setDefaultDB"></i>
+                <span>Set each invitee's default database to <span class="h4">{{vm.teamDBs[0].name}}</span></span>
+            </div>
+            <div class="item item-input item-select item-stacked-label"
+                 ng-if="vm.teamDBs.length > 1">
+                <div class="input-label itemLabel">Set each invitee's default database to<br /></div>
+                <select class="col col-80 text-center"
+                        ng-options="db.id as db.name for db in vm.teamDBs"
+                        ng-model="vm.defaultDBId"
+                        ng-change="vm.dbChanged();"></select>
+            </div>
+
+
+
+            <div class="item item-divider item-dark">
+                Instructions
+            </div>
+            <div ng-if="vm.newTeam" class="item  medText item-text-wrap item-stable">
+                <ol>
+                    <li>Pick a unique name for your team.  It could be your company, department, or team name.  You can always change it later.</li>
+                    <li>Enter the email address of each team member; up to 50.</li>
+                    <li>Tap "Send Invites".</li>
+                </ol>
+            </div>
+            <div  ng-if="!vm.newTeam" class="item  medText item-text-wrap item-stable">
+                <ol>
+                    <li>Enter the email address of each team member you wish to invite.  </li>
+                    <li ng-if="vm.teamDBs.length > 0">Optional:  set a default database for each invitee.</li>
+                    <li>Tap "Send Invites".</li>
+                </ol>
+            </div>
+            <div class="item item-divider item-dark">
+                Here's what happens
+            </div>
+            <div class="item  medText item-text-wrap item-stable">
+                <ol>
+                    <li ng-if="vm.newTeam">A new Team <span ng-if="vm.teamname">called <span class="h5">{{vm.teamname}}</span></span> will be created.  You will be the owner.</li>
+                    <li ng-if="vm.newTeam">
+                        A new Database <span ng-if="vm.dbname">called <span class="h5">{{vm.dbname}}</span></span> will be created.  You will be the owner and your new team becomes the editing team.
+                    </li>
+                    <li>
+                        For each person you invite:
+                        <ul>
+                            <li>An account will be created with their email address as the user name and a temporary password</li>
+                            <li>Shuri will send a "Welcome" email to that address with their temporary credentials and instructions.</li>
+                            <li>The first time that person logs in, they will change their password.</li>
+                            <li>They will already be members of the team <span class="h5">{{vm.teamname}}</span>.</li>
+                            <li>They will have immediate access to the database <span class="h5">{{vm.dbname}}</span>  and it will be set as their default.</li>
+                        </ul>
+
+                    </li>
+                    <li>
+                        If a person you invite is already a Shuri user, nothing happens here.  They can easily be added to your team later.
+                    </li>
+                </ol>
+            </div>
+            <div class="item item-divider item-dark">
+                Please contact <a class="energized" href="mailto:support@shuri.com">Support</a> if you have questions.
+            </div>
+
+            <list-footer></list-footer>
+
+        </ion-list>
+    </ion-content>
+</ion-view>

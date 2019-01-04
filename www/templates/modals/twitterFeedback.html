@@ -1,0 +1,48 @@
+<ion-modal-view>
+    <ion-header-bar class="bar-dark">
+        <div class="title">Twitter Feedback</div>
+    </ion-header-bar>
+
+    <ion-content>
+        <div>
+            <div ng-if="vm.step == 0">
+                <div class="item item-body medText">
+                    <p>
+                        <i>
+                            Shuri requires authorization from Twitter to pull in your followers. Please follow the link below
+                            to authorize your twitter account with Shuri.
+                        </i>
+                    </p>
+                    <div class="col text-center">
+                        <div type="button" class="button button-positive item-icon-left ion-social-twitter" ng-click="vm.authenticateTwitter()"> Twitter Sign In</div>
+                    </div>
+                </div>
+            </div>
+
+            <div ng-if="vm.step == 1">
+                <div class="item item-input item-stacked-label">
+                    <div class="input-label itemLabel">
+                        Twitter Support -
+                        <span ng-class='vm.twCharactersClass'>({{vm.twitterFeedback.length + 11}}/140 characters used) <i class="ion-social-twitter positive"></i></span>
+                    </div>
+                    <textarea class="medText" ng-model="vm.twitterFeedback" rows="12" ng-change="vm.isDirty = true; vm.twCharactersClass = (129 - vm.twitterFeedback.length) < 20 ? 'assertive' : '';" maxlength="129"></textarea>
+                </div>
+                <ion-item class="medText wrapText">
+                    This tweet will get posted to <span class="positive">@ShuriApp</span> so that we may assist you with your feedback or questions. Please be aware that this tweet you are sending will be seen to the
+                    public. Any tweets that violate our terms of service will be removed and/or unanswered.
+                </ion-item>
+            </div>
+        </div>
+    </ion-content>
+    <ion-footer-bar class="bar-dark no-padding footerButton">
+        <div class="button-bar ">
+            <div class="button positive" ng-click="vm.closeModal()">
+                {{vm.wordFor("Cancel")}}
+            </div>
+            <div ng-if="vm.step == 1" class="button ok-confirm" ng-click="vm.submitTweet()">
+                {{vm.wordFor("Submit")}}
+            </div>
+        </div>
+
+    </ion-footer-bar>
+</ion-modal-view>

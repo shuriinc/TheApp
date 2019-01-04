@@ -1,0 +1,45 @@
+﻿<ion-side-menus id="sidemenu" ng-controller="MasterReportCtrl as vmMaster" ng-class="vmMaster.cssClass">
+    <style ng-if="vmMaster.isWide">
+        .buttonPaddingMaster {
+            padding-left: 12px !important;
+            padding-right: 12px !important;
+        }
+    </style>
+    <style ng-if="vmMaster.isMedium">
+        .buttonPaddingMaster {
+            padding-left: 8px !important;
+            padding-right: 8px !important;
+        }
+    </style>
+    <style ng-if="vmMaster.isSmall">
+        .buttonPaddingMaster {
+            padding-left: 4px !important;
+            padding-right: 4px !important;
+        }
+    </style>
+    <style>
+        .rptHeader {
+            /*font-size: 1.5em;
+            font-weight: 600;*/
+        }
+        .rptHeader1 {
+            /*font-size: 1.3em;
+            font-weight: 600;*/
+       }
+    </style>
+
+    <ion-side-menu-content>
+        <ion-nav-bar class="bar-dark">
+            <ion-nav-back-button ng-show="vmMaster.showBackbutton" class="buttonPaddingMaster">
+            </ion-nav-back-button>
+            <ion-nav-buttons side="right">
+                <div class="button button-icon  button-clear shuri-file-pdf buttonPaddingMaster"
+                        ng-click="vmMaster.pdf()"></div>
+             </ion-nav-buttons>
+
+        </ion-nav-bar>
+        <ion-nav-view name="mainContent" animation="slide-left-right" id="mainContent"></ion-nav-view>
+    </ion-side-menu-content>
+    <ion-side-menu side="left">
+    </ion-side-menu>
+</ion-side-menus>

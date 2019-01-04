@@ -1,0 +1,117 @@
+<style>
+    .loader {
+        background: #006587 !important; /*#2E5B51*/
+        border-radius: 80px;
+        height: 26px;
+    }
+
+    .percent {
+        text-align: center;
+        color: white !important;
+        vertical-align: middle;
+    }
+
+    .pctRight {
+        font-size: 1em !important;
+        font-weight: bold;
+        opacity: .8;
+    }
+
+    .dtRight {
+        font-size: .7em !important;
+        opacity: .9;
+        vertical-align: top !important;
+      
+    }
+
+    .bgRates {
+        background-color: #eeeeee;
+    }
+    .bgClicks {
+        background-color: #fafafa;
+    }
+</style>
+<div class="item  item-icon-left {{(showDetails ? 'item-positive' : 'item-stable')}} "
+     ng-click="showDetails = !showDetails" >
+    <i class="icon ion-email" style="font-size:1.5em;"></i>
+    {{totalSent | number}} Tracked Emails <span ng-if="!isSent" class="itemLabel">&nbsp;&nbsp;&nbsp;[not sent]</span>
+</div>
+
+<div ng-if="showDetails" class="item bgPositiveLight">
+    <span class="itemLabel">Open Rates</span>
+    <div class="card ">
+        <div class="item item-icon-left item-icon-right {{(showOpened ? 'item-balanced' : 'bgBalanced')}} " ng-click="showOpened = !showOpened">
+            <i ng-class="(showOpened) ? 'icon ion-arrow-down-b' : 'icon ion-arrow-right-b '" style="font-size:1.5em;"></i>
+            {{opens.length | number}} Opened
+            <i class="icon pctRight">{{pcts.open}}%</i>
+        </div>
+        <div ng-if="showOpened" ng-repeat="entity in opens" ng-click="goto(entity)">
+            <div class="item item-icon-right item-stable">
+                {{entity.name}}
+                <div class="row  medText row-no-padding" ng-repeat="clickthru in entity.tracker.clickthrus">
+                    <div class="col-10 text-right"></div>
+                    <div class="col">{{clickthru.url}}</div>
+                </div>
+                <i class="icon dtRight">{{entity.tracker.dateString}}</i>
+            </div>
+        </div>
+        <div class="item item-icon-left  item-icon-right {{(showDeliver ? 'item-energized' : 'bgEnergized')}}  " ng-click="showDeliver = !showDeliver">
+            <i ng-class="(showDeliver) ? 'icon ion-arrow-down-b' : 'icon ion-arrow-right-b '" style="font-size:1.5em;"></i>
+            {{delivers.length | number}} Delivered, not opened
+            <i class="icon pctRight">{{pcts.deliver}}%</i>
+
+        </div>
+        <div ng-if="showDeliver" class="item item-stable" ng-repeat="entity in delivers" ng-click="goto(entity)">
+            {{entity.name}}
+        </div>
+        <div ng-if="sends.length > 0">
+            <div class="item item-icon-left  item-icon-right {{(showSent ? 'item-dark' : 'item-stable')}}  " ng-click="showSent = !showSent">
+                <i ng-class="(showSent) ? 'icon ion-arrow-down-b' : 'icon ion-arrow-right-b '" style="font-size:1.5em;"></i>
+                {{sends.length | number}} Sent, not yet delivered
+                <i class="icon pctRight">{{pcts.send}}%</i>
+
+            </div>
+            <div ng-show="showSent" class="item item-stable " ng-repeat="entity in sends" ng-click="goto(entity)">
+                {{entity.name}}
+            </div>
+
+        </div>
+    </div>
+
+    <br />
+    <span class="itemLabel">Link Click-through Rates</span>
+    <div class="card bgRates">
+        <div ng-repeat="ct in clickThrus">
+            <div class="item item-icon-left item-icon-right {{(ct.show ? 'item-balanced' : 'bgBalanced')}} medText" ng-click="ct.show = !ct.show">
+                <i ng-class="(ct.show) ? 'icon ion-arrow-down-b' : 'icon ion-arrow-right-b '" style="font-size:1.5em;"></i>
+                {{ct.entities.length | number}} click<span ng-if="ct.entities.length != 0">s</span>: {{ct.displayUrl}}
+                <i class="icon pctRight">{{ct.percentage}}%</i>
+            </div>
+            <div ng-if="ct.show" class="item  item-stable" ng-repeat="ctEnt in ct.entities" ng-click="goto(ctEnt)">
+                {{ctEnt.name}}
+            </div>
+        </div>
+        <div class="item item-stable itemLabel" ng-if="clickThrus.length == 0">
+            No click-throughs.
+        </div>
+    </div>
+
+    <br />
+    <span class="itemLabel">Undeliverable</span>
+    <div class="card bgRates">
+        <div ng-if="fails.length > 0">
+            <div class="item item-icon-left  {{(showNotSent ? 'item-dark' : 'bgDark')}}  " ng-click="showNotSent = !showNotSent">
+                <i ng-class="(showNotSent) ? 'icon ion-arrow-down-b' : 'icon ion-arrow-right-b '" style="font-size:1.5em;"></i>
+                {{fails.length | number}} Not delivered
+            </div>
+            <div ng-if="showNotSent" class="item  item-stable" ng-repeat="entity in fails" ng-click="goto(entity)">
+                {{entity.name}}<span class="itemLabel" ng-if="entity.failReason"> - {{entity.failReason}}</span>
+            </div>
+
+        </div>
+        <div class="item item-stable smallText" ng-if="fails.length == 0">
+            None.
+        </div>
+
+    </div>
+</div>

@@ -1,0 +1,34 @@
+<div class="card">
+   <div class="item item-avatar item-icon-right">
+    <img ng-src="{{tweet.valueObj.UserImg}}" class="link" ng-click="goUser()" >
+    <div>
+      <h2 class="" ng-click="goUser()" title="View @{{tweet.valueObj.UserSn}} in Twitter">{{tweet.valueObj.UserName}}</h2>
+      <span class="itemLabel link" ng-click="goUser()" title="View @{{tweet.valueObj.UserSn}} in Twitter">@{{tweet.valueObj.UserSn}}</span>
+    </div>
+    <div class="icon link" style="font-size: 1.5em;">
+      <i class=" ion-social-twitter" style="color: #1DA1F2;" ng-click="goTweet()" title="View in Twitter"></i>
+      <i ng-if="!hideViewProfile" class=" {{tweet.entityType == 4 ? 'ion-person energized' : 'ion-person-stalker calm'}}" style="padding-left: 18px;" ng-click="viewEntity()" title="View profile" ></i>
+     
+
+    </div>
+  </div>
+  <div class="item item-text-wrap ">
+    <div style="width: 100%; text-align: center;">
+      <img ng-if="tweet.valueObj.Media && tweet.valueObj.Media[0].MediaType == 'photo'" ng-src="{{tweet.valueObj.Media[0].MediaURLHttps}}" style="width: 75%;" ng-click="enlargePhoto(tweet.valueObj.Media[0].MediaURLHttps);">
+    </div>
+    <p style="padding: 0; padding-bottom:20px; margin: 0; color: black;" ng-bind-html="tweet.valueObj.FullText.linkify_tweet()">
+    </p>
+
+    <div class="row row-no-padding">
+      <div class="col" ng-if="twitter3Live">
+        <i class="icon ion-reply iconButton" title="Reply" ng-click="replyTweet()" style="font-size:1.75em; padding-right:6px;"></i>
+        <i class="icon ion-loop iconButton" title="Retweet" ng-click="retweet()" style="font-size:1.75em;  padding-right:6px;"></i>
+        <i class="icon ion-heart iconButton" title="Favorite" ng-click="likeTweet()" style="font-size:1.75em;  padding-right:6px;"></i>
+        <i class="icon shuri-touch-add  iconButton" title="Save as Touch" ng-click="addTouch()" style="font-size:1.5em; padding-right:6px; "></i>
+      </div>
+      <div class="col text-right smallText" style="padding-left: 0; padding-right: 16px;">
+        {{tweet.createdDtLoc | date:'short'}}
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,28 @@
+﻿<ion-view ng-controller="LogsCtrl as vm">
+    <ion-nav-title>
+        Logs
+    </ion-nav-title>
+    <ion-content class="has-header ">
+        <div class="list">
+            <div class="item item-input item-select item-positive">
+                <div class="input-label ">
+                    <b class="">Type</b>
+                </div>
+                <select ng-model="vm.auditTypeSelected"
+                        ng-options="type as type.auditTypename for type in vm.auditTypes"
+                        ng-change="vm.typeChange()"></select>
+            </div>
+            <div class="item item-stacked-label wrapText" ng-repeat="item in vm.auditItems">
+                <div class="itemLabel positive"> {{item.name}}</div>
+                <div class="medText">{{item.date | date}} {{item.ownedByName}}</div>
+                <div class="smallText">{{item.description}}</div>
+
+            </div>
+        </div>
+        <ion-infinite-scroll on-infinite="vm.loadMore()" ng-if="vm.hasMore" distance="20%">
+        </ion-infinite-scroll>
+
+    </ion-content>
+
+</ion-view>
+

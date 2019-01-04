@@ -1,0 +1,171 @@
+<ion-view ng-controller="CustomizeCtrl as vm">
+    <ion-nav-title>
+        Customize
+        <span class="itemLabel" ng-if="!vm.updatable">(view only)</span>
+    </ion-nav-title>
+    <div class="bar bar-subheader bar-dark" ng-if="vm.showList">
+        <div class="button-bar">
+            <div ng-click="vm.cancel()" class="button button-clear icon ion-checkmark-round ok-confirm"> {{vm.wordFor("OK")}}</div>
+        </div>
+    </div>
+    <ion-content class="has-header has-subheader">
+        <div ng-if="vm.showList" class="list">
+            <div class="item item-positive text-center">
+                {{vm.dbName}}
+            </div>
+            <div class="item bgPositive text-center itemPadding" >
+              <div class="button-bar">
+                <div class="button button-positive button-clear icon ion-pricetags" ng-click="vm.goPersonalities()" ng-if="false"> Add Personality</div>
+                <div class="button  button-positive button-clear icon ion-shuffle" ng-click="vm.showDB = !vm.showDB;"> Switch Database</div>
+              </div>
+            </div>
+            <div class="item item-input item-select " ng-if="vm.showDB">
+                <span class="input-label itemLabel">Database</span>
+                <select ng-options="sub as sub.name for sub in vm.databases" ng-model="vm.selectedSub" ng-change="vm.collectionChange()"></select>
+            </div>
+            <div ng-if="vm.showDB" class="row bgPositive itemLabel"><div class="col"></div></div>
+
+            <!-- Tag Sets ---------------------------------------------------------------------------------->
+            <div class="item itemDivider item-icon-left item-icon-right item-stable">
+                <i ng-click="vm.tagopen = (!vm.tagopen)"
+                   class="{{(vm.tagopen) ? 'icon ion-arrow-down-b' : 'icon ion-arrow-right-b'}}" style="font-size:1.5em;">
+                </i>
+                <b ng-click="vm.tagopen = (!vm.tagopen)">{{vm.wordFor("Tag")}} {{vm.wordFor("Sets")}}</b>
+                <i class="icon ion-plus-round icon-accessory" style="font-size:1.5em;"
+                   ng-if="vm.updatable && (vm.appUser.licenseStatus == 0)"
+                   ng-click="vm.customEdit('tagset');"></i>
+            </div>
+            <div class="item wrapText" ng-if="vm.tagopen && (ut.subscriptionId != vm.guidEmpty)"
+                 ng-repeat="ut in vm.usertypesTags | orderBy: 'name'"
+                 ng-click="vm.customEdit('tagset', ut);">
+                {{ut.name}}&nbsp;
+                <i ng-if="ut.forPeople" class="icon ion-person energized"></i>
+                <i ng-if="ut.forOrgs" class="icon ion-person-stalker calm"></i>
+                <i ng-if="ut.forTouches" class="icon shuri-touch balanced"></i>
+                <span class="itemLabel">({{ut.tags.length}} {{vm.wordFor("tags")}})</span>
+                <span ng-if="ut.value != ''" class="smallText">
+                    <br />{{ut.value}}
+                </span>
+            </div>
+            <div class="item itemLabel" ng-if="vm.tagopen && vm.usertypesTags.length == 0">
+                No tag sets
+            </div>
+            
+            <!-- Custom Fields ---------------------------------------------------------------------------------->
+            <div class="item itemDivider item-icon-left  item-icon-right item-stable">
+                <i ng-click="vm.cpopen = (!vm.cpopen)"
+                   class="{{(vm.cpopen) ? 'icon ion-arrow-down-b' : 'icon ion-arrow-right-b'}}" style="font-size:1.5em;">
+                </i>
+                <b ng-click="vm.cpopen = (!vm.cpopen)">{{vm.wordFor("Custom Fields")}}</b>
+                <i class="icon ion-plus-round icon-accessory" style="font-size:1.5em;"
+                   ng-if="vm.updatable && (vm.appUser.licenseStatus == 0)"
+                   ng-click="vm.customEdit('custom')"></i>
+            </div>
+            <div class="item no-padding "
+                 ng-if="vm.cpopen"
+                 ng-show="(ut.subscriptionId != vm.guidEmpty)"
+                 ng-repeat="ut in vm.usertypesCPDocs | orderBy:  'name'"
+                 ng-click="vm.customEdit('custom', ut)">
+                <div class="row">
+                    <div class="col">
+                        {{ut.name}}
+                        <i ng-if="ut.forPeople" class="icon ion-person energized"></i>
+                        <i ng-if="ut.forOrgs" class="icon ion-person-stalker calm"></i>
+                        <i ng-if="ut.forTouches" class="icon shuri-touch balanced"></i>
+                        <i ng-if="ut.forAllDBs" class="icon ion-earth "></i>
+                    </div>
+                    <div class="col itemLabel text-right">{{ut.friendlyPrim}}</div>
+                </div>
+                <!--<i class="icon ion-chevron-right icon-accessory"></i>-->
+            </div>
+            <div class="item itemLabel" ng-if="vm.cpopen && vm.usertypesCPDocs.length == 0">
+                No {{vm.wordFor("custom fields")}}
+            </div>
+
+            <!-- Touch Types ---------------------------------------------------------------------------------->
+            <div class="item itemDivider item-icon-left item-icon-right item-stable">
+                <i ng-click="vm.touopen = (!vm.touopen)"
+                   class="{{(vm.touopen) ? 'icon ion-arrow-down-b' : 'icon ion-arrow-right-b'}}" style="font-size:1.5em;">
+                </i>
+                <b ng-click="vm.touopen = (!vm.touopen)">{{vm.wordFor("Touch")}} {{vm.wordFor("Types")}}</b>
+                <i class="icon ion-plus-round icon-accessory" style="font-size:1.5em;"
+                   ng-if="vm.updatable && (vm.appUser.licenseStatus == 0)"
+                   ng-click="vm.openModal()"></i>
+            </div>
+            <div class="item itemLabel" ng-if="vm.touopen && vm.usertypesTouches.length == 0">
+                No {{vm.wordFor("custom")}} {{vm.wordFor("touch")}} {{vm.wordFor("types")}}
+            </div>
+            <div class="item wrapText"
+                 ng-if="vm.touopen"
+                 ng-repeat="ut in vm.usertypesTouches | orderBy: ['name']"
+                 ng-click="vm.openModal(ut)">
+                {{ut.name}}
+                <span class="itemLabel">({{ut.primitiveName}})</span>
+                <div ng-if="ut.value && ut.value.trim() != ''" class="smallText">
+                    {{ut.value}}
+                </div>
+            </div>
+            <ion-item class="item item-toggle bgLightLight "
+                      ng-if="vm.touopen">
+                <div class="itemLabel">
+                    {{vm.wordFor("Show Public")}}/Base {{vm.wordFor("Touch")}} {{vm.wordFor("Types")}}
+                </div>
+                <label class="toggle toggle-balanced">
+                    <input type="checkbox" ng-model="vm.showPublic">
+                    <div class="track">
+                        <div class="handle"></div>
+                    </div>
+                </label>
+            </ion-item>
+            <div class="item bgLight wrapText"
+                 ng-if="vm.touopen && vm.showPublic"
+                 ng-repeat="ut in vm.userTypesPublic | filter: { entityName : 'Touch'} | orderBy: ['name']">
+                {{ut.name}}
+                <div ng-if="ut.value && ut.value.trim() != ''" class="smallText">{{ut.value}}</div>
+            </div>
+        </div>
+        <list-footer></list-footer>
+    </ion-content>
+    <script id="addTouchType.html" type="text/ng-template">
+        <ion-modal-view>
+            <ion-header-bar class="bar-dark">
+                <div class="title"><span class="balancedBright"> {{vm.wordFor("Touch")}} {{vm.wordFor("Usertype")}}</span></div>
+                <div class="button button-clear icon ion-help"
+                     ng-click="vm.help(touchType + '_deep')"
+                     ng-if="vmMaster.showHelp"></div>
+            </ion-header-bar>
+            <div class="bar bar-subheader bar-dark">
+                <div class="button-bar ">
+                    <div ng-click="vm.closeModalC()" class="button button-clear icon ion-close-round button-stable">&nbsp;&nbsp;{{vm.wordFor("Cancel")}}</div>
+                    <div ng-click="vm.savetouchUT()" ng-disabled="!vm.savetouchUTEnabled" class="button button-clear icon ion-checkmark-round ok-confirm">&nbsp;&nbsp;{{vm.wordFor("Save")}}</div>
+                </div>
+            </div>
+            <ion-content class="has-header has-subheader">
+                <div class="card">
+                    <ion-item class="item item-input item-stacked-label">
+                        <span class="input-label itemLabel">{{vm.wordFor("Name")}}</span>
+                        <input type="text" ng-model="vm.touchUT.name" placeholder="Something short, but descriptive here..." ng-change="vm.modalCChanged()">
+                    </ion-item>
+                    <ion-item class="item item-input item-select">
+                        <div class="input-label">
+                            <div class="itemLabel">Base Type</div><span class="smallText">(most similar to)</span>
+                        </div>
+                        <select ng-options="primitive.value as primitive.friendlyPrim for primitive in vm.touchPrimitives | orderBy: 'friendlyPrim'" ng-model="vm.touchUT.primitive"></select>
+                    </ion-item>
+                    <ion-item class="item-input  item-stacked-label">
+                        <div class="itemLabel">{{vm.wordFor("Description")}}</div>
+                        <textarea type="text" rows="3" ng-model="vm.touchUT.value" placeholder="Optional description and comments here..."></textarea>
+                    </ion-item>
+                    <owned-item entity="vm.touchUT" entity-type="8" updatable="true" in-modal="true" is-dirty="vm.isDirty"></owned-item>
+                    <div ng-if="vm.usertype.id != vm.guidEmpty && vm.showDeleteB" class="item text-center item-stable button-bar">
+                        <div class="button button-clear button-assertive  icon ion-trash-a "
+                             ng-click="vm.delete()">
+                            Delete
+                        </div>
+                    </div>
+                </div>
+            </ion-content>
+        </ion-modal-view>
+    </script>
+
+</ion-view>

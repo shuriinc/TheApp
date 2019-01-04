@@ -1,0 +1,80 @@
+﻿<ion-view ng-controller="QueryReportUploadCtrl as vm">
+    <ion-nav-title ng-show="vm.rpt">
+       {{(vm.rpt.rptDef.isWord)? 'Word ' : 'Excel '}}Template
+    </ion-nav-title>
+    <ion-header-bar class="bar-subheader bar-dark '">
+        <div class="button-bar">
+            <div class="button button-clear button-stable icon ion-close-round" ng-click="vm.cancel()">
+                Close
+            </div>
+             <div class="button button-clear ok-confirm icon ion-checkmark-round" ng-click="vm.saveTemplate()">
+                {{vm.wordFor("OK")}}
+            </div>
+        </div>
+    </ion-header-bar>
+    <ion-content class="has-header has-subheader">
+        <ion-list>
+
+            <div class="item item-input item-stacked-label">
+                <span class="input-label itemLabel">Name</span>
+                <input type="text" ng-model="vm.rpt.rptDef.name" maxlength="50">
+            </div>
+
+            <div class="item item-input item-stacked-label">
+                <div class="input-label itemLabel">
+                    {{vm.wordFor("Description")}}
+                </div>
+                <textarea class="medText" ng-model="vm.rpt.rptDef.description" rows="6" maxlength="512"></textarea>
+            </div>
+            <ion-item class="item item-toggle" ng-if="vm.appUser.isSysAdmin">
+                <span class="itemLabel">Custom Report</span>
+                <label class="toggle toggle-balanced">
+                    <input type="checkbox" ng-model="vm.rpt.rptDef.isCustom" >
+                    <div class="track">
+                        <div class="handle"></div>
+                    </div>
+                </label>
+            </ion-item>
+            <div class="item item-input item-stacked-label" ng-show="vm.rpt.rptDef.isCustom &&  vm.appUser.isSysAdmin">
+                <span class="input-label itemLabel">Custom API Resource</span>
+                <input type="text" ng-model="vm.rpt.rptDef.customName" maxlength="50" placeholder="The custom API name given to you.">
+            </div>
+
+            <div ng-if="vm.rpt.rptDef.isWord">
+                <div class="card">
+                    <div class="item item-divider bgDark itemLabel">Type</div>
+                    <div class="item item-icon-left medText {{vm.rpt.rptDef.templateType == 'page' ? 'bgPositiveLight' : 'item-light'}}" ng-click="vm.changeTemplateType('page'); ">
+                        <i ng-show="vm.rpt.rptDef.templateType == 'page'" class="icon ion-checkmark-round" style="font-size:1.5em;padding-top:16px !important;"></i>
+                        Paginated
+                    </div>
+                    <div class="row {{vm.rpt.rptDef.templateType == 'page' ? 'bgPositiveLight' : 'item-light'}}"
+                         ng-show="vm.rpt.rptDef.templateType == 'page'"
+                         ng-click="vm.changeTemplateType('page'); ">
+                        <div class="col-33 text-right itemLabel">Items per page</div>
+                        <div class="col"><input type="text" class="medText" ng-model="vm.rpt.rptDef.pagesize" style="width:60px;" /></div>
+
+                    </div>
+
+                    <div class="item item-icon-left medText {{vm.rpt.rptDef.templateType != 'page' ? 'bgPositiveLight' : 'item-light'}}" ng-click="vm.changeTemplateType('table')">
+                        <i ng-show="vm.rpt.rptDef.templateType != 'page'" class="icon ion-checkmark-round" style="font-size:1.5em;padding-top:16px !important;"></i>
+                        Table
+                    </div>
+
+                </div>
+            </div>
+            <owned-item entity="vm.rpt" entity-type="1" updatable="true" is-dirty="false"></owned-item>
+
+            <div ng-if="vm.appUser.isSysAdmin">
+                <div ng-if="vm.rpt.ownedBy_Id != vm.guidEmpty" class="item button-bar">
+                    <div class="button button-positive icon ion-earth" ng-click="vm.togglePublic()"> Make Public</div>
+                </div>
+                <div ng-if="vm.rpt.ownedBy_Id == vm.guidEmpty" class="item button-bar">
+                    <div class="button button-stable icon ion-earth" ng-click="vm.togglePublic()"> <span class="assertive">Stop Being Public</span></div>
+                </div>
+
+            </div>
+
+        </ion-list>
+ 
+    </ion-content>
+    </ion-view>

@@ -1,0 +1,100 @@
+﻿<ion-view ng-controller="CustomEditCtrl as vm">
+    <ion-nav-title>
+        {{vm.title}}
+    </ion-nav-title>
+    <!-- <ion-header-bar class="bar-subheader bar-positive" ng-if="vm.title">
+      <h1 class="title">{{vm.subtitle}}</h1>
+    </ion-header-bar> -->
+    <ion-header-bar class="bar-subheader item-input-inset bar-dark" ng-if="vm.title">
+        <div class="button-bar">
+            <div ng-click="vm.cancel()" class="button button-clear button-stable icon ion-close-round">&nbsp;&nbsp;{{vm.wordFor("Cancel")}}</div>
+            <div ng-click="vm.save()" click-once class="button button-clear icon ion-checkmark-round ok-confirm" ng-if="vm.usertype.updatable">&nbsp;&nbsp;{{vm.wordFor("Save")}}</div>
+        </div>
+    </ion-header-bar>
+    <ion-content class="has-header has-subheader">
+        <sspinner ng-if="!vm.showList" text='{{vm.wordFor("Loading")}}...'></sspinner>
+
+        <div class="list" ng-if="vm.showList">
+            <div ng-if="vm.usertype.name != ' Tags'">
+                <div class="item item-divider  item-dark  ">
+                    {{vm.nameLabel}}
+                </div>
+                <div class="item item-input item-stacked-label">
+                    <input type="text" ng-model="vm.usertype.name" placeholder="Something short, but descriptive here..." ng-change="vm.customChanged()">
+                </div>
+
+                <!--<div ng-if="vm.usertype.entityType != 5">-->
+                    <div class="item item-divider item-dark ">
+                        Applies to &nbsp;&nbsp;&nbsp; <span class="smallText energized" ng-if="!vm.usertype.forPeople && !vm.usertype.forOrgs && !vm.usertype.forTouches"> (choose 1 or more)</span>
+                    </div>
+
+                    <div class="button-bar">
+                        <div class="button icon ion-person {{vm.usertype.forPeople ? 'button-energized' : ' button-outline'}} medText" ng-click="vm.usertype.forPeople = !vm.usertype.forPeople;vm.customChanged(); "> People</div>
+                        <div class="button icon ion-person-stalker {{vm.usertype.forOrgs ? 'button-calm' : ' button-outline'}} medText" ng-click="vm.usertype.forOrgs = !vm.usertype.forOrgs;vm.customChanged(); "> Organizations</div>
+                        <div class="button icon ion-chatbubbles {{vm.usertype.forTouches ? 'ok-confirm' : ' button-outline'}} medText" ng-click="vm.usertype.forTouches = !vm.usertype.forTouches;vm.customChanged(); "> Touches</div>
+                    </div>
+                <div ng-if="vm.usertype.entityType < 2">
+                    <div class="item item-toggle ">
+                        <div class="itemLabel">Span All Databases*</div>
+                        <label class="toggle toggle-balanced">
+                            <input type="checkbox" ng-model="vm.usertype.forAllDBs" ng-change="vm.customChanged();">
+                            <div class="track">
+                                <div class="handle"></div>
+                            </div>
+                        </label>
+                    </div>
+                    <div class="item item-divider  item-stable itemLabel smallText wrapText ">
+                        <br />  * "Span All Databases" means this custom field will show up across all your databases.    Otherwise, this custom field will only appear for items created in the same database.
+                    </div>
+                </div>
+
+                <!--</div>-->
+
+                <div ng-show="vm.showPrims">
+                    <div class="item item-divider  item-dark ">
+                        Contains This Type of Info&nbsp;&nbsp;&nbsp;<span class="smallText energized" ng-if="!vm.selectedPrim"> (choose 1)</span>
+                    </div>
+                    <div ng-if="!vm.customizablePrimitive" class="item ">
+                        {{vm.usertype.primitiveName}} &nbsp;&nbsp;&nbsp;<span class="smallText "> (not customizable here)</span>
+                    </div>
+
+                    <div ng-if="vm.customizablePrimitive" ng-repeat="prim in vm.primitives | orderBy: 'name'">
+                        <item ng-show="vm.isNew || prim.isSelected || (prim.isText && vm.isTextSelected)" class="item wrapText item-icon-left {{prim.isSelected ? 'bgPositive' : ''}}" ng-click="vm.primChanged(prim)">
+                            {{prim.name}}<br />
+                            <span class="smallText" style="color:#a0a0a0">{{prim.description}}</span>
+                            <i ng-show="prim.isSelected" class="icon ion-checkmark-round"></i>
+                        </item>
+
+                    </div>
+                </div>
+                <div class="item dividerBar item-dark  " >
+                    Description
+                </div>
+                <div class="item item-input">
+                    <textarea type="text" rows="5" ng-model="vm.usertype.value" placeholder="Optional description and comments here..." ng-change="vm.customChanged();"></textarea>
+
+                </div>
+                <div ng-if="vm.usertype.entityType == 5">
+                    <tag-picker parent-entity-type="8" parent-entity="vm.usertype" is-dirty="vm.isDirty"></tag-picker>
+
+                </div>
+
+                <owned-item entity="vm.usertype" entity-type="8" updatable="true" is-dirty="vm.isDirty"></owned-item>
+
+               <div ng-if="vm.usertype.id != vm.guidEmpty && vm.showDelete" class="item text-center item-stable button-bar">
+                    <div class="button button-clear button-assertive  icon ion-trash-a "
+                         ng-click="vm.delete()">
+                        Delete
+                    </div>
+                </div>
+
+ 
+            </div>
+            <list-footer></list-footer>
+
+        </div>
+    </ion-content>
+
+
+
+</ion-view>

@@ -1,0 +1,155 @@
+<ion-view ng-controller="InappPurchasesCtrl as vm">
+    <ion-nav-title>
+        In-App Purchases
+    </ion-nav-title>
+    <div ng-class="vm.headerClass">
+      <div class="title">{{vm.title}}</div>
+      <div ng-if="false && vm.showList" type="button" class="button button-stable" ng-click="vm.restorePurchases()">Refresh Store</div>
+      <div ng-if="vm.showPurchases" class="button button-small button-balanced" ng-click="vm.restorePurchases()">Restore</div>
+
+    </div>
+    <ion-content class="has-header has-subheader">
+        <sspinner ng-if="!vm.showList" text='{{vm.wordFor("Working...")}}'></sspinner>
+        <ion-list ng-if="vm.showList">
+          <!--Upgrades---------------------------------------------------------------->
+          <div ng-if="vm.showUpgrades" style="margin-bottom: 48px;"
+               ng-repeat="sub in vm.licenseUpgrades |  orderBy: ['sorter', 'name'] ">
+            <div class="card " style="margin: 16px; margin-bottom:32px;">
+              <div class="item item-divider item-positive text-center">
+                {{sub.name}}
+              </div>
+              <div class="item item-text-wrap bgPositiveLight">
+                <div class="medText" ng-bind-html="sub.description"></div>
+              </div>
+              <div class="item item-divider  text-center bgPositive">
+                <div class="button  button-positive" ng-click="vm.subscribe(sub)">
+                  &nbsp;&nbsp;&nbsp;Purchase&nbsp;&nbsp;&nbsp;
+                </div>
+              </div>
+            </div>
+          </div>
+          <div ng-if="vm.showUpgrades && vm.licenseUpgrades.length == 0">
+            <div class="item itemLabel" style="padding-bottom: 320px;">
+              No upgrades available
+            </div>
+          </div>
+
+
+          <!--Databases---------------------------------------------------------------->
+          <div ng-if="vm.showAvailable"
+               ng-repeat="sub in vm.sharedSubs | orderBy: ['sorter', 'name'] ">
+            <div class="card " style="margin: 16px; margin-bottom:32px;">
+              <div class="item item-divider item-icon-right item-calm text-center">
+                {{sub.name}}
+                <div class="icon">
+                  <i class="ion-help icon-accessory icon-right" ng-if="(sub.familyId == 'ShuriAR')" ng-click="vm.arDbHelp()" style="font-size:1em; padding-right: 10px; color: white;"></i>
+                </div>
+              </div>
+              <div class="item item-text-wrap bgCalmLight">
+                <div class="medText" ng-bind-html="sub.description"></div>
+              </div>
+              <div class="item item-divider  text-center bgCalm">
+                <div class="button  button-calm" ng-click="vm.subscribe(sub)">
+                  &nbsp;&nbsp;&nbsp;{{(sub.value == 0) ? 'Free - subscribe' : 'Purchase'}}&nbsp;&nbsp;&nbsp;
+                </div>
+
+              </div>
+            </div>
+          </div>
+          <div ng-if="vm.showAvailable && vm.sharedSubs.length == 0">
+            <div class="item itemLabel" style="padding-bottom: 320px;">
+              No databases available
+            </div>
+          </div>
+
+          <!--Purchases---------------------------------------------------------------->
+          <div ng-if="vm.showPurchases">
+            <!--<div class="item text-right">
+              <div class="button button-small button-balanced button-outline" ng-click="vm.restorePurchases()">Restore Purchases</div>
+              
+            </div>-->
+
+            <div style="margin-bottom: 48px;"
+                 ng-repeat="sub in vm.myPurchases | orderBy: ['sorter', 'name'] ">
+              <div class="card " style="margin: 16px; margin-bottom:32px;">
+                <div class="item item-divider item-balanced text-center">
+                  {{sub.name}}
+                </div>
+                <div class="row bgBalanced medText">
+                  <div class="col-50 text-center">
+                    <div ng-if="(sub && sub.subscribers && sub.subscribers[0].startDt)">
+                      Began: {{sub.subscribers[0].startDt | date}}
+                    </div>
+                  </div>
+                  <div class="col-50 text-center">
+                    <div ng-if="(sub && sub.subscribers && sub.subscribers[0].endDt && !sub.isEndless)">
+                      {{(sub.subscribers[0].active && sub.payType != 0) ? 'Renews' : 'Expires'}}: {{sub.subscribers[0].endDt | date}}
+                    </div>
+                    <div ng-if="(sub && sub.isEndless && sub.value == 0)">
+                      No expiration
+                    </div>
+                    <div ng-if="(sub && sub.isEndless && sub.value > 0)">
+                      Auto-renews
+                    </div>
+                  </div>
+                </div>
+                <div class="item item-text-wrap bgBalancedLight">
+                  <div class="medText" ng-bind-html="sub.description"></div>
+                </div>
+                <div ng-if="sub.value <= 0" class="item item-divider  text-center bgBalanced">
+                  <div class="button  " ng-click="vm.unsubscribe(sub)">
+                    &nbsp;  Unsubscribe &nbsp;&nbsp;&nbsp;
+                  </div>
+                </div>
+                <!-- Comp ---------------------------------->
+                <div ng-if="sub.payType === 0 && sub.subscribers[0].active" class="item  text-center bgBalanced">
+                  Complimentary Subscription
+                </div>
+                <!-- Stripe? ---------------------------------->
+                <div ng-if="(sub.payType === 3 && sub.value > 0 && sub.subscribers[0].active)" class="item item-divider  text-center bgBalanced">
+                  <div class="button " ng-click="vm.stripeUnsub(sub)">
+                    &nbsp;  Unsubscribe &nbsp;&nbsp;&nbsp;
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <div ng-if="vm.isIOS || true " class="item ">
+            <br />
+            <div class="card">
+              <div class="item item-divider medText text-center item-text-wrap">
+                About auto-renewing subscriptions
+              </div>
+              <div class="item item-text-wrap smallText">
+                Payments will be charged to iTunes Account at confirmation of purchase. Subscriptions automatically renew unless auto-renew is turned off at least 24-hours before the end of the current period.
+                Account will be charged for renewal within 24-hours prior to the end of the current period.  Auto-renewal may be turned off by going to your Account Settings after purchase.
+                No cancellation of the current subscription is allowed during active subscription period.
+                Any unused portion of the free 7 day trial period for the Analyst Relations database monthly subscription will be forfeited when purchasing a subscription to that publication.
+                <div class="row medText text-center row-no-padding">
+                  <div class="col fakeLink text-center" ng-click="vm.dispenseUrl('privacy')">
+                    Privacy Policy
+                    <i class="icon ion-android-open iconButton"></i>
+                  </div>
+                  <div class="col fakeLink text-center" ng-click="vm.dispenseUrl('terms')">
+                    Terms of Service
+                    <i class="icon ion-android-open iconButton"></i>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <list-footer></list-footer>
+        </ion-list>
+    </ion-content>
+    <ion-footer-bar class="no-padding">
+        <ion-tabs class="tabs-dark tabs-icon-top">
+            <ion-tab icon-on="balanced ion-cash" icon-off="balanced ion-cash" title="Purchases" ng-click="vm.show('Purchases')"></ion-tab>
+            <ion-tab icon-on="calm shuri-database" icon-off="calm shuri-database" title="Databases" ng-click="vm.show('Available')"></ion-tab>
+            <ion-tab icon-on="homeColor ion-plus-round" icon-off="homeColor ion-plus-round" title="Storage" ng-click="vm.show('Upgrades')"></ion-tab>
+        </ion-tabs>
+    </ion-footer-bar>
+</ion-view>

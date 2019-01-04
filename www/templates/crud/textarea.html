@@ -1,0 +1,27 @@
+
+<ion-view ng-controller="TextareaCtrl as vm">
+  <ion-nav-title>
+    {{vm.title}}
+  </ion-nav-title>
+  <ion-header-bar class="bar-subheader bar-dark">
+    <div class="button-bar">
+      <div class="button button-clear button-stable icon ion-close-round" ng-click="vm.cancel()">
+        Cancel
+      </div>
+      <div class="button button-clear ok-confirm icon ion-checkmark-round" ng-click="vm.save()">
+        Save
+      </div>
+    </div>
+  </ion-header-bar>
+  <ion-content class="has-header has-subheader" style="position:absolute;">
+    <ion-list>
+      <div class="item item-input item-stacked-label " id="divEntityCpDocTextarea">
+        <span class="input-label {{(isCustom) ? customCSSLabel : 'itemLabel' }}"> {{itemFS.typename}}</span>
+        <textarea id="theTA" style="height:{{vm.taHeight}};width:100%;"
+                  ng-model="vm.text"></textarea>
+      </div>
+      <!--<list-footer></list-footer>-->
+
+    </ion-list>
+  </ion-content>
+</ion-view>

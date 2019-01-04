@@ -1,0 +1,125 @@
+<ion-modal-view>
+    <ion-header-bar class="bar-positive">
+        <div ng-if="vm.resolveColumn.isResolved" class="button button-icon ion-minus-circled" ng-click="vm.clearCol()"> Clear</div>
+       <div class="title">{{vm.resolveColumn.name}}</div>
+        <div class="button button-icon ion-checkmark-circled" ng-if="vm.resolveColumn.isResolved"  ng-click="vm.closeResolveModal(true)"> OK</div>
+        <div class="button  button-icon ion-close-circled" ng-if="!vm.resolveColumn.isResolved" ng-click="vm.closeResolveModal()"> Close</div>
+
+    </ion-header-bar>
+    <ion-content>
+        <div class="list">
+            <!-- Entity Type -->
+            <div class="item item-text-wrap">
+
+              <div class="itemLabel">
+                Belongs to  
+              </div>
+                <div class="button-bar" style="height: 29px;">
+                    <div class="button button-small {{(vm.resolveColumn.field.entityType == 4) ? 'button-energized' : 'button-stable'
+                }}  icon ion-person" ng-click="vm.selectEntity(4)"> Person
+              </div>
+                    <div class="button button-small {{(vm.resolveColumn.field.entityType == 9) ? 'button-calm' : 'button-stable'}}  icon ion-person-stalker" ng-click="vm.selectEntity(9)"> Org</div>
+                    <div class="button button-small {{(vm.resolveColumn.field.entityType == 6) ? 'button-balanced' : 'button-stable'}}  icon ion-chatbubbles" ng-click="vm.selectEntity(6)"> Touch</div>
+                </div>
+            </div>
+
+            <!--Choose Field  -->
+            <div class="item item-input item-select" ng-if="vm.entityFields && vm.entityFields.length > 2">
+                <span class="input-label itemLabel">Contains</span>
+                <select ng-change="vm.entityFieldsChanged(vm.resolveField)"
+                        ng-options="item as item.fieldName for item in vm.entityFields | orderBy: ['place', 'fieldName']"
+                        ng-model="vm.resolveField"
+                        ></select>
+            </div>
+
+            <!-- Address/Location -->
+            <div class="list" ng-if="vm.resolveColumn.field.fieldId == 'address'">
+                <div class="item item-input item-select">
+                    <span class="input-label itemLabel">Address Field</span>
+                    <select class="col col-80 text-center"
+                            ng-options="item.name for item in vm.addressOptions "
+                            ng-change="vm.setIsResolved()"
+                            ng-model="vm.resolveColumn.addressOption"></select>
+                </div>
+                <div class="col" ng-class="{'bgBalanced': vm.addressItem, 'bgEnergized': !vm.addressItem}"><span class="medText">Close</span>
+                </div>
+            </div>
+
+            <!-- custom field -->
+            <div ng-if="vm.resolveColumn.field.fieldId == 'customField'">
+                <div class="item {{vm.resolveColumn.itemColor}} active itemPadding">New custom field</div>
+
+                <div class="item item-input">
+                    <span class="input-label itemLabel">Name</span>
+                    <input type="text" class="backgroundGrey" ng-model='vm.resolveColumn.customName' select-on-click>
+                </div>
+                <div class="item item-input item-select">
+                    <span class="input-label itemLabel">Contains</span>
+                    <select class="col col-80 text-center "
+                            ng-options="prim as prim.name for prim in vm.entityPrimitives | filter: {display: 'true'} | orderBy: 'sorter'"
+                            ng-model="vm.resolveColumn.primitive"></select>
+                </div>
+                <!--<div class="col" ng-class="{'bgBalanced': vm.resolveColumn.field.customName, 'bgEnergized': !vm.resolveColumn.field.customName}">
+                </div>-->
+                <!-- Special section for slider, yes/no, a
+                nd yes/no/maybe -->
+                <!--
+                <div ng-if="vm.resolveColumn.field.prim.name
+                == 'Slider' || vm.resolveColumn.field.prim.name == 'Rating: Yes/No' || vm.resolveColumn.field.prim.name == 'Rating: Yes/No/Maybe'">
+                    <div class="col text-center">
+                        <i class="icon ion-arrow-down-a"></i>
+                    </div>
+                    <h3 class="text-center" style="margin-top: 0;">Map Your Options</h3>
+                    <div class="item item-input item-select">
+                        <span class="input-label itemLabel">{{vm.resolveColumn.field.prim.name == 'Slider' ? 'Checked' : 'Yes'}}</span>
+                        <select class="col col-80 text-center"
+                                ng-options="value for value in vm.resolveColumn.uniqueValues"
+                                ng-model="vm.resolveColumn.field.prim.yes"></select>
+                    </div>
+                    <div class="item item-input item-select">
+                        <span class="input-label itemLabel">{{vm.resolveColumn.field.prim.name == 'Slider' ? 'Un-Checked' : 'No'}}</span>
+                        <select class="col col-80 text-center"
+                                ng-options="value for value in vm.resolveColumn.uniqueValues"
+                                ng-model="vm.resolveColumn.field.prim.no"></select>
+                    </div>
+                    <div class="item item-input item-select" ng-if="vm.resolveColumn.field.prim.name == 'Rating: Yes/No/Maybe'">
+                        <span class="input-label itemLabel">Maybe</span>
+                        <select class="col col-80 text-center"
+                                ng-options="value for value in vm.resolveColumn.uniqueValues"
+                                ng-model="vm.resolveColumn.field.prim.maybe"></select>
+                    </div>
+                    <div ng-if="vm.resolveColumn.field.prim.name == 'Slider' || vm.resolveColumn.field.prim.name == 'Rating: Yes/No'" class="col" ng-class="{'bgBalanced': vm.resolveColumn.field.prim.yes && vm.resolveColumn.field.prim.no, 'bgEnergized': !vm.resolveColumn.field.prim.yes || !vm.resolveColumn.field.prim.no}">
+                    </div>
+                    <div ng-if="vm.resolveColumn.field.prim.name == 'Rating: Yes/No/Maybe'" class="col" ng-class="{'bgBalanced': vm.resolveColumn.field.prim.yes && vm.resolveColumn.field.prim.no && vm.resolveColumn.field.prim.maybe, 'bgEnergized': !vm.resolveColumn.field.prim.yes || !vm.resolveColumn.field.prim.no || !vm.resolveColumn.field.prim.maybe}">
+                    </div>
+                </div>-->
+            </div>
+
+            <!-- POSSIBLE DATE ---------------------------------------------------------- -->
+            <!--<div class="item item-input item-toggle" ng-if="vm.resolveColumn.isPossibleDate">
+                <span class="input-label itemLabel">Is {{vm.resolveColumn.name | limitTo: 30}} a date?</span>
+                <label class="toggle toggle-balanced">
+                    <input type="checkbox" ng-model="vm.resolveColumn.isDate">
+                    <div class="track">
+                        <div class="handle"></div>
+                    </div>
+                </label>
+            </div>-->
+
+
+            <!-- SAMPLEs ---------------------------------------------------------- -->
+            <div class="item no-border">&nbsp;</div>
+            <div class="item bgDark itemPadding">
+                <span class="stable">Samples from column </span>
+                <span class="light">{{vm.resolveColumn.name}}</span>
+            </div>
+            <div ng-repeat="sample in vm.resolveColumn.sampleValues" class="bgLight">
+                <div class="row" ng-if="!vm.resolveColumn.isDate"><i>{{sample}}</i></div>
+                <div class="row" ng-if="vm.resolveColumn.isDate"><i>{{vm.excelDateToJSDate(sample) | date}}</i></div>
+            </div>
+        </div>
+
+
+    </ion-content>
+</ion-modal-view>
+

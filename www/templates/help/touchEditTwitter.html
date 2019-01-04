@@ -1,0 +1,70 @@
+<ion-modal-view>
+    <ion-header-bar class="bar-positive">
+        <div class="title"><i class="icon ion-help-circled"></i> Touches</div>
+    </ion-header-bar>
+    <ion-content class="has-header">
+
+        <ion-list>
+            <div class="item itemDivider">
+                Track Interactions with Touches
+            </div>
+
+            <div class="item medText item-text-wrap help-content">
+              <span>
+                Touches can be created for future or past events.
+              </span>
+
+              <h3>Here’s how it works:</h3>
+              <span>
+                <ul class="orderedList">
+                  <li>
+                    Add the People and Organizations that you’ve had an interaction with to the Touch.
+                    Next time you navigate to those contacts’ profile pages, the Touch will appear in their Touches tab.
+                  </li>
+                  <li>
+                    Share your Touches with teammates or the public by placing them in a shared or published Database.
+                  </li>
+                  <li>
+                    Easily search for relevant Touches after labeling them with tags. (see <em class="link-to-section energized" ng-click="vmMaster.deepModal('query');">TAGS & QUERYING</em>).
+                  </li>
+                </ul>
+                Touches are customizable and you can track and record any kind of interaction that you’ve had with your contacts (see <em class="link-to-section energized" ng-click="vmMaster.deepModal('touchTypes');">TOUCH TYPES</em>).
+              </span>
+
+              <!-- Social Media Touch -->
+              <h3>Social Media Touch</h3>
+              <span>
+                The Social Media Touch makes it possible to post Tweets, Facebook and LinkedIn updates to any account from within the Shuri app.
+                <br /><br />
+                If you’re not already signed into Twitter, Facebook or LinkedIn you’ll be prompted to do so. Then craft your post and choose to either send now or schedule for a future date and time.
+              </span>
+              <!-- Twitter Touch -->
+              <!-- <h3>Twitter Touch</h3>
+              <span>
+                The Twitter Touch makes it possible post Tweets to any Twitter account from within the Shuri app.
+                <br /><br />
+                If you’re not already signed into Twitter, you’ll be prompted to do so.
+                Then craft your Tweet and choose to either send now or schedule for a future date and time.
+                <br /><br />
+                Note: you’ll need to create a title for the Touch.
+                This won’t show up in Twitter anywhere, but is necessary so that you can easily find the Touch later.
+              </span> -->
+
+            </div>
+
+        </ion-list>
+    </ion-content>
+    <ion-footer-bar class="bar-dark no-padding footerButton">
+      <div class="button-bar ">
+          <button class="button" ng-if="!vmMaster.showOk" ng-click="vmMaster.closeAllHelp()">
+            Close
+          </button>
+          <button class="button ok-confirm" ng-if="!vmMaster.showOk" ng-click="vmMaster.closeHelp()">
+              Back
+          </button>
+          <button class="button ok-confirm" ng-if="vmMaster.showOk" ng-click="vmMaster.closeHelp()">
+              {{vmMaster.wordFor("OK")}}
+          </button>
+      </div>
+
+    </ion-footer-bar>

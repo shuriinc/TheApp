@@ -1,0 +1,20 @@
+﻿<ion-view ng-controller="DebugCtrl as vm">
+    <ion-content class="has-header">
+        <ion-list can-swipe="true">
+            <ion-item class="item item-input item-stacked-label">
+                <div class="itemLabel">cp id to delete</div>
+               <input type="text" ng-model="vm.id" class="" />
+            </ion-item>
+
+
+            <ion-item>
+
+                <button ng-click="vm.test()">Delete</button>
+
+            </ion-item>
+            <ion-item ng-if="vm.data">
+                <div ng-bind-html="vm.data" class="smallText wrapText"></div>
+            </ion-item>
+         </ion-list>
+    </ion-content>
+</ion-view>

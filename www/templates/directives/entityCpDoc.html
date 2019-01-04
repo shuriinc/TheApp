@@ -1,0 +1,468 @@
+<div ng-if="mode == 'bar'">
+  <div ng-if="!isScroll" class="item {{itemColor}} itemPadding no-border" style="display:flex;justify-content:space-between;width:100%;font-size:2em;border:0px;">
+    <div class="icon {{cp.icon}} "
+         ng-repeat="cp in barItems | orderBy: ['sorter', 'typename'] "
+         ng-click="cpClicked(cp)"
+         on-hold="showPopup($event, cp);"
+         title="{{cp.title}}">
+    </div>
+  </div>
+  <ion-scroll ng-show="isScroll" direction="x">
+    <div class="item {{itemColor}} itemPadding no-border" style="display:flex;justify-content:space-between;font-size:2em;width:{{cpBarWidth}}">
+      <div class="icon {{cp.icon}} "
+           ng-repeat="cp in barItems | orderBy: ['sorter', 'typename'] "
+           ng-click="cpClicked(cp)"
+           on-hold="showPopup($event, cp);"
+           title="{{cp.title}}">
+      </div>
+    </div>
+  </ion-scroll>
+
+</div>
+
+<!---------------------------------------------------------------------------------------------------------->
+<div class="item item-icon-left {{isCustom ? customCSSBG : 'item-stable'}} " style="padding-top:8px !important; padding-bottom:8px !important;"
+     ng-if="filteredItems.length > collapseThreshold && (mode != 'bar')"
+     ng-click="toggleOpen()">
+  <i class="icon iconLarge iconButton {{(!hideItems) ? 'ion-arrow-down-b' : 'ion-arrow-right-b'}}"></i>
+  <span ng-if="hideItems" class="itemLabel">{{isCustom ? customLabel : 'Details'}} </span>&nbsp;
+</div>
+<div ng-if="mode != 'bar' && !hideItems" ng-repeat="item in filteredItems | orderBy: ['typename']">
+  <!-- Contact Points------------------------------------------------------------------------------- ----------------------------------------->
+  <div ng-if="item.entityType == 0">
+    <!-- View only ----------------------------------------->
+    <div ng-if="!forUpdate">
+      <!-- EMAIL  -->
+      <div ng-if="item.primitive == 1">
+        <div class="item item-input item-stacked-label item-icon-right" ng-click="openLink(item, 'mailto')">
+          <span class="input-label {{(isCustom) ? customCSSLabel : 'itemLabel' }}">{{item.typename}}</span><br />
+          <div class="fakeLink medText">{{item.name}}</div>
+          <i class="icon iconLarge" style="padding-top:18px;">
+            <i class="ion-android-mail iconButton" style="padding-left:8px;"></i>
+          </i>
+        </div>
+      </div>
+
+      <!-- PHONE  -->
+      <div ng-if="item.primitive == 2">
+        <div class="item item-input item-stacked-label item-icon-right" ng-click="openLink(item, 'tel')">
+          <span class="input-label {{(isCustom) ? customCSSLabel : 'itemLabel' }}">{{item.typename}}</span><br />
+          <div class="fakeLink medText">{{item.name}}</div>
+          <i class="icon iconLarge" style="padding-top:18px;">
+            <i class="ion-android-call iconButton" style="padding-left:8px;"></i>
+          </i>
+        </div>
+      </div>
+
+      <!-- URL  -->
+      <div ng-if="item.primitive == 3">
+        <div class="item item-input item-stacked-label item-icon-right" ng-click="openLink(item, 'url')">
+          <span class="input-label {{(isCustom) ? customCSSLabel : 'itemLabel' }}">{{item.typename}}</span><br />
+          <div class="fakeLink medText">{{item.name}}</div>
+          <i class="icon iconLarge" style="padding-top:18px;">
+            <i class="ion-android-open iconButton" style="padding-left:8px;"></i>
+          </i>
+        </div>
+      </div>
+
+      <!-- SMHandle  -->
+      <div ng-if="item.primitive == 4">
+        <div class="item item-input item-stacked-label item-icon-right" ng-click="openLink(item, 'smhandle')">
+          <span class="input-label {{(isCustom) ? customCSSLabel : 'itemLabel' }}">{{item.typename}}</span><br />
+          <div class="medText">{{item.name}}</div>
+          <i class="icon iconLarge" style="padding-top:18px;">
+            <i class="ion-android-open iconButton" style="padding-left:8px;"></i>
+          </i>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Update ----------------------------------------->
+    <div ng-if="forUpdate">
+      <!-- EMAIL  -->
+      <div ng-if="item.primitive == 1">
+        <div class="item item-input item-stacked-label item-icon-right">
+          <span class="input-label {{(isCustom) ? customCSSLabel : 'itemLabel' }} ">{{item.typename}}</span>
+          <input type="{{(onDesktop) ? 'text' : 'email'}}" ng-model="item.name" ng-change="inputChanged(item, 'email')" ng-blur="blurItem(item)">
+          <i class="icon iconLarge" style="padding-top:18px;">
+            <i class="ion-android-mail iconButton" ng-click="openLink(item, 'mailto')" ng-if="item.name && !item.isInError" style="padding-left:8px;"></i>
+            <i class="ion-alert itemIconAlert" ng-show="item.isInError"></i>
+          </i>
+        </div>
+      </div>
+
+      <!-- PHONE  -->
+      <div ng-if="item.primitive == 2">
+        <div class="item item-input item-stacked-label item-icon-right">
+          <span class="input-label {{(isCustom) ? customCSSLabel : 'itemLabel' }}">{{item.typename}}</span>
+          <input type="tel" ng-model="item.name" ng-keyup="inputChanged(item, 'tel')" ng-blur="blurItem(item)">
+          <i class="icon iconLarge" style="padding-top:18px;">
+            <i class="ion-android-call iconButton" ng-if="item.name && !item.isInError" ng-click="openLink(item, 'tel')" style="padding-left:8px;"></i>
+            <i class="ion-alert itemIconAlert" ng-show="item.isInError"></i>
+          </i>
+        </div>
+
+      </div>
+
+      <!-- URL  -->
+      <div ng-if="item.primitive == 3">
+        <div class="item item-input item-stacked-label item-icon-right">
+          <span class="input-label {{(isCustom) ? customCSSLabel : 'itemLabel' }}">{{item.typename}}</span>
+          <input type="{{(onDesktop) ? 'text' : 'url'}}" ng-model="item.name" ng-keyup="inputChanged(item, 'url')" ng-blur="blurItem(item)">
+          <i class="icon iconLarge" style="padding-top:18px;">
+            <i class="ion-android-open iconButton" ng-click="openLink(item, 'url')" ng-if="item.name && !item.isInError" style="padding-left:8px;"></i>
+            <i class="ion-alert itemIconAlert" ng-show="item.isInError"></i>
+          </i>
+        </div>
+      </div>
+
+      <!-- SMHandle  -->
+      <div ng-if="item.primitive == 4">
+        <div class="item item-input item-stacked-label item-icon-right">
+          <span class="input-label {{(isCustom) ? customCSSLabel : 'itemLabel' }}">{{item.typename}}</span>
+          <input type="text" ng-model="item.name" ng-keyup="inputChanged(item)" ng-blur="blurItem(item)">
+          <i class="icon iconLarge" style="padding-top:18px;">
+            <i class="ion-android-open iconButton" ng-click="openLink(item, 'smhandle')" ng-if="(item.searchable || item.name) && !item.isInError" style="padding-left:8px;"></i>
+            <i class="ion-alert itemIconAlert" ng-show="item.isInError"></i>
+          </i>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Documents   --------------------------------------------------------------->
+  <div ng-if="item.entityType == 1">
+    <!-- Custom Text, not time zone or language or email patter -->
+    <div ng-if="item.primitive == 2">
+      <div ng-if="!forUpdate" class="item item-input item-stacked-label wrapText">
+        <span class="input-label {{(isCustom) ? customCSSLabel : 'itemLabel' }}">{{item.typename}}</span>
+        <div class="medText">{{item.value}} </div>
+      </div>
+      <div ng-if="forUpdate" class="item item-input item-stacked-label">
+        <span class="input-label {{(isCustom) ? customCSSLabel : 'itemLabel' }}">{{item.typename}}</span>
+        <input name="doc{{item.id}}" type="text" ng-model="item.value" ng-change="inputChanged(item)" ng-blur="blurItem(item)">
+      </div>
+    </div>
+
+    <!-- Custom Long Text -->
+    <div ng-if="item.primitive == 3">
+      <div ng-if="!item.hide">
+        <div class="item  item-icon-left {{(forUpdate) ? 'item-icon-right' : ''}} wrapText" style="padding-bottom:0px; border-bottom:0px !important;" ng-click="toggleOpenTA(item)">
+          <i class="icon ion-arrow-down-b iconButton" style="font-size:1.5em;"></i>
+          <div class="input-label {{(isCustom) ? customCSSLabel : 'itemLabel' }}" style="white-space:nowrap;">{{item.typename}}</div>
+          <i ng-if="forUpdate" class="icon  {{(item.mayUpdate) ? 'ion-arrow-expand' : 'ion-edit'}} iconButton" ng-click="openmodalFS($event, item)"></i>
+        </div>
+
+        <div class="item medText item-text-wrap" style="border-top:0px;"
+             ng-bind-html="item.value.split('\n').join('<br />')"
+             ng-if="!item.mayUpdate"></div>
+
+        <div ng-show="item.mayUpdate" style="padding-top:0px; border-top:0px !important;" class="item item-input item-stacked-label ">
+          <textarea style="height:{{item.taHeight}};" class="autogrow medText" id="{{item.htmlId}}"
+                    ng-model="item.value"
+                    ng-change="inputChanged(item, 'autogrow')" ng-blur="blurItem(item)"></textarea>
+        </div>
+
+      </div>
+
+      <div ng-if="item.hide" class="item item-icon-left" ng-click="toggleOpenTA(item)">
+        <i class="icon ion-arrow-right-b iconButton" style="font-size:1.5em;"></i>
+        <span class="input-label {{(isCustom) ? customCSSLabel : 'itemLabel' }}">
+          {{item.typename}}
+          <span class="smallText dark">&nbsp;&nbsp;{{item.value}}</span>
+        </span>
+
+      </div>
+
+      <!--<div ng-if="isOnEdit" class="item item-input item-stacked-label ">
+        <span class="input-label {{(isCustom) ? customCSSLabel : 'itemLabel' }}"> {{item.typename}}</span>
+        <i class="icon {{(!item.isExpanded) ? 'ion-arrow-expand' : 'ion-arrow-shrink'}}  iconButton" ng-click="toggleTextarea(item)"></i>
+        <textarea ng-model="item.value"
+                  rows="16"
+                  ng-blur="blurItem(item)" ></textarea>
+      </div>-->
+
+    </div>
+    <!-- Custom Integer -->
+    <div ng-if="item.primitive == 4">
+      <div ng-if="!forUpdate" class="item item-input item-stacked-label">
+        <span class="input-label {{(isCustom) ? customCSSLabel : 'itemLabel' }}">{{item.typename}}</span><br />
+        {{item.value | number}}
+      </div>
+      <div ng-if="forUpdate" class="item item-input item-stacked-label item-icon-right">
+        <span class="input-label {{(isCustom) ? customCSSLabel : 'itemLabel' }}">{{item.typename}}</span><br />
+        <input type="{{(onDesktop) ? 'text' : 'number'}}" ng-model="item.value" ng-keyup="inputChanged(item, 'int')" ng-blur="blurItem(item)" />
+        <i class="icon iconLarge" style="padding-top:18px;">
+          <i class="ion-alert itemIconAlert" ng-show="item.isInError"></i>
+        </i>
+      </div>
+    </div>
+    <!-- Custom Float -->
+    <div ng-if="item.primitive == 5">
+      <div ng-if="!forUpdate" class="item item-input item-stacked-label">
+        <span class="input-label {{(isCustom) ? customCSSLabel : 'itemLabel' }}">{{item.typename}}</span><br />
+        {{item.value}}
+      </div>
+      <div ng-if="forUpdate" class="item item-input item-stacked-label item-icon-right">
+        <span class="input-label {{(isCustom) ? customCSSLabel : 'itemLabel' }}">{{item.typename}}</span><br />
+        <input type="{{(onDesktop) ? 'text' : 'number'}}" ng-model="item.value" ng-keyup="inputChanged(item, 'number')" ng-blur="blurItem(item)" />
+        <i class="icon iconLarge" style="padding-top:18px;">
+          <i class="ion-alert itemIconAlert" ng-show="item.isInError"></i>
+        </i>
+      </div>
+    </div>
+    <!-- Custom Binary -->
+    <div ng-if="item.primitive == 6">
+      <div ng-if="!forUpdate" class="item item-toggle">
+        <span class="{{(isCustom) ? customCSSLabel : 'itemLabel' }}">{{item.typename}}</span>
+        <label class="toggle toggle-balanced">
+          <input type="checkbox" disabled="disabled" ng-model="item.value">
+          <div class="track">
+            <div class="handle"></div>
+          </div>
+        </label>
+      </div>
+      <div ng-if="forUpdate" class="item">
+        <div class="row no-padding">
+          <div class="col-50 {{(isCustom) ? customCSSLabel : 'itemLabel' }}">
+            {{item.typename}}
+          </div>
+          <div class="col-50  item-toggle  text-right">
+            <label class="toggle toggle-balanced">
+              <input type="checkbox" ng-model="item.value" ng-change="inputChanged(item);blurItem(item)">
+              <div class="track">
+                <div class="handle"></div>
+              </div>
+            </label>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Custom Date-->
+    <div ng-if="item.primitive == 7">
+      <div ng-if="!forUpdate && item.jsDate && !entity.updatable" class="item">
+        <div class="row no-padding">
+          <div class="col-50 {{(isCustom) ? customCSSLabel : 'itemLabel' }}">
+            {{item.typename}}
+            <span class="smallText" ng-if="timeZoneName && !item.noTime">&nbsp;&nbsp;&nbsp;({{timeZoneName}})</span>
+          </div>
+          <div class="col-50 text-right">
+            {{item.jsDate | date: item.dateFormatDisplay }}
+
+          </div>
+        </div>
+      </div>
+      <div ng-if="forUpdate || entity.updatable" class="item item-input item-stacked-label item-icon-right">
+        <span class="input-label {{(isCustom) ? customCSSLabel : 'itemLabel'}}" ng-click="pickDate(item)">{{item.typename}} </span>
+        <input type="{{(onDesktop) ? 'text' : 'date'}}" ng-model="item.inputDate" ng-change="inputChanged(item, 'date')" ng-blur="blurItem(item)" />
+        <div class="icon iconLarge" style="padding-top:18px;">
+          <i class="ion-android-calendar iconButton" ng-if="onDesktop" ng-click="pickDate(item)" style="padding-left:8px;"></i>
+          <i class="ion-alert itemIconAlert" ng-if="item.isInError"></i>
+        </div>
+      </div>
+    </div>
+
+    <!-- Rating Yes or No-->
+    <div ng-show="item.primitive == 8">
+      <div ng-if="!forUpdate" class="item">
+        <div class="row no-padding">
+          <div class="col-50 {{(isCustom) ? customCSSLabel : 'itemLabel' }}">
+            {{item.typename}}
+          </div>
+          <div class="col-50 text-right">
+            <i class="button button-clear icon ion-thumbsdown {{(item.value == 1) ? 'button-energized' : ''}}"></i>
+            <i class="button button-clear icon ion-thumbsup {{(item.value == 2) ? 'button-energized' : ''}}"></i>
+          </div>
+        </div>
+      </div>
+      <div ng-if="forUpdate" class="item">
+        <div class="row no-padding">
+          <div class="col-50 {{(isCustom) ? customCSSLabel : 'itemLabel' }}">
+            {{item.typename}}
+            &nbsp;&nbsp;<span class="icon {{(item.value > 0 ) ? 'ion-close-round assertive link' : ''}}" ng-click="deleteItem(item);" style="font-size:1.1em"></span>
+          </div>
+          <div class="col-50 text-right">
+            <i class="button button-clear icon ion-thumbsdown {{(item.value == 1) ? 'button-energized' : ''}}" ng-click="setValue(item, 1); "></i>
+            <i class="button button-clear icon ion-thumbsup {{(item.value == 2) ? 'button-energized' : ''}}" ng-click="setValue(item, 2); "></i>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Rating Yes No Maybe-->
+    <div ng-show="item.primitive == 9">
+      <div ng-if="!forUpdate" class="item">
+        <div class="row no-padding">
+          <div class="col-33 {{(isCustom) ? customCSSLabel : 'itemLabel' }}">
+            {{item.typename}}
+          </div>
+          <div class="col-67 button-bar">
+            <div class="button button-small  {{(item.value == 1) ? 'button-assertive' : ''}}">{{wordFor("No")}}</div>
+            <div class="button button-small  {{(item.value == 2) ? 'button-energized' : ''}}">{{wordFor("Maybe")}}</div>
+            <div class="button button-small  {{(item.value == 3) ? 'ok-confirm' : ''}}">{{wordFor("Yes")}}</div>
+          </div>
+        </div>
+      </div>
+      <div ng-if="forUpdate" class="item">
+        <div class="row no-padding">
+          <div class="col-33 {{(isCustom) ? customCSSLabel : 'itemLabel' }}">
+            {{item.typename}}
+            &nbsp;&nbsp;<span class="icon {{(item.value > 0 ) ? 'ion-close-round assertive link' : ''}}" ng-click="deleteItem(item);" style="font-size:1.1em"></span>
+          </div>
+          <div class="col-67 {{(isNarrow) ? 'button-bar-inline' : 'button-bar'}} text-right">
+            <div class="button button-small  {{(item.value == 1) ? 'button-assertive' : 'bgAssertiveLight'}}" ng-click="setValue(item, 1); ">No</div>
+            <div class="button button-small  {{(item.value == 2) ? 'button-energized' : 'bgEnergizedLight'}} " ng-click="setValue(item, 2); ">Maybe</div>
+            <div class="button button-small  {{(item.value == 3) ? 'ok-confirm' : 'bgBalancedLight'}}" ng-click="setValue(item, 3); ">Yes</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Custom Rating 0 - 5 -->
+    <div ng-if="item.primitive == 10 && (forUpdate || (item.value != 0))">
+      <div ng-if="!forUpdate" class="item wrapText">
+        <div class="row row-no-padding" title="{{item.typename}}: {{item.value}}">
+          <div class="col-34  {{(isCustom) ? customCSSLabel : 'itemLabel' }}">
+            {{item.typename}}
+          </div>
+          <div class="text-right col-66">
+            <i class="icon iconLarge {{(item.value >= 1 ) ? 'ion-android-star energized' : 'ion-android-star-outline stable'}}"></i>
+            <i class="icon iconLarge {{(item.value >= 2 ) ? 'ion-android-star energized' : 'ion-android-star-outline stable'}}"></i>
+            <i class="icon iconLarge {{(item.value >= 3 ) ? 'ion-android-star energized' : 'ion-android-star-outline stable'}}"></i>
+            <i class="icon iconLarge {{(item.value >= 4 ) ? 'ion-android-star energized' : 'ion-android-star-outline stable'}}"></i>
+            <i class="icon iconLarge {{(item.value >= 5 ) ? 'ion-android-star energized' : 'ion-android-star-outline stable'}}"></i>
+          </div>
+        </div>
+      </div>
+      <div ng-if="forUpdate" class="item item-input wrapText">
+        <div class="row row-no-padding">
+          <div class="item-label col-34 {{(isCustom) ? customCSSLabel : 'itemLabel' }}" style="padding-top:10px;">
+            {{item.typename}}
+            &nbsp;&nbsp;<span class="icon {{(item.value > 0 ) ? 'ion-close-round assertive link' : ''}}" ng-click="deleteItem(item);" style="font-size:1.1em"></span>
+          </div>
+          <div class="text-right col-66">
+            <i class="button button-clear icon {{(item.value >= 1 ) ? 'ion-android-star button-energized' : 'ion-android-star-outline stable'}}" ng-click="setValue(item, 1); "></i>
+            <i class="button button-clear icon {{(item.value >= 2 ) ? 'ion-android-star button-energized' : 'ion-android-star-outline stable'}}" ng-click="setValue(item, 2);"></i>
+            <i class="button button-clear icon {{(item.value >= 3 ) ? 'ion-android-star button-energized' : 'ion-android-star-outline stable'}}" ng-click="setValue(item, 3);"></i>
+            <i class="button button-clear icon {{(item.value >= 4 ) ? 'ion-android-star button-energized' : 'ion-android-star-outline stable'}}" ng-click="setValue(item, 4);"></i>
+            <i class="button button-clear icon {{(item.value >= 5 ) ? 'ion-android-star button-energized' : 'ion-android-star-outline stable'}}" ng-click="setValue(item, 5);"></i>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <!-- Custom Rating 0 - 100 -->
+    <div ng-if="item.primitive == 11">
+      <div ng-if="!forUpdate" class="item item-input item-stacked-label">
+        <span class="input-label {{(isCustom) ? customCSSLabel : 'itemLabel' }}">{{item.typename}}</span>
+        <div class="range">
+          <span class="balanced">{{item.value}}</span>
+          <input type="range" min="0" max="100" name="rating" disabled="disabled" ng-model="item.value">
+          <span>100</span>
+        </div>
+      </div>
+      <div ng-if="forUpdate" class="item item-input item-stacked-label">
+        <div class="input-label {{(isCustom) ? customCSSLabel : 'itemLabel' }}">
+          {{item.typename}}
+          <sup>
+            &nbsp;&nbsp;<span class="icon iconLarge {{(item.value > 0 ) ? 'ion-close-round assertive link' : ''}}" ng-click="deleteItem(item);"></span>
+          </sup>
+        </div>
+        <div class="range">
+          <span class="balancedBright" ng-if="item.value">{{item.value}}</span>
+          <span class="" ng-if="!item.value">0</span>
+          <input type="range" min="0" max="100" name="rating" ng-model="item.value" ng-blur="setValue(item)" ng-change="setValue(item);">
+          <span>100</span>
+        </div>
+      </div>
+    </div>
+    <!-- Currency
+    <div ng-show="item.primitive == 12">
+
+    </div> -->
+    <!-- Time Zone Hard Coded -->
+    <div ng-if="item.isTimeZone">
+      <div ng-if="!forUpdate" class="item wrapText">
+        <span class="itemLabel">{{item.typename}}</span>
+        <div class="medText">
+          {{item.value}}
+          <span ng-if="currentTime" class="itemLabel"><br />{{wordFor("Currently")}}: {{currentTime | date: 'short'}}</span>
+        </div>
+      </div>
+      <div ng-if="forUpdate" class="item item-input item-select">
+        <span class="input-label itemLabel">{{item.typename}}</span>
+        <select ng-options="item.Id as item.DisplayName for item in timezones" class="col col-80 text-center" ng-model="item.value" ng-change="inputChanged(item)" ng-blur="blurItem(item)"></select>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<script id="entityCpDocFS1.html" type="text/ng-template">
+  <ion-modal-view style="height:100%; width:100%; top:0; left:0;position:absolute;">
+    <ion-header-bar class="bar-header bar-dark ">
+      <div class="button-bar">
+        <div class="button button-clear button-stable icon ion-close-round" ng-click="closeFullscreen()">
+          Close
+        </div>
+      </div>
+    </ion-header-bar>
+    <ion-content class="has-header">
+      <ion-list>
+        <div class="item item-input item-stacked-label ">
+          <div class="input-label  {{customCSSLabel}} ">
+            {{itemFS.typename}}
+            <span ng-show="showSpaceMessage" class="assertive ">
+              &nbsp;&nbsp;
+              space bar scrolls to end
+            </span>
+          </div>
+          <textarea id="taEntityCpDoc" style="height:{{taHeight}};width:100%;"
+                    ng-blur="blurItem(itemFS)"
+                    ng-model="itemFS.value"
+                    ng-keyup="inputChanged(itemFS)"></textarea>
+        </div>
+      </ion-list>
+    </ion-content>
+  </ion-modal-view>
+</script>
+
+<script id="entityCpDocFSDesktop.html" type="text/ng-template">
+  <ion-modal-view style="display: inline-block; position: fixed; top: 0; bottom: 0; left: 0; right: 0; width: 720px; height: 99%; margin: auto; margin-top: 4px; border-radius: 8px; border: 2px solid #444; overflow: hidden;">
+    <ion-header-bar class="bar-header bar-dark ">
+      <div class="button-bar">
+        <div class="button button-clear button-stable icon ion-close-round" ng-click="closeFullscreen()">
+          Close
+        </div>
+      </div>
+    </ion-header-bar>
+    <ion-content class="has-header">
+      <ion-list>
+        <div class="item item-input item-stacked-label ">
+          <div class="input-label  {{customCSSLabel}} ">
+            {{itemFS.typename}}
+            <span ng-show="showSpaceMessage" class="assertive ">
+              &nbsp;&nbsp;
+              space bar scrolls to end
+            </span>
+          </div>
+          <textarea id="taEntityCpDoc" style="height:{{taHeight}};width:100%;"
+                    ng-blur="blurItem(itemFS)"
+                    ng-model="itemFS.value"
+                    ng-keyup="inputChanged(itemFS)"></textarea>
+        </div>
+      </ion-list>
+    </ion-content>
+  </ion-modal-view>
+</script>
+
+<script id="entityCpDocPOP.html" type="text/ng-template">
+  <ion-popover-view style="height: {{(pop.title.length > 30) ? '84px' : '42px'}};">
+    <ion-content>
+      <div class="item itemPadding item-text-wrap">{{pop.title}}</div>
+    </ion-content>
+  </ion-popover-view>
+</script>

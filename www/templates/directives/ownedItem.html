@@ -1,0 +1,63 @@
+﻿<div ng-if="!oiDivOpen" class="item item-stable item-icon-left" ng-click="toggleDiv()">
+    <i class="icon iconLarge ion-android-share-alt"></i>
+    Sharing
+</div>
+<div ng-if="oiDivOpen && !isInEdit" class="item item-dark item-icon-left item-icon-right" ng-click="toggleDiv()">
+    <i class="icon iconLarge ion-android-share-alt"></i>
+    Sharing
+    <i class="icon ion-information-circled iconButton buttonPaddingMaster"
+       style="font-size:1.5em;"
+       ng-click="showPermissions($event)"></i>
+</div>
+<div ng-if="oiDivOpen && isInEdit" class="item item-dark dividerBar " >
+    Sharing
+</div>
+
+<div ng-if="oiDivOpen ">
+    <!-- Owner ------->
+    <div class="item item-icon-right bgLightLight" ng-if="!hideOwner">
+        <div class="itemLabel">{{wordFor("Owned By")}}</div>
+        <div class="icon ">
+            <div ng-if="!useNameOverride" class="medText" style="font-size:0.45em !important;">{{entity.ownedByName}}<span ng-if="isOwner"> (you)</span> </div>
+            <span ng-if="useNameOverride" class="medText" style="font-size:0.45em !important;">Shuri Subscriptions</span>
+            <span ng-if="isOwner && !isInEdit">&nbsp;&nbsp;<span class="ion-forward iconButton" ng-click="changeEntityOwner()" title="Assign ownership to another user"></span></span>
+        </div>
+    </div>
+
+    <!--  Collection(s)-->
+    <div ng-if="!hidecollectionName">
+        <div class="item bgLightLight" ng-if="objModel.isReadOnlyDB">
+            <div class="row row-no-padding">
+                <div class="col col-50">
+                    <div class="">
+                        <span class="rowLabel">{{collectionLabel}}</span>&nbsp;&nbsp;
+                    </div>
+                </div>
+                <div ng-if="!useNameOverride" class="col col-50 text-right medText">{{entity.collectionName}}</div>
+                <div ng-if="useNameOverride" class="col col-50 text-right medText">Analyst Relations</div>
+            </div>
+        </div>
+        <div class="item item-input item-select" ng-if="!objModel.isReadOnlyDB">
+            <span class="input-label itemLabel">{{wordFor("Collection")}}</span>
+            <select ng-options="sub as sub.name for sub in collections" ng-model="objModel.selectedSub" ng-change="collectionChanged()"></select>
+        </div>
+    </div>
+    <!--   Editing Team-->
+    <div ng-if="!hideEditingTeam">
+        <div class="item  bgLightLight" ng-if="objModel.isReadOnlyTeam">
+            <div class="row row-no-padding">
+                <div class="col col-50">
+                    <div class="rowLabel">
+                        {{wordFor("Editing")}} {{wordFor("Team")}}
+                    </div>
+                </div>
+                <div class="col col-50 text-right medText">{{entity.ownedByGroupName}}</div>
+            </div>
+        </div>
+        <ion-select class="item item-input item-select" ng-if="!objModel.isReadOnlyTeam">
+            <span class="input-label itemLabel">{{wordFor("Editing")}} {{wordFor("Team")}}</span>
+            <select ng-options="team.id as team.name for team in editingTeams" ng-model="objModel.editingTeamId" ng-change="ownedByGroupChanged()"></select>
+        </ion-select>
+    </div>
+</div>
+

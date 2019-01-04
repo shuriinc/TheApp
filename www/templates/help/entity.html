@@ -1,0 +1,85 @@
+<ion-modal-view>
+    <ion-header-bar class="bar-positive">
+        <div class="title"><i class="icon ion-help-circled"></i> Items</div>
+    </ion-header-bar>
+    <ion-content class="has-header">
+
+        <ion-list>
+          <div class="item itemDivider">
+              Flesh Out Your Data
+          </div>
+
+            <div class="item medText item-text-wrap help-content">
+              <h3>Editing Basics</h3>
+              <span>
+                On every Person, Organization and Touch profile there is an EDIT page and a VIEW page.
+                <br /><br />
+                The EDIT page is your chance to add information about this item.
+                All info added here will display on the item’s VIEW page.
+                <br /><br />
+                How to navigate to the edit page for any item:
+                <ul class="orderedList">
+                  <li>
+                    By clicking on the pencil at the top left corner of it’s view page.
+                  </li>
+                  <li>
+                    By clicking the 3 lines on the righthand side of an item’s name from Shuri’s homepage and selecting <em>Edit</em>.
+                  </li>
+                </ul>
+                <br />
+                Once on the EDIT page you’ll see Shuri’s pre-populated fields
+                (we’ve got the basics covered like: Email, Business Phone, and social media URL fields for LinkedIn, Facebook and Twitter, among others).
+              </span>
+
+              <h3>Know More</h3>
+              <span>
+                To gather more information about your contacts from the internet, find the fields with a <em style="font-style:italic;">Search</em> link.
+                <br /><br />
+                Clicking <em style="font-style:italic;">Search</em> will open a new search on your web browser, so you can find the information you’re looking for.
+                <br /><br />
+                Once you’re on the page you’d like to capture, click <em style="font-style:italic;">Done</em> at the bottom of the page for iOS and the <em style="font-style:italic;">X</em> in the top right corner of the page for Android.
+                <br /><br />
+                Next, you’ll be taken back to the edit page on Shuri, and the URL of that webpage will be entered into the appropriate field. (For app.shuri.com users, copy and paste the link manually)
+              </span>
+
+              <h3>Finalizing Edits</h3>
+              <span>
+                Once you’ve entered as much info as you’d like, click <em style="font-style:italic;">Save</em>.
+                Back on the profile’s view page, those main contact points will appear as a link in the contact bar above.
+                Other fields will display in the Details section and assorted tabs below.
+                <br /><br />
+                Subscribers to Shuri’s Analyst Relations Database can make edits to an analyst’s profile page, and each edit will be forwarded to our Shuri Subscriptions Team for review.
+                <br /><br />
+                The VIEW page after editing:
+                <br />
+                <img src="https://shuristoragecdn.blob.core.windows.net/public/help-images/personView.png" alt="Fully fleshed out person view page" />
+              </span>
+
+              <h3>Where Your Data Lives</h3>
+              <span>
+                To change which Database an item lives in, scroll to the bottom of its EDIT page, and open the Sharing section.
+                There, you'll find a selection for Databases, where you can choose from a drop-down menu of those available to you.
+              </span>
+
+              <!-- <h3></h3>
+              <span>
+              </span> -->
+
+            </div>
+
+        </ion-list>
+    </ion-content>
+    <ion-footer-bar class="bar-dark no-padding footerButton">
+      <div class="button-bar ">
+          <button class="button" ng-if="!vmMaster.showOk" ng-click="vmMaster.closeAllHelp()">
+            Close
+          </button>
+          <button class="button ok-confirm" ng-if="!vmMaster.showOk" ng-click="vmMaster.closeHelp()">
+              Back
+          </button>
+          <button class="button ok-confirm" ng-if="vmMaster.showOk" ng-click="vmMaster.closeHelp()">
+              {{vmMaster.wordFor("OK")}}
+          </button>
+      </div>
+
+    </ion-footer-bar>

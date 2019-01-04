@@ -1,0 +1,16 @@
+<ion-side-menus ng-controller="MasterCtrl as vmMaster" class="{{vmMaster.cssClass}}">
+  <ion-nav-bar class="bar-dark">
+      <ion-nav-buttons side="left">
+           <div class="button button-clear icon ion-help"
+                  ng-click="vmMaster.help()"
+                  ng-if="vmMaster.showHelp"></div>
+      </ion-nav-buttons>
+      <ion-nav-buttons side="right">
+          <div class="button button-clear icon "
+                  ng-class="{'ion-arrow-expand': vmMaster.onDesktop && !vmMaster.expandUI, 'ion-arrow-shrink': vmMaster.onDesktop && vmMaster.expandUI};"
+                   ng-click="vmMaster.toggleZoom()"
+                   ng-if="!window.cordova && !vmMaster.hideEditZoom"></div>
+       </ion-nav-buttons>
+  </ion-nav-bar>
+  <ion-nav-view name="mainContent" animation="slide-left-right"></ion-nav-view>
+</ion-side-menus>

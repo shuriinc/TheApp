@@ -1,0 +1,71 @@
+<ion-view ng-controller="ImportCtrl as vm">
+    <ion-nav-title>
+        Import
+    </ion-nav-title>
+
+    <ion-content class="has-header">
+        <ion-list>
+          <div class="list">
+
+            <div class="item item-icon-left item-icon-right balanced" ng-click="vm.goTo('excel')">
+              <i class="icon  shuri-file-excel"></i>
+                <div>
+                    Spreadsheet
+                </div>
+                <i class="icon  ion-help-circled" ng-click="vm.toggleHelp($event, 'excel')"></i>
+            </div>
+              <div ng-show="vm.showHelpExcel" class="card ">
+                  <div class="item item-divider item-stable text-center">Spreadsheet Import</div>
+                  <div class="item  wrapText medText">
+                      Importing a spreadsheet from your device or cloud to Shuri is easy.<br /><br /> If your spreadsheet contains people,
+                      organizations, and/or touches (aka interactions, activities, etc.) then it can be imported.<br /><br />
+                      Every person, org, and/or touch will be imported into a database that you choose.  The database is where all the imported items will be stored and it determines who will be able to see and modify the things you import.  
+                      <br /><br />In addition, everything gets placed into a new Private Group, created to segment everything imported in case you need an import "do over."  <br /><br />
+                      Here's the process:
+                      <ol class="orderedList">
+                          <li class="listItem">Upload your spreadsheet from your device or cloud</li>
+                          <li class="listItem">Choose the database that will house the imported data.  The database should already exist.</li>
+                          <li class="listItem">Choose the name for your new Private Group.</li>
+                          <li class="listItem">For each column in your spreadsheet, identify what information it contains.  We provide a list for you to choose from or you may create your own information field. </li>
+                          <li class="listItem">Press "Import Now."  </li>
+                          <li class="listItem">In case of import problems there is an "UNDO":  the Private Group created during the import may be completely deleted, which removes all the imported data from the database, letting you start over.</li>
+                      </ol>
+                      Once imported, all of the people, organizations, and touches that were in your spreadsheet will be in both the new <span class="bolderText">Private Group</span> and the  <span class="bolderText">Database</span> you chose.  
+                      Enjoy the new 360-degree view of your relationships!
+                      </div>
+
+              </div>
+
+            <a class="item item-icon-left royal" ng-click="vm.goTo('phone')" ng-if="false && !vm.onDesktop">
+              <i class="icon ion-android-contacts"></i>
+              Contacts
+            </a>
+
+            <!-- <a class="item item-icon-left positive" ng-click="vm.goTo('facebook')">
+              <i class="icon ion-social-facebook"></i>
+              Facebook
+            </a> -->
+
+            <!-- <a class="item item-icon-left calm" ng-click="vm.goTo('linkedin')">
+              <i class="icon ion-social-linkedin"></i>
+              LinkedIn
+            </a> -->
+
+            <a class="item item-icon-left positive" ng-click="vm.goTo('twitter')" ng-if="false">
+              <i class="icon ion-social-twitter"></i>
+              Twitter
+            </a>
+
+
+            <!-- <a class="item item-icon-left positive" ng-click="vm.test()">
+              <i class="icon ion-social-twitter"></i>
+              Test
+            </a> -->
+
+          </div>
+
+
+        </ion-list>
+    </ion-content>
+
+</ion-view>

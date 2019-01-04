@@ -1,0 +1,102 @@
+<div>
+
+  <div ng-if="!isInEdit" class="item item-icon-left  {{(isOpen? ' item-balanced' : 'item-stable')}}" ng-click="toggleOpen()">
+    <i class="icon ion-android-attach  {{(isOpen? '' : 'balanced')}}" style="font-size:1.5em;"></i>
+    <div ng-if="itemCount == 1">1 {{wordFor("Attachment")}}</div>
+    <div ng-if="itemCount != 1">{{itemCount | number}} {{wordFor("Attachments")}}</div>
+  </div>
+  <div class="item dividerBar item-balanced " ng-if="isInEdit">
+    Attachments
+  </div>
+
+  <div class="item text-center bgBalanced itemPadding" ng-if="isOpen && addExisting" ng-click="attachFile()">
+    <i class="icon ion-plus-round balanced"> </i>
+    <span class="medText balanced">
+      Attach File
+    </span>
+    <!--<div ng-if="!onDesktop" class="button button button-clear button-icon ion-mic-a" style="color: black;" ng-click="recordAudio()"> Record Audio</div>-->
+  </div>
+  <div class="item item-stable itemPadding text-center" ng-if="newFileLoading">
+    <div class="itemLabel ok-confirm">Uploading...</div>
+  </div>
+
+  <div ng-if="isOpen">
+    <ion-list>
+      <div class="item itemPadding bgBalancedLight itemLabel text-center" ng-if="!itemCount || itemCount == 0">
+        <span>No attachments</span>
+      </div>
+
+      <div ng-repeat="item in entity.documents |  filter: { isAttachment : 'true', changeType: '!2', showPhoto: false} | orderBy: '-modifiedDt'"
+           class="item item-icon-left item-icon-right" ng-click="openAttachment(item)">
+        <i class="icon {{item.icon}}"></i>
+        <div style="padding-left:20px;">{{item.name}}</div>
+        <i class="icon ion-navicon-round iconButton" ng-click="showAction($event, item)" ng-if="(entity.updatable || isCurated) && item.updatable"></i>
+      </div>
+      <div ng-repeat="item in entity.documents |  filter: { isAttachment : 'true', changeType: '!2', showPhoto: true} | orderBy: ['!modifiedDt']"
+           class="item item-avatar-left item-icon-right"
+           ng-click="openPhoto(item)">
+        <img ng-src="{{item.value}}" />
+        <div>
+          {{item.name}}
+        </div>
+        <i class="icon ion-navicon-round iconButton" ng-click="showAction($event, item)" ng-if="(entity.updatable || isCurated) && item.updatable"></i>
+
+      </div>
+    </ion-list>
+
+  </div>
+  <input id="{{inputIdToClick}}" type="file" accept="*/*" multiple upload-files="files" style="visibility:hidden; height:0px;position:absolute;left:-250">
+</div>
+
+
+<script id="modalViewerCordova.html" type="text/ng-template">
+  <ion-modal-view style="height:100%; width:100%; top:0; left:0;position:absolute;">
+    <ion-header-bar class="bar-dark">
+      <div class="title">{{currentPhoto.name}}</div>
+    </ion-header-bar>
+
+    <ion-content>
+      <div style=" width:100%;
+   height:100%;
+   background:url({{currentPhoto.value}}) center center no-repeat;"></div>
+      <!--<ion-list class="text-center">
+    <img ng-src="{{currentPhoto.value}}" ng-click="openAttachment(currentPhoto)" />
+  </ion-list>-->
+    </ion-content>
+    <ion-footer-bar class="bar-dark no-padding footerButton">
+      <div class="button-bar ">
+        <div class="button ok-confirm" ng-click="closeModal()">
+          {{wordFor("OK")}}
+        </div>
+      </div>
+
+    </ion-footer-bar>
+  </ion-modal-view>
+
+</script>
+<script id="modalViewerDesktop.html" type="text/ng-template">
+  <ion-modal-view  style="display: inline-block; position: fixed; top: 0; bottom: 0; left: 0; right: 0; width: 720px; height: 99%; margin: auto; margin-top: 4px; border-radius: 8px; border: 2px solid #444; overflow: hidden;">
+    <ion-header-bar class="bar-dark">
+      <div class="title">{{currentPhoto.name}}</div>
+    </ion-header-bar>
+
+    <ion-content>
+      <br />
+      <div style=" width:100%;
+   height:100%;
+   background:url({{currentPhoto.value}}) center center no-repeat;"></div>
+      <!--<ion-list class="text-center">
+    <img ng-src="{{currentPhoto.value}}" ng-click="openAttachment(currentPhoto)" />
+  </ion-list>-->
+    </ion-content>
+    <ion-footer-bar class="bar-dark no-padding footerButton">
+      <div class="button-bar ">
+        <div class="button ok-confirm" ng-click="closeModal()">
+          {{wordFor("OK")}}
+        </div>
+      </div>
+
+    </ion-footer-bar>
+  </ion-modal-view>
+
+</script>

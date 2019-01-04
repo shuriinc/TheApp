@@ -1,0 +1,95 @@
+<ion-modal-view>
+    <ion-header-bar class="bar-positive">
+        <div class="title"><i class="icon ion-help-circled"></i> Tags & Querying</div>
+    </ion-header-bar>
+    <ion-content class="has-header">
+
+        <ion-list>
+
+            <div class="item medText item-text-wrap help-content">
+              <span>
+                Tags act as labels that you can add to any person, organization or Touch in Shuri.
+                When you want to find specific contacts or Touches quickly, run a query for certain tags and a list will display that you can take action with.
+                <br /><br />
+                Read on to learn how to leverage this feature and keep your data organized.
+              </span>
+
+              <h3>A good reason to use tags:</h3>
+              <span>
+                Mark wants to track US Senators and their recent votes. In this case, he can separate the Democrats from the Republicans using tags.
+                <ul class="orderedList">
+                  <li>
+                    First, he'll create a tag set titled Political Party from a Database’s customize page. For more information on how to create a tag set, see <em class="link-to-section energized" ng-click="vmMaster.deepModal('tagset');">TAG SETS.</em>
+                  </li>
+                  <li>
+                    Then, Mark will create one tag for Democrat and one tag for Republican.
+                  </li>
+                  <li>
+                    Back on each Senator’s profile page, he'll click to open the tags tab and type in the appropriate tag.
+                  </li>
+                  <li>
+                    That tag will show up in the drop-down menu and Mark can select it. Now his item is labeled.
+                  </li>
+                </ul>
+              </span>
+
+              <h3>Query to easily find what you’re looking for</h3>
+              <span>
+                For Mark to see a list of only the Senators in the Democratic Party:
+                <ul class="orderedList">
+                  <li>
+                    He will navigate to the People page (from the link on the bottom of the homepage).
+                  </li>
+                  <li>
+                    Then, he'll select <em style="font-style:italic;">Query</em> from the top navigation bar.
+                  </li>
+                  <li>
+                    Mark will then open either of the the <em style="font-style:italic;">Tags</em> tabs and select Democrat from within the Political Party tag set.
+                  </li>
+                  <li>
+                    Next, he'll click <em style="font-style:italic;">Run Query</em> and a list of only those Democratic Senators in his Database will appear.
+
+                  </li>
+                </ul>
+                Enhance your Query by:
+                <ul class="orderedList">
+                  <li>
+                    Specifying only certain Organizations to search in.
+                  </li>
+                  <li>
+                    Searching for people or orgs within close proximity to either your current location or another location chosen.
+                  </li>
+                  <li>
+                    Specifying query requirements by field (ie. First Name field must contain "Robert")
+                  </li>
+                </ul>
+                Run similar queries on Organization and Touch query pages.
+              </span>
+
+              <h3>Do more with your data</h3>
+              <span>
+                To take action with your query results, click the 3 lines at the top righthand side of your screen. This will open a menu of different actions you can take, like creating a touch with your results, adding them to a new or existing group, selecting a subset, and more.
+              </span>
+
+              <!-- <h3></h3>
+              <span>
+              </span> -->
+
+            </div>
+
+        </ion-list>
+    </ion-content>
+    <ion-footer-bar class="bar-dark no-padding footerButton">
+      <div class="button-bar ">
+          <button class="button" ng-if="!vmMaster.showOk" ng-click="vmMaster.closeAllHelp()">
+            Close
+          </button>
+          <button class="button ok-confirm" ng-if="!vmMaster.showOk" ng-click="vmMaster.closeHelp()">
+              Back
+          </button>
+          <button class="button ok-confirm" ng-if="vmMaster.showOk" ng-click="vmMaster.closeHelp()">
+              {{vmMaster.wordFor("OK")}}
+          </button>
+      </div>
+
+    </ion-footer-bar>

@@ -1,0 +1,39 @@
+<div ng-if="isTrackedEmail">
+  <!--  Header -->
+  <div ng-show="!hideHeader" class="item item-icon-left item-icon-right  {{(isOpen? ' bgEnergized' : 'item-stable')}}">
+    <input class="entity-upload" type="file" id="template-file" accept="text/html" onchange="angular.element(this).scope().changeFile(this.files)">
+    <!-- <input class="entity-upload" type="file" id="template-file" onchange="angular.element(this).scope().changeFile(this.files)"> -->
+    <i class="icon ion-compose" style="font-size:1.5em;" ng-click="isOpen = !isOpen;"></i>
+    <div ng-click="isOpen = !isOpen;">
+      <div>Tracked Email Templates</div>
+    </div>
+    <div class="icon">
+      <div ng-if="shouldShowDelete" class="ion-close-round icon-accessory" ng-click="hideDelete()" style="font-size:1em;"></div>
+      <div ng-if="!shouldShowDelete" class="ion-plus-round icon-accessory" ng-click="attachTemplate()" style="font-size:1em; padding-right: 10px;"></div>
+      <div ng-if="templates.length && !shouldShowDelete" class="ion-trash-a icon-accessory" ng-click="showDelete($event)" style="font-size:1em;"></div>
+    </div>
+  </div>
+
+  <ion-list can-swipe="true" class="list" ng-show="isOpen" show-delete="shouldShowDelete">
+    <ion-item class="item item-icon-left item-icon-right" ng-repeat="template in templates | filter : { deleted : '!' } track by $index" ng-click="selectTemplate(template, $index)">
+      <i ng-if="!shouldShowDelete" class="icon ion-document"></i>
+      <span>
+        {{template.name}}
+      </span>
+
+      <i class="icon ion-android-checkbox-outline" ng-if="template.isActive && !editingBody"></i>
+      <i class="energized icon ion-code-working" ng-if="template.editing || template.isActive && editingBody"></i>
+      <ion-option-button class="positive ion-android-download" ng-click="downloadFile($event, template)"></ion-option-button>
+      <ion-option-button class="energized ion-code-working" ng-if="template.isActive && !editingBody" ng-click="editTemplate($event, template, $index)"></ion-option-button>
+      <ion-option-button class="energized  ion-edit" ng-click="editTemplateName($event, template)"></ion-option-button>
+      <ion-option-button class="assertive  ion-minus-circled" ng-click="removeItem($event, template)"></ion-option-button>
+      <ion-delete-button class="icon assertive  ion-minus-circled" ng-click="removeItem($event,template, true)"></ion-delete-button>
+    </ion-item>
+  </ion-list>
+</div>
+<script id="editTemplateName.html" type="text/ng-template">
+    <div>
+      <div class="itemLabel">Edit Template Name</div>
+      <input type="text" ng-model="currentEdit" placeholder="Something short, but descriptive" ng-change="updateEdit()" />
+    </div>
+</script>

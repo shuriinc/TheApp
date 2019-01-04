@@ -1,0 +1,49 @@
+﻿<ion-view ng-controller="PromoteGroupCtrl as vm">
+    <ion-nav-title>
+        {{vm.title}}
+    </ion-nav-title>
+    <ion-header-bar ng-if="vm.showList" class="bar-subheader bar-positive">
+        <h1 class="title">{{vm.group.name}}</h1>
+    </ion-header-bar>
+    <ion-content class="has-header has-subheader">
+        <sspinner ng-if="!vm.showList" text='{{vm.wordFor("Working...")}}' runs-long="vm.runsLong"></sspinner>
+        <ion-list ng-if="vm.showList">
+            <div class="item item-stable text-center item-text-wrap">
+                This will create a new, sharable database and move all the items you own* from this group into the new database.
+            </div>
+            <label class="item item-input item-select">
+                <span class="input-label itemLabel">Editing Team</span>
+                <select ng-options="team.id as team.name for team in vm.editingTeams" ng-model="vm.editingTeamId" ng-change="vm.editingTeamIdChanged()"></select>
+            </label>
+            <div class="item item-input item-stacked-label item-icon-right" ng-if="vm.editingTeamId == vm.guidSystem">
+                <div class="input-label itemLabel">New Team Name</div>
+                <input type="text" ng-model="vm.newTeamName" placeholder="Something short, but descriptive here..." ng-change="vm.newGroupNameChange(vm.newTeamName, vm.group.id)" />
+
+                <div ng-if="vm.newGroupnameChecked">
+                    <i ng-if="!vm.newGroupnameOK" class="icon ion-close-circled assertive" style="padding-top:20px;"></i>
+                    <i ng-if="vm.newGroupnameOK" class="icon ion-checkmark-circled positive" style="padding-top:20px;"></i>
+                </div>
+            </div>
+
+            <div ng-if="vm.showAssignEditingTeam" class='item item-toggle item-text-wrap'>
+                <span class='itemLabel'>Assign editing team to all items</span>
+                <label class='toggle toggle-balanced'>
+                    <input type='checkbox' ng-model='vm.assignEditingTeam'>
+                    <div class='track'><div class='handle'></div></div>
+                </label>
+            </div>
+            <div class="item"></div>
+            <div class="item item-divider smallText  item-text-wrap">
+                *Items you do not own will not be moved to the new database; a separate group will be created for these residual items.
+            </div>
+            <list-footer></list-footer>
+        </ion-list>
+    </ion-content>
+    <ion-footer-bar class="bar-dark" ng-if="vm.showList">
+        <div class="button-bar">
+            <div ng-click="vm.cancel()" class="button button-stable icon ion-close-round">{{vm.wordFor("Cancel")}}</div>
+            <div ng-click="vm.promote()" click-once  class="button icon ion-checkmark-round ok-confirm">Promote</div>
+        </div>
+    </ion-footer-bar>
+
+</ion-view>

@@ -1,0 +1,124 @@
+    <!--  Header -->
+<div ng-if="!hideHeader && !isInEdit" class="item item-icon-left item-icon-right  {{(isOpen? itemColor : itemColorClosed)}} dividerBarTouch" ng-click="toggle(true)">
+    <i class="icon {{(iconClasses != 'arrows') ? (isOpen? iconClasses : iconClassesClosed) : (isOpen? 'ion-arrow-down-b' : 'ion-arrow-right-b')}}" style="font-size:1.5em;"></i>
+    <div ng-if="parentEntityType == 10">
+        {{parentEntity.name}}
+        <span class='itemLabel'>({{entityCount | number}})</span>
+    </div>
+    <div ng-if="parentEntityType != 10">
+        <div ng-if="entityCount == 1">1 {{entityWord}}</div>
+        <div ng-if="entityCount != 1">{{entityCount | number}} {{entitiesWord}}</div>
+    </div>
+    <i ng-show="(hasFormer && isOpen)" class="icon {{(showFormer ? 'ion-android-checkbox-outline' : 'ion-android-checkbox-outline-blank')}} " ng-click="toggleShowFormer($event)" style="font-size:1.2em"> <span class="smallText"> Show previous</span></i>
+</div>
+<div class="item dividerBar {{itemColor}}  "
+     ng-if="hideHeader || isInEdit">
+    {{entitiesWord}}
+</div>
+<div ng-if="isOpen || isInEdit">
+    <!-- Buttons -->
+     <div class="row {{backgroundColor}} no-padding no-border" ng-if="showAddTouch">
+        <div class="col text-center link  {{color}}  textButton" title="Add a new Touch" ng-click="addEntity()">
+        <i class="icon ion-plus-round"></i><span class=""> Add New Touch</span>
+        </div>
+    </div>
+
+    <div class="button-bar bgTeam " ng-if="showTeamEdit">
+        <div ng-if="!parentEntity.updatable" class="button button-clear icon ion-information-circled teamColor" ng-click="editItem()"> Info</div>
+        <div ng-if="parentEntity.updatable" class="button button-clear icon ion-edit teamColor" ng-click="editItem()"> Edit</div>
+        <div ng-if="parentEntity.updatable" class="button button-clear icon ion-ios-personadd teamColor" ng-click="inviteTeam()"> Invite</div>
+    </div>
+    <div class="row {{backgroundColor}} itemPadding no-border" ng-if="!hideHeader && (entityCount >= scrollSize) && showToggle && !showAddTouch">
+        <div ng-if="isAddMode"  class="col-50 text-center  {{color}}  textButton" title="Add"><i class="icon ion-plus-round"></i><span class=""> Add </span></div>
+        <div ng-if="!isAddMode" class="col-50 text-center link dark textButton" ng-click="toggleSearch()" title="Switch to Add mode"><i class="icon  ion-plus-round"> <span class=""> Add</span></i></div>
+        <div ng-if="!isAddMode" class="col-50 text-center {{color}} textButton" title="Search"><i class="icon ion-search"> <span class=""> Search</span></i></div>
+        <div ng-if="isAddMode" class="col-50 text-center link dark textButton" title="Switch to Search mode" ng-click="toggleSearch()"><i class="icon ion-search"> <span class=""> Search</span></i></div>
+     </div>
+
+    <!-- Search bar  has 2 modes:  'find' and 'add'  variable:  isAddMode-->
+    <div class="item item-input-inset {{backgroundColor}} item-borderless" ng-show="!hideSearch">
+        <i ng-if="entityType == 5 && !showSearchResults" ng-class="(!tagSetsCollapsed) ? 'icon accessory ion-arrow-down-b' : 'icon accessory ion-arrow-right-b '" style="font-size:1.5em;padding-right:8px;" ng-click="toggleTagSets($event)"></i>
+        <div class="item-input-wrapper">
+            <i ng-class="{'ion-search': !isAddMode, 'ion-plus-round': isAddMode}" class="icon placeholder-icon"></i>
+            <input id="inputSearch{{parentEntity.id}}" autocomplete="off"
+                   ng-model="searcher.addString" type="search"
+                   placeholder="{{(isAddMode)? placeholderText.add : placeholderText.search}}"
+                   onmouseup="this.select();" ng-focus="resetHideResults()" ng-blur="hideResults()" ng-keyup="keyPressedAdd($event, this)">
+            <i ng-click="resetSearch()" class="icon ion-close-round placeholder-icon"></i>
+        </div>
+        <div style="padding-left:8px;" ng-if="isAddMode && !hideAddNew ">
+            <div ng-disabled="searcher.addString.length == 0" class="button button-small button-dark " ng-click="addFromSearchBar()"><span class="h5 {{buttonTextColor}}">{{wordFor("Add")}} <span ng-if="!isNarrow">{{wordFor("New")}} </span></span></div>
+        </div>
+        <!--<div ng-if="showToggle && ((entityCount > 6) || !isAddMode)" style="margin-left: 10px; margin-right: 10px;" class="button button-small button-dark" ng-click="toggleSearch()" title="{{(isAddMode)? switchTitle.add : switchTitle.search}}">
+            <i class="icon {{(isAddMode ? 'ion-search' : 'ion-plus-round')}}  {{color}}"></i>
+        </div>-->
+    </div>
+    <!-- Search Results-------------------------->
+    <div ng-if="showSearchResults" ng-class="(isAddMode)? 'card' : ''">
+        <div class="item item-divider {{backgroundColor}} itemLabel text-center " ng-if="searching">
+            {{wordFor("Searching")}}...
+        </div>
+        <div class="item item-divider {{backgroundColor}} itemLabel text-center " ng-if="!searching && (entities.length == 0 || (!entities && isAdminPage))">
+            <span ng-if="searcher.addString">{{searcher.addString}} not found. </span>
+            <span ng-if="!searcher.addString">Ready to search. </span>
+            <span ng-if="isAddMode && !hideAddNew">Click 'Add New' to create a {{entityWord.toLowerCase()}}</span>
+        </div>
+        <div ng-repeat="enty in entities  | orderBy: ['sorter', 'name']">
+            <item-entity entity="enty" entity-type="entityType" hide-action="isAddMode" manage-updates="manageUpdates" parent-entity-type="parentEntityType" parent-entity="parentEntity" ng-click="itemSelected(enty)"></item-entity>
+        </div>
+    </div>
+
+    <div ng-if="showSpinner && (!entityCount || entityCount == 0)" class="item {{backgroundColor}}Light text-center">
+        <ion-spinner></ion-spinner>
+    </div>
+
+    <!-- Item List -------------------------->
+    <div ng-if="!showSearchResults">
+        <div ng-if="entityType != 5 ">
+            <!--  the list NO scrolling-->
+            <ion-list ng-if="!isPaged && (entityCount > 0)">
+                <div ng-repeat="enty in entities | filter: filterEntity  | orderBy: (entityType == 6 ? [{'dateStart' : true}, 'name'] : ['isNew','sortname', 'sorter', 'name'])">
+                    <item-entity entity="enty" entity-type="entityType" manage-updates="manageUpdates" parent-entity-type="parentEntityType" parent-entity="parentEntity" ng-click="itemSelected(enty)" appuser-id="appUser.id"></item-entity>
+                </div>
+                <!--<div class="row  {{backgroundColor}} "><div class="col"></div></div>-->
+            </ion-list>
+            <!--  the list With scrolling-->
+            <ion-list ng-if="isPaged && (entityCount > 0)" delegate-handle="{{delegateHandle}}">
+                <ion-scroll style="height:352px;overflow:hidden" ng-disabled="isScrolling">
+                    <div ng-repeat="enty in entities | filter: filterEntity  | orderBy: (entityType == 6 ? [{'dateStart' : true}, 'name'] : ['isNew','sortname', 'sorter', 'name'])">
+                        <item-entity entity="enty" entity-type="entityType" manage-updates="manageUpdates" parent-entity-type="parentEntityType" parent-entity="parentEntity" ng-click="itemSelected(enty)" appuser-id="appUser.id"></item-entity>
+                    </div>
+                    <div class="row  {{backgroundColor}} ">
+                        <div ng-if="!hasFormer" class="col"></div>
+                    </div>
+                    <ion-infinite-scroll on-infinite="loadMore()" ng-if="hasMore" distance="40%">
+                    </ion-infinite-scroll>
+                    <list-footer></list-footer>
+                </ion-scroll>
+            </ion-list>
+        </div>
+        <!--  Tags Only; never scroll-->
+        <div ng-if="entityType == 5 ">
+            <ion-list ng-if="entityCount > 0">
+                <div ng-repeat="ut in usertypes | orderBy: ['name']">
+                    <div class="item bgRoyal item-icon-right"
+                         ng-click="ut.hideTags = !ut.hideTags"
+                         ng-if="ut.name != 'Search Results' && parentEntityType != 8">
+                        {{(ut.name == ' Tags') ? 'Loose Tags' : ut.name}}<span class="itemLabel" ng-if="ut.hideTags">&nbsp;({{ut.tagsCount}})</span>
+                        <i ng-if="ut.updatable" class="icon ion-edit iconButton" style="font-size:1.5em;" ng-click="editUT($event, ut)" title="Edit {{ut.name}}"></i>
+                    </div>
+                    <div ng-if="!ut.hideTags" ng-repeat="tag in entities | filterEntitiesByUT: {utId: ut.id, utName: ut.name}  | orderBy: ['name']">
+                        <item-entity entity="tag" entity-type="5" manage-updates="manageUpdates" parent-entity-type="parentEntityType" parent-entity="parentEntity" single-line="ut.tagSingleLine" ng-click="itemSelected(tag)"></item-entity>
+                    </div>
+                </div>
+                <div ng-if="entityCount > 10" class="row  {{backgroundColor}} "><div class="col"></div></div>
+            </ion-list>
+        </div>
+        <!--  empty list -->
+        <ion-list ng-if="entityCount == 0 && !showSearchResults && !searching">
+            <div class="item item-divider {{backgroundColor}} itemLabel text-center">
+                No {{entitiesWord.toLowerCase()}}.
+            </div>
+        </ion-list>
+    </div>
+</div>

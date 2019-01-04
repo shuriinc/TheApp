@@ -1,0 +1,77 @@
+<div id="entityLocations">
+    <div ng-if="!isInEdit" class="item {{(showLocs ? 'teamColor' : 'item-stable')}} item-icon-left " ng-click="toggleShowLocs()">
+        <i class="icon ion-map {{(showLocs ? '' : 'teamColor')}}"></i><a href="#entityLocations"></a>
+        <div ng-if="entityCount == 1">{{entityCount | number}} {{wordFor("Location")}}</div>
+        <div ng-if="!(entityCount == 1)">{{entityCount | number}} {{wordFor("Locations")}}</div>
+    </div>
+    <div class="item dividerBar teamColor " ng-if="isInEdit">
+        Locations
+    </div>
+    <div ng-if="showLocs">
+        <div ng-if="mode == 'default'">
+            <div class="item bgTeam itemPadding " ng-if="showDefaultButtons">
+                <div class="row row-no-padding">
+                    <div class="col-50 text-center" ng-click="addNew()"><span class="teamColorDark medText"><i class="icon ion-plus-round" style="font-size:1em"></i> Add New</span></div>
+                    <div class="col-50 text-center" ng-click="gpsLookup()" title="Requires a device with GPS" style="{{(onDesktop) ? 'opacity:.5' : ''}}">
+                        <span class="medText"><i class="icon ion-location"></i> GPS Loc</span>
+                    </div>
+                </div>
+            </div>
+            <div ng-repeat="loc in entity.locations | filter: {changeType: '!2'} | orderBy: ['primitive', 'address']">
+                <item-entity class="link" entity="loc" entity-type="3" manage-updates="manageUpdates" parent-entity-type="entityType" parent-entity="entity" ng-click="locClick(loc)"></item-entity>
+            </div>
+            <ion-item class="item item-divider bgTeamLight itemLabel text-center" ng-if="!entityCount || entityCount == 0">
+                <span>No locations</span>
+            </ion-item>
+        </div>
+        <div ng-if="mode == 'add'">
+            <div class="item bgTeam no-padding" ng-if="hasNewMap">
+                <div class="button-bar">
+                    <div class="button button-clear button-icon button-dark ion-close-round " ng-click="closeLookup()"> Cancel</div>
+                    <div class="button button-clear button-balanced" ng-click="closeLookup(true)"><span class=""><i class="icon ion-checkmark-round"></i> Save Loc</span></div>
+                </div>
+            </div>
+            <div class="item bgTeam item-icon-right" ng-if="!hasNewMap">
+                <div class="teamColorDark">{{(location.typename != 'ADDNEW' && entityType == 6 && !location.place_Id) ? 'Update Location' : lookupTitle}} </div>
+                <div class="icon ion-close-round assertive " style="font-size:1.25em" ng-click="closeLookup()"></div>
+            </div>
+            <div class="item  item-input-inset">
+              <div class="item-input-wrapper">
+                <input type="text" ng-model="location.address"
+                       class="{{isNarrow ? 'smallText' : ''}}"
+                       select-on-click placeholder="{{entityType == 6 ? 'Enter some location, then click Add or Lookup' : 'Enter just enough address, then click Lookup'}}"
+                       style="width:100%">
+              </div>
+              <div ng-if="entityType == 6 && !location.place_Id"
+                   ng-disabled="location.address.length < 2"
+                   class="button button-small button-balanced "
+                   ng-click="addAddress()">
+                {{(location.typename == 'ADDNEW') ? 'Add' : 'Update'}}
+              </div>
+              <div ng-if="entityType == 6 && !location.place_Id && (location.typename != 'ADDNEW')"
+                   class="button button-small button-assertive "
+                   ng-click="deleteLoc(location)">Delete
+              </div>
+              <div ng-if="!hideLookupButton && (location.typename == 'ADDNEW' || entityType != 6 || location.place_Id)"
+                   class="button button-small button-positive "
+                   ng-click="lookupClick()"
+                   ng-disabled="!location.address || location.address.length < 2">
+                Lookup
+              </div>
+            </div>
+        </div>
+        <div ng-if="mode == 'map'">
+          <div class="item bgTeam item-text-wrap itemPadding item-icon-right" ng-click="closeLookup()">
+            <div class="teamColorDark medText" title="Click to close map">{{location.address}}  </div>
+            <div class="icon " style="font-size:1.5em">
+              <div class="ion-trash-b assertive "  ng-click="deleteLoc(location, $event)" ng-if="location.typename != 'ADDNEW'" title="Delete this location"></div>
+              <div class="ion-close-round dark " style="padding-left:18px;"  title="Close map"></div>
+            </div>
+          </div>
+        </div>
+        <div ng-if="hasNoresults" class="item itemPadding item-stable"><span class="itemLabel">No results</span></div>
+        <div id="{{mapcanvasId}}" data-tap-disabled="true" style="height:0px; max-width:none">
+        </div>
+        <div class="item item-divider teamColor" ng-if="entityCount && entityCount > 10"></div>
+    </div>
+</div>

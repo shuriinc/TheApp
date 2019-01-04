@@ -1,0 +1,74 @@
+@font-face {
+    font-family: 'ShuriFont';
+    src:    url('fonts/ShuriFont.eot?48kgat');
+    src:    url('fonts/ShuriFont.eot?48kgat#iefix') format('embedded-opentype'),
+        url('fonts/ShuriFont.ttf?48kgat') format('truetype'),
+        url('fonts/ShuriFont.woff?48kgat') format('woff'),
+        url('fonts/ShuriFont.svg?48kgat#ShuriFont') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+[class^="shuri-"], [class*=" shuri-"] {
+    /* use !important to prevent issues with browser extensions that change fonts */
+    font-family: 'ShuriFont' !important;
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+
+    /* Better Font Rendering =========== */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.shuri-touch:before {
+    content: "\e900";
+}
+.shuri-database:before {
+    content: "\e901";
+}
+.shuri-touch-add:before {
+    content: "\e902";
+}
+.shuri-upload:before {
+    content: "\e903";
+}
+.shuri-query:before {
+    content: "\e904";
+}
+.shuri-search:before {
+    content: "\e905";
+}
+.shuri-attachment:before {
+    content: "\e906";
+}
+.shuri-contacts:before {
+    content: "\e907";
+}
+.shuri-import:before {
+    content: "\e908";
+}
+.shuri-submit:before {
+    content: "\e909";
+}
+.shuri-submit-all:before {
+    content: "\e90a";
+}
+.shuri-blog:before {
+    content: "\e90b";
+}
+.shuri-wikipedia:before {
+    content: "\e90c";
+}
+.shuri-file-pdf:before {
+    content: "\e90d";
+}
+.shuri-file-word:before {
+    content: "\e90e";
+}
+.shuri-file-excel:before {
+    content: "\e90f";
+}

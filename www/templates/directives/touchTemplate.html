@@ -1,0 +1,9 @@
+﻿<ion-item class="item item-icon-left item-icon-right item-text-wrap {{itemClass}}" ng-if="entity.changeType != 2" ng-click="itemClicked($event)">
+    <i class="icon {{entity.icon}}" style="font-size:1.5em;"></i>
+    <div class="{{textClass}}">
+        {{entity.line1}} <span class="itemLabel" ng-if="entity.isNew">&nbsp;&nbsp;New!</span>
+        <span ng-if="entity.line2" class="itemLabel" ng-bind-html="entity.line2"></span>
+    </div>
+
+    <i ng-if="!entity.hideAction" class="icon ion-navicon-round iconButton" ng-click="showEntityAction($event)"></i>
+</ion-item>

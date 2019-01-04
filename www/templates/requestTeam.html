@@ -1,0 +1,64 @@
+﻿<ion-view ng-controller="RequestTeamCtrl as vm">
+    <style>
+        ul{
+            list-style-type: disc;margin:10px;
+        }
+        li {
+            margin: 8px 0;
+        }
+    </style>
+    <ion-nav-title>
+        Ask To Join a Team
+    </ion-nav-title>
+    <div class="bar bar-subheader bar-dark">
+        <div class="button-bar">
+            <div ng-click="vm.cancel()" class="button button-clear button-stable icon ion-close-round">{{vm.wordFor("Cancel")}}</div>
+            <div ng-click="vm.save()" click-once ng-disabled="!vm.selectedResult" class="button button-clear icon ion-checkmark-round ok-confirm">Send Request</div>
+        </div>
+
+    </div>
+    <ion-content class="has-header">
+        <ion-list>
+            <div class="item item-divider item-positive">
+                Find the team:
+            </div>
+            <!-- Search bar-->
+            <div class="item item-input-inset bgPositive">
+                <label class="item-input-wrapper">
+                    <input name="inputAdd" ng-model="vm.addString" type="search" style="width:100% !important" autocomplete="off"
+                           placeholder="Type the name of the team here"
+                           onmouseup="this.select();" ng-focus="vm.resetHideResults()"
+                           ng-blur="vm.hideResults()" ng-keyup="vm.keyPressedAdd($event, this)">
+                </label>
+            </div>
+
+            <!-- Search results-->
+            <div ng-if="vm.showResults">
+                <div class="card">
+                    <div class="item" ng-show="searching">{{vm.wordFor("Searching")}}...</div>
+                    <div class="item" ng-show="!searching && (!vm.results || vm.results.length == 0)">{{vm.wordFor("No results found")}}</div>
+                    <div class="item bgPositiveLight" ng-repeat="result in vm.results" ng-click="vm.selectAddResult(result)">
+                        <div ng-bind-html="result.name"></div>
+
+
+                    </div>
+                </div>
+            </div>
+
+             <div class="item item-body" >
+                 <ul style="list-style-type: disc;margin:12px;">
+                     <li>Search for the team you want join.</li>
+                     <li>An email will be sent to the owner of the team on your behalf, asking them to add you to the team.</li>
+                     <li>Any further communication between you and the owner is outside the app.</li>
+                     <li>Please contact <a href="mailto:support@shuri.com">Support</a> if you have questions or issues.</li>
+                 </ul>
+            </div>
+
+            <div class="item item-stable" ng-if="vm.selectedResult">
+                        Tap "Send Request" to ask to join <span class="bolderText positive">{{vm.selectedResult.name}}</span>
+            </div>
+
+
+        </ion-list>
+    </ion-content>
+</ion-view>
