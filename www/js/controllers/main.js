@@ -260,13 +260,16 @@
                             });
                         }
                     });
+
+                  vm.appUser.showMedia = false;
+
                     vm.showMedia = vm.appUser.showMedia;
                     var subIds = 0;
                     vm.appUser.subscriptionIds.forEach(function (id) {
                         if (!(id.toLowerCase() == appGlobals.guidEmpty.toLowerCase() || id.toLowerCase() == appGlobals.guidSystem.toLowerCase())) subIds++;
                     });
 
-                  //console.log(subIds, subs, vm.appUser);
+                  console.log(subIds, subs, vm.appUser);
                     if (subs != subIds) vm.defaultWarning = String.format("{0} of {1}", subIds, subs);
                     else vm.defaultWarning = "";
 
