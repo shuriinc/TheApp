@@ -14,7 +14,7 @@
   <title>Shuri</title>
 
   <script type="text/javascript">
-    var _appVersion = "1.5.9a";
+    var _appVersion = "2.0";
 
     var _twitter2Live = true;
     var _twitter3Live = false;
@@ -106,6 +106,7 @@
     document.write('<scr' + 'ipt src="js/app.js?' + _cacheBuster + '" type="text/javascript"></scr' + 'ipt>');
     document.write('<scr' + 'ipt src="js/data.js?' + _cacheBuster + '" type="text/javascript"></scr' + 'ipt>');
     document.write('<scr' + 'ipt src="js/globals.js?' + _cacheBuster + '" type="text/javascript"></scr' + 'ipt>');
+    document.write('<scr' + 'ipt src="js/config.js?' + _cacheBuster + '" type="text/javascript"></scr' + 'ipt>');
     document.write('<scr' + 'ipt src="js/directives/miscDirectives.js?' + _cacheBuster + '" type="text/javascript"></scr' + 'ipt>');
     document.write('<scr' + 'ipt src="js/directives/collectionEntity.js?' + _cacheBuster + '" type="text/javascript"></scr' + 'ipt>');
     document.write('<scr' + 'ipt src="js/directives/entityAttachments.js?' + _cacheBuster + '" type="text/javascript"></scr' + 'ipt>');
@@ -180,8 +181,12 @@
   <script async src="lib/xlsx.core.min.js"></script>
 
   <!--<script src="https://cdn.tinymce.com/4/tinymce.min.js"></script>-->
+
   <!-- google maps api key -->
-  <script async src="https://maps.googleapis.com/maps/api/js?key=[google_api_key_here]" type="text/javascript"></script>
+  <script type="text/javascript">
+    document.write('<scr' + 'ipt async src="https://maps.googleapis.com/maps/api/js?key=' + _config.GOOGLE_API + '" type="text/javascript"></scr' + 'ipt>');
+  </script>
+
   <!-- d3  -->
   <!--<script async  src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.12/d3.min.js"></script>-->
   <!-- jsSHA for twitter oauth -->

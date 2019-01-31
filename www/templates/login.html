@@ -120,7 +120,7 @@
           <div class="item medText  item-icon-left  item-icon-right" ng-click="vm.toggle('newSite')">
             <i class="icon ion-android-checkbox-outline{{(vm.newSite) ? '' : '-blank'}}"></i>
             <i class="icon ion-information-circled iconButton" ng-click="vm.goto($event,'site')"></i>
-            Provision a new site for me and my team
+            Provision a new site for my team
           </div>
 
           <div class="item item-input  item-icon-right " ng-if="vm.newSite">
@@ -131,7 +131,7 @@
             </div>
           </div>
 
-          <div class="item medText  item-icon-left  item-icon-right" ng-click="vm.toggle('freeTrial')">
+          <div class="item medText  item-icon-left  item-icon-right" ng-click="vm.toggle('freeTrial')" ng-if="false">
             <i class="icon ion-android-checkbox-outline{{(vm.reg.freeTrial) ? '' : '-blank'}}"></i>
             <i class="icon ion-information-circled iconButton" ng-click="vm.goto($event,'ardb')"></i>
             Include 1 month free Analyst Relations DB*
@@ -188,8 +188,8 @@
               <div ng-if="vm.regTab != 'faqs'" class="button button-positive {{(vm.isNarrow) ? 'smallText' : '' }} button-outline" ng-click="vm.regTab='faqs'">FAQs</div>
               <div ng-if="vm.regTab == 'site'" class="button button-positive {{(vm.isNarrow) ? 'smallText' : '' }}">Site</div>
               <div ng-if="vm.regTab != 'site'" class="button button-positive {{(vm.isNarrow) ? 'smallText' : '' }} button-outline" ng-click="vm.regTab='site'">Site</div>
-              <div ng-if="vm.regTab == 'ardb'" class="button button-positive {{(vm.isNarrow) ? 'smallText' : '' }}">Free AR</div>
-              <div ng-if="vm.regTab != 'ardb'" class="button button-positive {{(vm.isNarrow) ? 'smallText' : '' }} button-outline" ng-click="vm.regTab='ardb'">*Free AR</div>
+              <!--<div ng-if="vm.regTab == 'ardb'" class="button button-positive {{(vm.isNarrow) ? 'smallText' : '' }}">Free AR</div>
+              <div ng-if="vm.regTab != 'ardb'" class="button button-positive {{(vm.isNarrow) ? 'smallText' : '' }} button-outline" ng-click="vm.regTab='ardb'">*Free AR</div>-->
               <!--<div ng-if="vm.regTab == 'terms'" class="button button-positive {{(vm.isNarrow) ? 'smallText' : '' }}">Terms</div>
               <div ng-if="vm.regTab != 'terms'" class="button button-positive {{(vm.isNarrow) ? 'smallText' : '' }} button-outline" ng-click="vm.regTab='terms'">Terms</div>-->
             </div>
@@ -216,7 +216,7 @@
               <ol>
                 <li><span class="bold1">You agree to be fair.</span>  You won't give anyone any of the data in any of the databases you subscribe to from Shuri, Inc.   You won't resell or otherwise profit from the things we offer for sale.</li>
                 <li><span class="bold1">We agree to be fair.</span>  Every bit of your data is encrypted as it goes between your device and our server with fully hardened security.  None of your data is ever shared by us to anyone for any reason.</li>
-                <li><span class="bold1">These are binding.</span>  There are more Terms and Conditions.  By checking the "I Agree" box and registering, you are agreeing to <a href="https://www.shuri.com/terms" target="_blank">these full set of terms and conditions</a>.</li>
+                <li><span class="bold1">These are binding.</span>  There are more Terms and Conditions.  By checking the "I Agree" box and registering, you are agreeing to <a href="https://www.shuri.com/terms.html" target="_blank">these full set of terms and conditions</a>.</li>
               </ol>
             </div>
             <div class=" item  item-divider item-positive text-center">
@@ -233,14 +233,14 @@
                   <span class="bold1">Yes, Shuri has enterprise-grade security.</span>  Your security and privacy is critical.  Every data request between you and the Shuri API is encrypted and authenticated.
                   <a href="" ng-click="vm.regTab='privacy';">more about security and privacy</a>
                 </li>
-                <li><span class="bold1">If your team already exists...</span>  Register now. Your site administrator can easily add you once you’ve created an account and logged in.  </li>
+                <li><span class="bold1">If your team already exists...</span>  Register now. Your site administrator can easily add you once you've created an account and logged in.  </li>
                 <li>
                   <span class="bold1">If you are the 1st one here from your team...</span>  Check the box:   "Provision My Site."   Give it a name and we'll take care of the rest.
                   <a href="" ng-click="vm.regTab='site';">more about sites</a>
                 </li>
               </ol>
               <div class=" smallText  " style="padding-left:40px;">
-                * Pro storage is $10/month/10,000 items.  Pro storage is included with a purchased subscription to any of Shuri’s Databases.
+                * Pro storage is $10/month/10,000 items.  Pro storage is included with a purchased subscription to any of Shuri's Databases.
               </div>
             </div>
             <div class="item item-divider item-positive text-center">
@@ -253,7 +253,7 @@
           <div ng-if="vm.regTab == 'site'">
             <div class="item medText item-text-wrap bgPositiveLight">
               <ul>
-                <li><span class="bold1">If you are the 1st one here from your team...</span>  Check the box:  "Provision My Site." You'll be the Site Administrator for your site's Team and Database.  Once logged in, you’ll be able to invite the rest of your team. </li>
+                <li><span class="bold1">If you are the 1st one here from your team...</span>  Check the box:  "Provision My Site." You'll be the Site Administrator for your site's Team and Database.  Once logged in, you'll be able to invite the rest of your team. </li>
                 <li><span class="bold1">The Site Administrator</span> has the ultimate control over who gets added. We make it very easy:  you'll be able to provision new users and invite them via email using our Team Quickstart feature. </li>
                 <li><span class="bold1">The Site Team</span> contains all the users in your work group. That could be your team or entire organization.  Or anyone who needs to see what's going on.  You can create smaller teams later for further privacy and organization.</li>
                 <li><span class="bold1">The Site Database</span>  stores the Team's shared People, Organizations, and Touches. Enabling collaboration across your team.  Add additional databases as needed for more focused sharing with smaller teams.   You can create as many databases as needed; which you can easily filter in or out.   All "in" databases are fused together by Shuri to appear as the one and only.  </li>
@@ -265,7 +265,7 @@
           </div>
 
           <!--  ARDB -->
-          <div ng-if="vm.regTab == 'ardb'">
+          <div ng-if="false && vm.regTab == 'ardb'">
             <div class="item medText item-text-wrap bgPositiveLight">
               <h3>Get the Analyst Relations database free for a whole month.</h3><br />
               <ul>

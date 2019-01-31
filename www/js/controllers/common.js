@@ -595,8 +595,8 @@
     }
     vm.dispenseUrl = function (dest, downloadOnly) {
       var url;
-      if (dest == 'privacy') url = "http://www.shuri.com/privacy";
-      else if (dest == 'terms') url = "http://www.shuri.com/terms";
+      if (dest == 'privacy') url = "http://www.shuri.com/privacy.html";
+      else if (dest == 'terms') url = "http://www.shuri.com/terms.html";
       else url = dest;
 
       if (window.cordova) {

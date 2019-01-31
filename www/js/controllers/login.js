@@ -40,7 +40,7 @@
           $ionicScrollDelegate.scrollTop();
           break;
         case 'terms':
-          var win = window.open("https://www.shuri.com/terms", '_blank', 'EnableViewPortScale=yes', 'location=yes', 'closebuttoncaption=Return');
+          var win = window.open("http://www.shuri.com/terms.html", '_blank', 'EnableViewPortScale=yes', 'location=yes', 'closebuttoncaption=Return');
           break;
         case 'ardb':
           vm.regTab = 'ardb';

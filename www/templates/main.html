@@ -68,7 +68,7 @@
         <div ng-if="vm.recents && vm.recents.length > 0">
           <div class="item item-icon-left  {{(!vm.openRecent) ? '  item-dark' : '   item-dark active'}}" ng-click="vm.toggleDiv('recent')">
             <i class="icon ion-clock {{(!vm.openRecent) ? 'iconInactive' : ''}}"></i>
-            {{vm.wordFor("Recent")}} Hello
+            {{vm.wordFor("Recent")}} 
           </div>
           <div ng-show="vm.openRecent" ng-repeat="recent in vm.recents">
             <item-entity entity="recent" entity-type="-1" entity-count="0" parent-entity-type="-1" parent-entity="vm.databases" ng-click="vm.selectAddResult(recent)" manage-updates="true"></item-entity>
@@ -241,7 +241,7 @@
             </div>
             <div class="item item-input item-stacked-label">
               <span class="input-label itemLabel">All software herein (this app) is</span><br />
-              <span class="medText">Ã‚Â©Copyright Shuri, Inc. 2015-{{vm.year}}  All rights reserved.</span>
+              <span class="medText">©Copyright Shuri, Inc. 2015-{{vm.year}}  All rights reserved.</span>
             </div>
 
           </div>

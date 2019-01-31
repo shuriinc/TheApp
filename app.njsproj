@@ -34,6 +34,9 @@
     <Compile Include="gulpfile.js" />
     <Compile Include="hooks\after_prepare\010_add_platform_class.js" />
     <Compile Include="www\js\app.js" />
+    <Compile Include="www\js\config.js">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="www\js\controllers\admin.js" />
     <Compile Include="www\js\controllers\common.js" />
     <Compile Include="www\js\controllers\customize.js" />
