@@ -162,7 +162,7 @@
                       ng-options="item as item.DisplayName for item in vm.timezones"
                       ng-change="vm.tzChanged(vm.timezone)"></select>
             </div>
-            <ion-item class="item item-toggle item-text-wrap ">
+            <ion-item class="item item-toggle item-text-wrap " ng-if="false">
               <span class="itemLabel">Send cc@shuri confirmation emails</span>
               <label class="toggle toggle-balanced">
                 <input type="checkbox" ng-model="vm.preferences.ccconfirm" ng-change="vm.setPref('ccconfirm', vm.preferences.ccconfirm);">

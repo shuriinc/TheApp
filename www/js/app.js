@@ -118,6 +118,7 @@ var app = angular.module("shuriApp", ["ionic", "ngCordova", "ionic-datepicker", 
 
   //App Globals
   .value("appGlobals", {
+
     guidEmpty: '00000000-0000-0000-0000-000000000000',
     guidFavorites: '00000000-0000-0000-0000-000000000000'.replaceAll('0', '6'),
     guidSystem: '00000000-0000-0000-0000-000000000000'.replaceAll('0', 'F'),

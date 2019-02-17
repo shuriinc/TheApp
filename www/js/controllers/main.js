@@ -269,7 +269,7 @@
                         if (!(id.toLowerCase() == appGlobals.guidEmpty.toLowerCase() || id.toLowerCase() == appGlobals.guidSystem.toLowerCase())) subIds++;
                     });
 
-                  console.log(subIds, subs, vm.appUser);
+                //  console.log(subIds, subs, vm.appUser);
                     if (subs != subIds) vm.defaultWarning = String.format("{0} of {1}", subIds, subs);
                     else vm.defaultWarning = "";
 
@@ -511,7 +511,23 @@
 
         }
 
-   
+      vm.dispenseUrl = function (dest, downloadOnly) {
+        var url;
+        if (dest === 'privacy') url = "http://www.shuri.com/privacy.html";
+        else if (dest === 'terms') url = "http://www.shuri.com/terms.html";
+        else if (dest === 'git') url = "https://github.com/shuriinc/TheApp";
+        else url = dest;
+
+        if (window.cordova) {
+          var win = window.open(url, '_blank', 'EnableViewPortScale=yes', 'location=yes', 'closebuttoncaption=Return');
+        }
+        else if (downloadOnly === true) {
+          var win = window.open(url, "_self");
+        }
+        else var win2 = window.open(url, "_blank");
+
+      };
+
 
         //#endregion
 

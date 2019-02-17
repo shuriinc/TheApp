@@ -175,12 +175,12 @@
         </div>
         <div class="button-bar bgDarkLight" ng-if="vm.openDBs">
           <div class="button icon button-clear  ion-edit button-positive  ion-plus-circled" ng-click="vm.openAddDB()"> New {{vm.isNarrow? 'DB' : 'Database'}}</div>
-          <div class="button icon button-clear  ion-edit button-positive  ion-soup-can-outline" ng-click="vm.getDBs()"> Get {{(!vm.hasAR ? 'the AR' : 'a')}} {{vm.isNarrow? 'DB' : 'Database'}}</div>
+          <!--<div class="button icon button-clear  ion-edit button-positive  ion-soup-can-outline" ng-click="vm.getDBs()"> Get {{(!vm.hasAR ? 'the AR' : 'a')}} {{vm.isNarrow? 'DB' : 'Database'}}</div>-->
         </div>
 
         <div class="item item-icon-left  {{(!vm.openHelp) ? '  item-dark' : '   item-dark active'}}" ng-click="vm.toggleDiv('help')">
           <i class="icon ion-help-buoy {{(!vm.openHelp) ? 'iconInactive' : ''}}"></i>
-          Support &amp; Help
+         Help
         </div>
         <div ng-if="vm.openHelp">
           <div class="item item-icon-left bgEnergizedLight" ng-click="vm.getFeedback()">
@@ -239,9 +239,9 @@
                 <i class="icon ion-android-open iconButton"></i>
               </div>
             </div>
-            <div class="item item-input item-stacked-label">
-              <span class="input-label itemLabel">All software herein (this app) is</span><br />
-              <span class="medText">©Copyright Shuri, Inc. 2015-{{vm.year}}  All rights reserved.</span>
+            <div class="item link item-icon-right " ng-click="vm.dispenseUrl('git')">
+              <span class="input-label itemLabel">This is Open Source software.  Source code on Github.</span>
+              <i class="icon ion-android-open iconButton"></i>
             </div>
 
           </div>

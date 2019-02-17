@@ -1,9 +1,6 @@
-![logo](https://storage.shuri.com/images/logo215.png)
-
 ## SUMMARY
 
 The Shuri App is a fully functioning Cordova app written in Javascript/Angular/Ionic that provides a wide range of relationship management tracking/planning/reporting functionality. 
-As a hybrid app, the exact same code may be run on the Web or in iOS or in Android.  Cordova enables native access to mobile device functionality on those platforms.
 
   
 ## NOTES
