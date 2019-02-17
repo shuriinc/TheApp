@@ -1,9 +1,9 @@
 <?xml version='1.0' encoding='utf-8'?>
 <!--<widget id="com.shuri.ashstaging" version="1.4.10" xmlns="http://www.w3.org/ns/widgets"-->
-<widget id="com.shuri.ash" version="1.5.9" xmlns="http://www.w3.org/ns/widgets"
+<widget id="com.shuri.ash" version="1.6" xmlns="http://www.w3.org/ns/widgets"
         xmlns:gap="http://phonegap.com/ns/1.0" xmlns:android="http://schemas.android.com/apk/res/android"
-        ios-CFBundleVersion="20180609"
-        android-versionCode="201806091"
+        ios-CFBundleVersion="20190217"
+        android-versionCode="201902171"
   >
   <name>Shuri</name>
   <description>
